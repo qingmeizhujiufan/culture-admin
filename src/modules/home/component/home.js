@@ -33,22 +33,13 @@ class Index extends React.Component {
     }
 
     componentDidMount = () => {
-        this.getCharts();
-    }
-
-    getCharts = () => {
-        const chart = new G2.Chart({
-            container: 'c1',
-            width: 600,
-            height: 300
-        });
     }
 
     render() {
         return (
             <div className="zui-content home">
-                <Row type="flex" justify="space-between" align="middle" className="base-info">
-                    <Col span={6}>
+                <Row gutter={24} className="base-info">
+                    <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
                         <div className="base-box">
                             <Row type="flex" align="middle">
                                 <Col><Icon type="cloud" className="icon"
@@ -60,7 +51,7 @@ class Index extends React.Component {
                             </Row>
                         </div>
                     </Col>
-                    <Col span={6}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
                         <div className="base-box">
                             <Row type="flex" align="middle">
                                 <Col><Icon type="html5" className="icon"
@@ -72,7 +63,7 @@ class Index extends React.Component {
                             </Row>
                         </div>
                     </Col>
-                    <Col span={6}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
                         <div className="base-box">
                             <Row type="flex" align="middle">
                                 <Col><Icon type="youtube" className="icon"
@@ -84,7 +75,7 @@ class Index extends React.Component {
                             </Row>
                         </div>
                     </Col>
-                    <Col span={6}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
                         <div className="base-box">
                             <Row type="flex" align="middle">
                                 <Col><Icon type="twitter" className="icon"
@@ -97,7 +88,7 @@ class Index extends React.Component {
                         </div>
                     </Col>
                 </Row>
-                <Row gutter={16}>
+                <Row gutter={24}>
                     <Col span={9}>
                         <div className="slider-box">
                             <Carousel autoplay>
@@ -113,7 +104,7 @@ class Index extends React.Component {
                         </div>
                         <div className="ibox-content">
                             <Row type="flex" justify="space-between" align="top">
-                                <Col span={8}>
+                                <Col xs={24} sm={16} md={8}>
                                     <Progress type="dashboard" percent={75} format={(percent) => percent + '%'}
                                               style={{margin: '25px 0'}}/>
                                     <div>
@@ -121,7 +112,7 @@ class Index extends React.Component {
                                         <p>这是说明</p>
                                     </div>
                                 </Col>
-                                <Col span={8}>
+                                <Col xs={24} sm={16} md={8}>
                                     <Progress type="dashboard" percent={70} status="exception"
                                               format={(percent) => percent + '%'} style={{margin: '25px 0'}}/>
                                     <div>
@@ -129,7 +120,7 @@ class Index extends React.Component {
                                         <p>这是说明</p>
                                     </div>
                                 </Col>
-                                <Col span={8}>
+                                <Col xs={24} sm={16} md={8}>
                                     <Progress type="dashboard" percent={80} status="success"
                                               format={(percent) => percent + '%'} style={{margin: '25px 0'}}/>
                                     <div>
@@ -153,7 +144,7 @@ class Index extends React.Component {
                         </div>
                     </Col>
                 </Row>
-                <Row gutter={16} style={{marginTop: '15px'}}>
+                <Row gutter={24} style={{marginTop: '15px'}}>
                     <Col span={7}>
                         <div className="ibox-title" style={{backgroundColor: '#fc5a59'}}>
                             <h5 style={{color: '#fff'}}>这是标题</h5>
@@ -174,9 +165,9 @@ class Index extends React.Component {
                         </div>
                         <div className="ibox-content">
                             <Chart
-                                width={300}
                                 height={400}
-                                padding={[ 20, 30, 20, 30]}
+                                padding='auto'
+                                forceFit
                                 data={data}
                                 scale={cols}
                             >

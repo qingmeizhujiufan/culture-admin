@@ -10,6 +10,7 @@ body {
     font-size: 13px;
     -webkit-font-smoothing: antialiased;
 }
+
 h1,
 h2,
 h3,
@@ -26,12 +27,14 @@ h6,
     line-height: 1.1;
     color: #414141;
 }
+
 a {
     color: #444444;
     text-decoration: none;
     -webkit-transition: 0.25s;
     transition: 0.25s;
 }
+
 a:visited,
 a:active,
 a:focus,
@@ -39,24 +42,29 @@ a:hover {
     text-decoration: none;
     outline: 0;
 }
+
 ul, ol {
     padding: 0;
     //margin: 0 0 10px 25px;
 }
+
 .bullet {
     list-style-type: disc;
     margin-left: 15px;
 }
+
 ::-moz-selection,
 ::-moz-selection {
     background: #b3d4fc;
     text-shadow: none;
 }
+
 ::-moz-selection,
 ::selection {
     background: #b3d4fc;
     text-shadow: none;
 }
+
 hr {
     display: block;
     margin: 1em 0;
@@ -65,12 +73,20 @@ hr {
     border: 0;
     border-top: 1px solid #e8ecf3;
 }
+
 img {
     max-width: 100%;
     height: auto;
 }
+
 img {
     -ms-interpolation-mode: bicubic;
+}
+
+.ant-layout-sider-children {
+    box-shadow: 2px 0 6px rgba(0,21,41,.35);
+    position: relative;
+    z-index: 10;
 }
 
 .ant-table {
@@ -96,14 +112,14 @@ ul.inline, ol.inline {
     list-style: none;
 }
 
-ul.inline>li, ol.inline>li {
+ul.inline > li, ol.inline > li {
     display: inline-block;
     padding-right: 5px;
     padding-left: 5px;
 }
 
 .zui-content {
-    padding: 15px;
+    padding: 24px;
 }
 
 .breadcrumb-block {
@@ -126,7 +142,7 @@ ul.inline>li, ol.inline>li {
     border-color: #e7eaec;
     border-image: none;
     border-style: solid solid none;
-    border-width: 4px 0px 0;
+    border-width: 0;
     color: inherit;
     margin-bottom: 0;
     padding: 14px 15px 7px;
@@ -181,15 +197,17 @@ ul.inline>li, ol.inline>li {
 }
 
 .upload-list-inline .ant-upload-list-item {
-  float: left;
-  width: 200px;
-  margin-right: 8px;
+    float: left;
+    width: 200px;
+    margin-right: 8px;
 }
+
 .upload-list-inline .ant-upload-animate-enter {
-  animation-name: uploadAnimateInlineIn;
+    animation-name: uploadAnimateInlineIn;
 }
+
 .upload-list-inline .ant-upload-animate-leave {
-  animation-name: uploadAnimateInlineOut;
+    animation-name: uploadAnimateInlineOut;
 }
 
 .detail-imglist {
@@ -217,7 +235,7 @@ ul.inline>li, ol.inline>li {
     }
 }
 
-.ant-tabs-tab{
+.ant-tabs-tab {
     .ant-badge {
         .ant-badge-count {
             top: -16px;
