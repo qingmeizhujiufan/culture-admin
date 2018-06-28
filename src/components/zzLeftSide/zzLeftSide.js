@@ -86,12 +86,13 @@ class ZZLeftSide extends React.Component {
                     <Link to="/">
                         <img src={crh} alt="logo" />
                         <h1>ADMIN</h1>
-                    </Link></div>
+                    </Link>
+                </div>
                 <Scrollbars style={{height: 'calc(100vh - 64px)'}}>
                     <Menu
                         theme="dark"
-                        defaultSelectedKeys={[defaultSelectedKeys]}
                         mode="inline"
+                        defaultSelectedKeys={[defaultSelectedKeys]}
                         defaultOpenKeys={['2', '3', '4', '5', '6', '7']}
                     >
                         {this.buildMenu()}
