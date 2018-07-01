@@ -36,12 +36,12 @@ import EditResidenceHealth from '../modules/residence/component/editHealth';
 import Ball from '../modules/residence/component/ball';
 import AddBall from '../modules/residence/component/addBall';
 import EditBall from '../modules/residence/component/editBall';
-/* 训练段动态 */
-import LiveList from '../modules/live/component/liveList';
-import AddLive from '../modules/live/component/addLive';
-import EditLive from '../modules/live/component/editLive';
+/* 新闻模块 */
+import NewsList from '../modules/news/component/newsList';
+import AddNews from '../modules/news/component/addNews';
+import EditNews from '../modules/news/component/editNews';
 /* 班车信息 */
-import Bus from '../modules/bus/component/';
+import Organize from '../modules/organize/component/';
 
 module.exports = (
     <Route path="/" component={App}>
@@ -74,10 +74,10 @@ module.exports = (
             <route path="residence/ball" component={Ball} />
             <route path="residence/addBall" component={AddBall} />
             <route path="residence/editBall/:id" component={EditBall} />
-            <route path="live/liveList" component={LiveList} />
-            <route path="live/addLive" component={AddLive} />
-            <route path="live/editLive/:id" component={EditLive} />
-            <route path="bus" component={Bus} />
+            <route path="news/newsList" component={NewsList} />
+            <route path="news/addNews" component={AddNews} />
+            <route path="news/editNews/:id" component={EditNews} />
+            <route path="organize" component={Organize} />
         </Route>
     </Route>
 );

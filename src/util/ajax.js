@@ -171,7 +171,7 @@ var ajax = {
             }
         }
         //存在token则携带全局token到header里面
-        var token = localStorage.token;
+        var token = sessionStorage.token;
         if(token){
             req.set('Token', token);
         }else {

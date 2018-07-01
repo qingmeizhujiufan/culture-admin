@@ -88,62 +88,62 @@ class Index extends React.Component {
                         </div>
                     </Col>
                 </Row>
-                <Row gutter={24}>
-                    <Col span={9}>
-                        <div className="slider-box">
-                            <Carousel autoplay>
-                                <div><img src={profile}/></div>
-                                <div><img src={cover}/></div>
-                            </Carousel>
-                            <div className="footer">这是首页轮播图</div>
-                        </div>
-                    </Col>
-                    <Col span={10}>
-                        <div className="ibox-title">
-                            <h5>订单情况</h5>
-                        </div>
-                        <div className="ibox-content">
-                            <Row type="flex" justify="space-between" align="top">
-                                <Col xs={24} sm={16} md={8}>
-                                    <Progress type="dashboard" percent={75} format={(percent) => percent + '%'}
-                                              style={{margin: '25px 0'}}/>
-                                    <div>
-                                        <h3>完成率</h3>
-                                        <p>这是说明</p>
-                                    </div>
-                                </Col>
-                                <Col xs={24} sm={16} md={8}>
-                                    <Progress type="dashboard" percent={70} status="exception"
-                                              format={(percent) => percent + '%'} style={{margin: '25px 0'}}/>
-                                    <div>
-                                        <h3>取消率</h3>
-                                        <p>这是说明</p>
-                                    </div>
-                                </Col>
-                                <Col xs={24} sm={16} md={8}>
-                                    <Progress type="dashboard" percent={80} status="success"
-                                              format={(percent) => percent + '%'} style={{margin: '25px 0'}}/>
-                                    <div>
-                                        <h3>支付达成率</h3>
-                                        <p>这是说明</p>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </div>
-                    </Col>
-                    <Col span={5}>
-                        <div className="ibox-title">
-                            <h5>项目进度</h5>
-                        </div>
-                        <div className="ibox-content">
-                            <Steps direction="vertical" current={1}>
-                                <Step title="Finished" description="This is a description."/>
-                                <Step title="In Progress" description="This is a description."/>
-                                <Step title="Waiting" description="This is a description."/>
-                            </Steps>
-                        </div>
-                    </Col>
-                </Row>
+                {/*<Row gutter={24}>*/}
+                    {/*<Col span={9}>*/}
+                        {/*<div className="slider-box">*/}
+                            {/*<Carousel autoplay>*/}
+                                {/*<div><img src={profile}/></div>*/}
+                                {/*<div><img src={cover}/></div>*/}
+                            {/*</Carousel>*/}
+                            {/*<div className="footer">这是首页轮播图</div>*/}
+                        {/*</div>*/}
+                    {/*</Col>*/}
+                    {/*<Col span={10}>*/}
+                        {/*<div className="ibox-title">*/}
+                            {/*<h5>订单情况</h5>*/}
+                        {/*</div>*/}
+                        {/*<div className="ibox-content">*/}
+                            {/*<Row type="flex" justify="space-between" align="top">*/}
+                                {/*<Col xs={24} sm={16} md={8}>*/}
+                                    {/*<Progress type="dashboard" percent={75} format={(percent) => percent + '%'}*/}
+                                              {/*style={{margin: '25px 0'}}/>*/}
+                                    {/*<div>*/}
+                                        {/*<h3>完成率</h3>*/}
+                                        {/*<p>这是说明</p>*/}
+                                    {/*</div>*/}
+                                {/*</Col>*/}
+                                {/*<Col xs={24} sm={16} md={8}>*/}
+                                    {/*<Progress type="dashboard" percent={70} status="exception"*/}
+                                              {/*format={(percent) => percent + '%'} style={{margin: '25px 0'}}/>*/}
+                                    {/*<div>*/}
+                                        {/*<h3>取消率</h3>*/}
+                                        {/*<p>这是说明</p>*/}
+                                    {/*</div>*/}
+                                {/*</Col>*/}
+                                {/*<Col xs={24} sm={16} md={8}>*/}
+                                    {/*<Progress type="dashboard" percent={80} status="success"*/}
+                                              {/*format={(percent) => percent + '%'} style={{margin: '25px 0'}}/>*/}
+                                    {/*<div>*/}
+                                        {/*<h3>支付达成率</h3>*/}
+                                        {/*<p>这是说明</p>*/}
+                                    {/*</div>*/}
+                                {/*</Col>*/}
+                            {/*</Row>*/}
+                        {/*</div>*/}
+                    {/*</Col>*/}
+                    {/*<Col span={5}>*/}
+                        {/*<div className="ibox-title">*/}
+                            {/*<h5>项目进度</h5>*/}
+                        {/*</div>*/}
+                        {/*<div className="ibox-content">*/}
+                            {/*<Steps direction="vertical" current={1}>*/}
+                                {/*<Step title="Finished" description="This is a description."/>*/}
+                                {/*<Step title="In Progress" description="This is a description."/>*/}
+                                {/*<Step title="Waiting" description="This is a description."/>*/}
+                            {/*</Steps>*/}
+                        {/*</div>*/}
+                    {/*</Col>*/}
+                {/*</Row>*/}
                 <Row gutter={24} style={{marginTop: '15px'}}>
                     <Col span={7}>
                         <div className="ibox-title" style={{backgroundColor: '#fc5a59'}}>

@@ -12,15 +12,15 @@ import htmlToDraft from 'html-to-draftjs';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const getLiveDetailUrl = restUrl.ADDR + 'health/getLiveDetail';
-const saveLiveUrl = restUrl.ADDR + 'health/saveLive';
+const getLiveDetailUrl = restUrl.ADDR + 'news/queryDetail';
+const saveLiveUrl = restUrl.ADDR + 'news/save';
 
 const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 12 },
 };
 
-class EditLive extends React.Component {
+class EditNews extends React.Component {
     constructor(props) {
         super(props);
 
@@ -45,9 +45,9 @@ class EditLive extends React.Component {
         ajax.getJSON(getLiveDetailUrl, param, data => {
             if(data.success){
                 let backData = data.backData;
-                if(backData.live_content && backData.live_content !== ''){
-                    backData.live_content = draftToHtml(JSON.parse(backData.live_content));
-                    const contentBlock = htmlToDraft(backData.live_content);
+                if(backData.newsContent && backData.newsContent !== ''){
+                    backData.newsContent = draftToHtml(JSON.parse(backData.newsContent));
+                    const contentBlock = htmlToDraft(backData.newsContent);
                     const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
                     const editorState = EditorState.createWithContent(contentState);
 
@@ -55,25 +55,20 @@ class EditLive extends React.Component {
                         editorState
                     });
                 }
+                const newsCover = backData.newsCover;
+                let photoList = [{
+                    uid: newsCover.id,
+                    name: newsCover.fileName,
+                    status: 'done',
+                    url: restUrl.BASE_HOST + newsCover.filePath,
+                    response: {
+                        data: {
+                            id: newsCover.id
+                        }
+                    }
+                }];
 
-                let health_cover = backData.live_cover.split(',');
-                let photoList = [];
-                if(health_cover[0] !== ''){
-                    health_cover.map((photo, index) => {
-                        photoList.push({
-                            uid: photo,
-                            name: photo + '.png',
-                            status: 'done',
-                            url: restUrl.BASE_HOST + 'UpLoadFile/' + photo + '.png',
-                            response: {
-                                data: {
-                                    id: photo
-                                }
-                            }
-                        });
-                    });
-                }
-                backData.live_cover = photoList;
+                backData.newsCover = photoList;
 
                 this.setState({
                     data: backData,
@@ -87,11 +82,8 @@ class EditLive extends React.Component {
     }
 
     handleChange = ({ fileList }) => {
-        let {data} = this.state;
-        data.live_cover = fileList;
         this.setState({ 
-            fileList,
-            data
+            fileList
         });
     }
 
@@ -114,16 +106,16 @@ class EditLive extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 values.id = this.props.params.id;
-                values.live_cover = values.live_cover.map((item, index) => {
+                values.newsCover = values.newsCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
-                values.live_content = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
+                values.newsContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 console.log('handleSubmit  param === ', values);
 
                 ajax.postJSON(saveLiveUrl, JSON.stringify(values), (data) => {
                     if(data.success){
                         notification.open({
-                            message: '修改动态信息成功！',
+                            message: '修改新闻信息成功！',
                             icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
                         });
                     }
@@ -150,11 +142,11 @@ class EditLive extends React.Component {
                                         label="封面图片"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('live_cover', {
+                                        {getFieldDecorator('newsCover', {
                                             valuePropName: 'fileList',
                                             getValueFromEvent: this.normFile,
                                             rules: [{ required: true, message: '封面图片不能为空!' }],
-                                            initialValue: data.live_cover
+                                            initialValue: data.newsCover
                                         })(
                                             <Upload
                                                 action={restUrl.UPLOAD}
@@ -174,9 +166,9 @@ class EditLive extends React.Component {
                                         label="名称"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('live_title', {
+                                        {getFieldDecorator('newsTitle', {
                                             rules: [{ required: true, message: '名称不能为空!' }],
-                                            initialValue: data.live_title
+                                            initialValue: data.newsTitle
                                         })(
                                             <Input placeholder="" />
                                         )}
@@ -187,9 +179,8 @@ class EditLive extends React.Component {
                                         label="说明"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('live_desc', {
-                                            rules: [{ required: true, message: '说明不能为空!' }],
-                                            initialValue: data.live_desc
+                                        {getFieldDecorator('newsBrief', {
+                                            initialValue: data.newsBrief
                                         })(
                                             <Input.TextArea autosize={{minRows: 4, maxRows: 6}} />
                                         )}
@@ -217,8 +208,8 @@ class EditLive extends React.Component {
     }
 }
 
-const WrappedEditLive = Form.create()(EditLive);
-EditLive.contextTypes = {
+const WrappedEditLive = Form.create()(EditNews);
+EditNews.contextTypes = {
     router:React.PropTypes.object
 }
 

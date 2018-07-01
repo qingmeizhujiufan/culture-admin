@@ -3,103 +3,98 @@ const Menu = [
         key: '1',
         iconType: 'dashboard',
         link: '/frame/home',
-        label: '首页'
-    // }, {
-    //     key: '3',
-    //     iconType: 'table',
-    //     link: '',
-    //     label: '就餐服务管理',
-    //     children: [
-    //         {
-    //             key: '3_1',
-    //             link: '/frame/dish/dishList',
-    //             label: '菜单列表'
-    //         }, {
-    //             key: '3_2',
-    //             link: '/frame/dish/addDish',
-    //             label: '添加菜单'
-    //         }, {
-    //             key: '3_3',
-    //             link: '/frame/dish/survey',
-    //             label: '满意度调查管理'
-    //         }, {
-    //             key: '3_4',
-    //             link: '/frame/dish/healthFood',
-    //             label: '健康饮食信息管理'
-    //         }, {
-    //             key: '3_5',
-    //             link: '/frame/dish/AddHealthFood',
-    //             label: '新增健康饮食信息'
-    //         }
-    //     ]
-        // }, {
-        // 	key: '4',
-        // 	iconType: 'line-chart',
-        // 	link: '',
-        // 	label: '企业官网管理',
-        // 	children: [
-        // 		{
-        // 			key: '4_1',
-        // 			link: '/frame/company/website',
-        // 			label: '就餐一二楼官网管理'
-        // 		}, {
-        // 			key: '4_2',
-        // 			link: '/frame/company/webSiteResident',
-        // 			label: '住宿一二三栋官网管理'
-        // 		}, {
-        // 			key: '4_3',
-        // 			link: '/frame/company/addServiceAndHoliday',
-        // 			label: '新增服务和节日信息'
-        // 		}
-        // 	]
-        // }, {
-        // 	key: '5',
-        // 	iconType: 'credit-card',
-        // 	link: '',
-        // 	label: '宿舍公寓管理',
-        // 	children: [
-        // 		{
-        // 			key: '5_1',
-        // 			link: '/frame/residence/propertyInformation',
-        // 			label: '房源信息管理'
-        // 		}, {
-        // 			key: '5_2',
-        // 			link: '/frame/residence/survey',
-        // 			label: '满意度调查管理'
-        // 		}, {
-        // 			key: '5_3',
-        // 			link: '/frame/residence/healthLife',
-        // 			label: '健康生活信息管理'
-        // 		}, {
-        //            key: '5_4',
-        //            link: '/frame/residence/addHealthLife',
-        //            label: '新增健康生活信息'
-        //        }, {
-        //            key: '5_5',
-        //            link: '/frame/residence/ball',
-        //            label: '运动球馆管理'
-        //        }, {
-        //            key: '5_6',
-        //            link: '/frame/residence/addBall',
-        //            label: '新增球类信息'
-        //        }
-        // 	]
-        // }, {
-        // 	key: '2',
-        // 	iconType: 'solution',
-        // 	link: '',
-        // 	label: '便民信息',
-        // 	children: [
-        //        {
-        //            key: '2_1',
-        //            link: '/frame/lost/',
-        //            label: '便民服务'
-        //        }, {
-        //            key: '2_2',
-        //            link: '/frame/need/',
-        //            label: '提出你的需求'
-        //        }
-        //    ]
+        label: '平台概况',
+        children: [
+            {
+                key: '1_1',
+                link: '/frame/home',
+                label: '首页'
+            },{
+                key: '1_2',
+                link: '/frame/home',
+                label: '流量数据统计'
+            },{
+                key: '1_3',
+                link: '/frame/organize',
+                label: '组织权限'
+            }
+        ]
+    }, {
+        key: '2',
+        iconType: 'solution',
+        link: '',
+        label: '文化展示',
+        children: [
+            {
+                key: '2_1',
+                link: '/frame/lost/',
+                label: '地域民俗'
+            }, {
+                key: '2_2',
+                link: '/frame/need/',
+                label: '民俗展馆及活动'
+            }, {
+                key: '2_3',
+                link: '/frame/need/',
+                label: '民俗游推荐'
+            }, {
+                key: '2_4',
+                link: '/frame/need/',
+                label: '湖北民俗商品'
+            }, {
+                key: '2_5',
+                link: '/frame/need/',
+                label: '全站搜索'
+            }, {
+                key: '2_6',
+                link: '/frame/need/',
+                label: '地图导读'
+            }
+        ]
+        }, {
+            key: '3',
+            iconType: 'table',
+            link: '',
+            label: '新闻资讯',
+            children: [
+                {
+                    key: '3_1',
+                    link: '/frame/news/newsList',
+                    label: '新闻列表'
+                }, {
+                    key: '3_2',
+                    link: '/frame/news/addNews',
+                    label: '添加新闻'
+                }
+            ]
+        }, {
+        	key: '4',
+        	iconType: 'line-chart',
+        	link: '',
+        	label: '图片展示',
+        	children: [
+        		{
+        			key: '4_1',
+        			link: '/frame/company/website',
+        			label: '图片管理'
+        		}, {
+        			key: '4_2',
+        			link: '/frame/company/webSiteResident',
+        			label: '上传图片'
+        		}
+        	]
+        }, {
+        	key: '5',
+        	iconType: 'credit-card',
+        	link: '',
+        	label: '在线视频',
+        	children: [
+        		{
+        			key: '5_1',
+        			link: '/frame/residence/propertyInformation',
+        			label: '房源信息管理'
+        		}
+        	]
         // }, {
         //    key: '7',
         //    iconType: 'rocket',
@@ -108,12 +103,12 @@ const Menu = [
         //    children: [
         //        {
         //            key: '7_1',
-        //            link: '/frame/live/liveList',
+        //            link: '/frame/news/liveList',
         //            label: '动态列表'
         //        },
         //        {
         //            key: '7_2',
-        //            link: '/frame/live/addLive',
+        //            link: '/frame/news/addLive',
         //            label: '新增动态'
         //        }
         //    ]
@@ -125,7 +120,7 @@ const Menu = [
         // 	children: [
         // 		{
         // 			key: '6_1',
-        // 			link: '/frame/bus',
+        // 			link: '/frame/organize',
         // 			label: '班车信息管理'
         // 		}
         // 	]
