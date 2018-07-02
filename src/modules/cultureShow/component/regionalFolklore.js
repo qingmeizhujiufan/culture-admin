@@ -17,48 +17,7 @@ class HealthLifeList extends React.Component {
 
         this.state = {
             loading: false,
-            listData_1: [],
-            listData_2: [],
-            listData_3: [],
-            listData_4: [],
-            listData_5: [],
-            listData_6: [],
-            listData_7: [],
-            pagination_1: {
-                pageSize: 10,
-                current: 1,
-                total: 0
-            },
-            pagination_2: {
-                pageSize: 10,
-                current: 1,
-                total: 0
-            },
-            pagination_3: {
-                pageSize: 10,
-                current: 1,
-                total: 0
-            },
-            pagination_4: {
-                pageSize: 10,
-                current: 1,
-                total: 0
-            },
-            pagination_5: {
-                pageSize: 10,
-                current: 1,
-                total: 0
-            },
-            pagination_6: {
-                pageSize: 10,
-                current: 1,
-                total: 0
-            },
-            pagination_7: {
-                pageSize: 10,
-                current: 1,
-                total: 0
-            }
+            listData: []
         };
     }
 
