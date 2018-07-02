@@ -29,7 +29,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const getGymListUrl = restUrl.ADDR + 'survey/getGymList';
-const saveBallUrl = restUrl.ADDR + 'Survey/saveAPBall';
+const saveBallUrl = restUrl.ADDR + 'FolkloreShow/saveAPBall';
 
 const formItemLayout = {
     labelCol: {span: 6},

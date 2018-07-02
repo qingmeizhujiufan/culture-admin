@@ -16,7 +16,7 @@ import ajax from 'Utils/ajax';
 import '../index.less';
 
 const TabPane = Tabs.TabPane;
-const getLiveListUrl = restUrl.ADDR + 'Survey/getNeedList';
+const getLiveListUrl = restUrl.ADDR + 'FolkloreShow/getNeedList';
 
 class LiveList extends React.Component {
     constructor(props) {

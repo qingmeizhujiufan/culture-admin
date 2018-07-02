@@ -25,7 +25,7 @@ const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 const getSurveyListUrl = restUrl.ADDR + 'survey/getSurveyList';
 
-class Survey extends React.Component {
+class FolkloreShow extends React.Component {
     constructor(props) {
         super(props);
 
@@ -543,8 +543,8 @@ class Survey extends React.Component {
     }
 }
 
-Survey.contextTypes = {
+FolkloreShow.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default Survey;
+export default FolkloreShow;

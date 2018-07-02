@@ -24,7 +24,7 @@ module.exports = {
     entry: {
         "index": path.resolve(__dirname, 'src/index'),
         //添加要打包在vendors.js里面的库
-        vendors:['react','react-dom']
+        vendors: ['react', 'react-dom']
     },
 
     output: {
@@ -53,11 +53,11 @@ module.exports = {
                 options: {
                     plugins: [
                         'external-helpers', // why not work?
+                        'transform-decorators-legacy',
                         ["transform-runtime", {polyfill: false}],
                         ["import", [{"style": "css", "libraryName": "antd"}]]
                     ],
                     presets: ['es2015', 'stage-0', 'react']
-                    // presets: [['es2015', { modules: false }], 'stage-0', 'react'] // tree-shaking
                 }
             },
             {test: /\.(jpg|png|gif)$/, loader: "url-loader?limit=8192&name=img/[name]_[hash:5].[ext]"},
@@ -67,22 +67,22 @@ module.exports = {
             // { test: /\.css$/i, loaders: ['style-loader', 'css-loader'] },
             {
                 test: /\.less$/i, use: ExtractTextPlugin.extract({
-                fallback: 'style-loader',
-                use: [
-                    'css-loader', {loader: 'postcss-loader', options: postcssOpts}, 'less-loader'
-                ]
-            })
+                    fallback: 'style-loader',
+                    use: [
+                        'css-loader', {loader: 'postcss-loader', options: postcssOpts}, 'less-loader'
+                    ]
+                })
             },
             {
                 test: /\.css$/i, use: ExtractTextPlugin.extract({
-                fallback: 'style-loader',
-                use: [
-                    'css-loader', {loader: 'postcss-loader', options: postcssOpts}
-                ]
-            })
-            },{
+                    fallback: 'style-loader',
+                    use: [
+                        'css-loader', {loader: 'postcss-loader', options: postcssOpts}
+                    ]
+                })
+            }, {
                 test: /\.svg$/i,
-                use:'svg-sprite-loader',
+                use: 'svg-sprite-loader',
                 include: [
                     require.resolve('antd').replace(/warn\.js$/, ''),  // antd-mobile使用的svg目录
                     path.resolve(__dirname, './src/'),  // 个人的svg文件目录，如果自己有svg需要在这里配置
@@ -101,5 +101,6 @@ module.exports = {
         new ExtractTextPlugin({filename: '[name].[contenthash:5].css', allChunks: true}),
         new HtmlWebpackPlugin({template: './index.html'}),
         //...otherPlugins
+
     ]
 }

@@ -27,15 +27,15 @@ import Website2 from '../modules/company/component/website2';
 import AddServiceAndHoliday from '../modules/company/component/addServiceAndHoliday';
 import EditServiceAndHoliday from '../modules/company/component/editServiceAndHoliday';
 import OrderDetailInfo from '../modules/company/component/orderDetailInfo';
-/* 宿舍公寓管理 */
-import PropertyInformation from '../modules/residence/component/propertyInformation';
-import ResidenceSurvey from '../modules/residence/component/survey';
-import HealthLife from '../modules/residence/component/healthLife';
-import AddHealthLife from '../modules/residence/component/addHealthLife';
-import EditResidenceHealth from '../modules/residence/component/editHealth';
-import Ball from '../modules/residence/component/ball';
-import AddBall from '../modules/residence/component/addBall';
-import EditBall from '../modules/residence/component/editBall';
+/* 文化展示管理 */
+import RegionalFolklore from '../modules/cultureShow/component/regionalFolklore';
+import FolkloreShow from '../modules/cultureShow/component/folkloreShow';
+import FolkloreGuide from '../modules/cultureShow/component/folkloreGuide';
+import FolkloreGoods from '../modules/cultureShow/component/folkloreGoods';
+import AddHealthLife from '../modules/cultureShow/component/addHealthLife';
+import EditResidenceHealth from '../modules/cultureShow/component/editHealth';
+import AddBall from '../modules/cultureShow/component/addBall';
+import EditBall from '../modules/cultureShow/component/editBall';
 /* 新闻模块 */
 import NewsList from '../modules/news/component/newsList';
 import AddNews from '../modules/news/component/addNews';
@@ -66,14 +66,14 @@ module.exports = (
             <route path="company/addServiceAndHoliday" component={AddServiceAndHoliday} />
             <route path="company/editServiceAndHoliday/:id" component={EditServiceAndHoliday} />
             <route path="company/orderDetailInfo/:id" component={OrderDetailInfo} />
-            <route path="residence/propertyInformation" component={PropertyInformation} />
-            <route path="residence/survey" component={ResidenceSurvey} />
-            <route path="residence/healthLife" component={HealthLife} />
-            <route path="residence/addHealthLife" component={AddHealthLife} />
-            <route path="residence/editHealth/:id" component={EditResidenceHealth} />
-            <route path="residence/ball" component={Ball} />
-            <route path="residence/addBall" component={AddBall} />
-            <route path="residence/editBall/:id" component={EditBall} />
+            <route path="cultureShow/regionalFolklore" component={RegionalFolklore} />
+            <route path="cultureShow/folkloreShow" component={FolkloreShow} />
+            <route path="cultureShow/folkloreGuide" component={FolkloreGuide} />
+            <route path="cultureShow/folkloreGoods" component={FolkloreGoods} />
+            <route path="cultureShow/addHealthLife" component={AddHealthLife} />
+            <route path="cultureShow/editHealth/:id" component={EditResidenceHealth} />
+            <route path="cultureShow/addBall" component={AddBall} />
+            <route path="cultureShow/editBall/:id" component={EditBall} />
             <route path="news/newsList" component={NewsList} />
             <route path="news/addNews" component={AddNews} />
             <route path="news/editNews/:id" component={EditNews} />

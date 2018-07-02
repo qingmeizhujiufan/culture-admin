@@ -27,19 +27,19 @@ const Menu = [
         children: [
             {
                 key: '2_1',
-                link: '/frame/lost/',
+                link: '/frame/cultureShow/regionalFolklore/',
                 label: '地域民俗'
             }, {
                 key: '2_2',
-                link: '/frame/need/',
+                link: '/frame/cultureShow/folkloreShow/',
                 label: '民俗展馆及活动'
             }, {
                 key: '2_3',
-                link: '/frame/need/',
+                link: '/frame/cultureShow/folkloreGuide/',
                 label: '民俗游推荐'
             }, {
                 key: '2_4',
-                link: '/frame/need/',
+                link: '/frame/cultureShow/folkloreGoods/',
                 label: '湖北民俗商品'
             }, {
                 key: '2_5',
@@ -91,7 +91,7 @@ const Menu = [
         	children: [
         		{
         			key: '5_1',
-        			link: '/frame/residence/propertyInformation',
+        			link: '/frame/cultureShow/propertyInformation',
         			label: '房源信息管理'
         		}
         	]

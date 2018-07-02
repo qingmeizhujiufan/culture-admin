@@ -30,7 +30,7 @@ const Option = Select.Option;
 
 const getGymListUrl = restUrl.ADDR + 'survey/getGymList';
 const getBallDetailUrl = restUrl.ADDR + 'survey/getGymDetail';
-const saveBallUrl = restUrl.ADDR + 'Survey/saveAPBall';
+const saveBallUrl = restUrl.ADDR + 'FolkloreShow/saveAPBall';
 
 const formItemLayout = {
     labelCol: {span: 6},
