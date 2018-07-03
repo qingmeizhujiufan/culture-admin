@@ -15,33 +15,27 @@ import {
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
-import ZZEditor from '../../../components/zzEditor/zzEditor';
-
-import {EditorState, convertToRaw} from 'draft-js';
 
 const FormItem = Form.Item;
 
-const saveNewsUrl = restUrl.ADDR + 'news/save';
+const saveUrl = restUrl.ADDR + 'ad/save';
 
 const formItemLayout = {
     labelCol: {span: 6},
     wrapperCol: {span: 12},
 };
 
-class AddNews extends React.Component {
+class AddAd extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            fileList: [],
-            editorState: EditorState.createEmpty(),
+            fileList: []
         };
     }
 
     componentDidMount = () => {
     }
-
-    handleChange = ({fileList}) => this.setState({fileList})
 
     normFile = (e) => {
         console.log('Upload event:', e);
@@ -51,29 +45,21 @@ class AddNews extends React.Component {
         return e && e.fileList;
     }
 
-    saveEditorState = (editorState) => {
-        this.setState({
-            editorState
-        });
-    }
-
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.newsCover = values.newsCover.map(item => {
+                values.adCover = values.adCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
-                values.newsContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
-                values.creator = sessionStorage.userId;
                 console.log('handleSubmit  param === ', values);
-                ajax.postJSON(saveNewsUrl, JSON.stringify(values), (data) => {
+                ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
-                            message: '新增新闻成功！',
+                            message: '新增广告成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.context.router.push('/frame/news/newsList');
+                        this.context.router.push('/frame/ad');
                     }
                 });
             }
@@ -90,11 +76,11 @@ class AddNews extends React.Component {
                     <div className="breadcrumb-block">
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>新闻资讯</Breadcrumb.Item>
-                            <Breadcrumb.Item>新增新闻</Breadcrumb.Item>
+                            <Breadcrumb.Item>平台概况</Breadcrumb.Item>
+                            <Breadcrumb.Item>新增广告</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>新增新闻</h1>
+                    <h1 className='title'>新增广告</h1>
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
@@ -105,10 +91,10 @@ class AddNews extends React.Component {
                                         label="封面图片"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('newsCover', {
+                                        {getFieldDecorator('adCover', {
                                             valuePropName: 'fileList',
                                             getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '封面图片不能为空!'}],
+                                            rules: [{required: true, message: '广告图片不能为空!'}],
                                         })(
                                             <Upload
                                                 action={restUrl.UPLOAD}
@@ -126,30 +112,15 @@ class AddNews extends React.Component {
                             <Row>
                                 <Col span={12}>
                                     <FormItem
-                                        label="名称"
+                                        label="链接"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('newsTitle', {
-                                            rules: [{required: true, message: '名称不能为空!'}],
+                                        {getFieldDecorator('adLink', {
+                                            rules: [{required: true, message: '链接不能为空!'}],
                                         })(
                                             <Input placeholder=""/>
                                         )}
                                     </FormItem>
-                                </Col>
-                                <Col span={12}>
-                                    <FormItem
-                                        label="简介"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('newsBrief', {})(
-                                            <Input.TextArea autosize={{minRows: 4, maxRows: 6}}/>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <ZZEditor editorState={editorState} saveEditorState={this.saveEditorState}/>
                                 </Col>
                             </Row>
                             <div className='toolbar'>
@@ -165,9 +136,9 @@ class AddNews extends React.Component {
     }
 }
 
-const WrappedAddLive = Form.create()(AddNews);
-AddNews.contextTypes = {
+const WrappedAddAd = Form.create()(AddAd);
+AddAd.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default WrappedAddLive;
+export default WrappedAddAd;

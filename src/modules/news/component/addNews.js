@@ -5,7 +5,7 @@ import {
     Col,
     Icon,
     Input,
-    Divider,
+    message,
     Button,
     Upload,
     notification,
@@ -35,6 +35,7 @@ class AddNews extends React.Component {
         this.state = {
             fileList: [],
             editorState: EditorState.createEmpty(),
+            loading: false
         };
     }
 
@@ -67,13 +68,21 @@ class AddNews extends React.Component {
                 values.newsContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 values.creator = sessionStorage.userId;
                 console.log('handleSubmit  param === ', values);
+                this.setState({
+                    loading: true
+                });
                 ajax.postJSON(saveNewsUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
                             message: '新增新闻成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
+                        this.setState({
+                            loading: false
+                        });
                         this.context.router.push('/frame/news/newsList');
+                    }else {
+                        message.error(data.backMsg);
                     }
                 });
             }
@@ -81,7 +90,7 @@ class AddNews extends React.Component {
     }
 
     render() {
-        let {fileList, editorState} = this.state;
+        let {fileList, editorState, loading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -154,7 +163,7 @@ class AddNews extends React.Component {
                             </Row>
                             <div className='toolbar'>
                                 <div className='pull-right'>
-                                    <Button type="primary" htmlType="submit">提交</Button>
+                                    <Button type="primary" htmlType="submit" loading={loading}>提交</Button>
                                 </div>
                             </div>
                         </Form>

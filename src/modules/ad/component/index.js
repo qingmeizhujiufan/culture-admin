@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import {
     Form,
     Row,
@@ -7,6 +8,9 @@ import {
     Icon,
     Divider,
     Button,
+    Badge,
+    Dropdown,
+    Menu,
     notification,
     Collapse,
     Card,
@@ -35,15 +39,15 @@ class Ad extends React.Component {
 
         this.columns = [{
             title: '动态标题',
-            dataIndex: 'newsTitle',
-            key: 'newsTitle',
+            dataIndex: 'adTitle',
+            key: 'adTitle',
             render: (text, record, index) => (
                 <Link to={this.editrouter(record.id)}>{text}</Link>
             )
         }, {
-            title: '描述',
-            dataIndex: 'newsBrief',
-            key: 'newsBrief',
+            title: '链接',
+            dataIndex: 'adLink',
+            key: 'adLink',
         }, {
             title: '审核状态',
             dataIndex: 'state',
@@ -66,13 +70,6 @@ class Ad extends React.Component {
                 }
             }
         }, {
-            title: '创建人',
-            dataIndex: 'creatorName',
-            key: 'creatorName',
-            render: (text, record, index) => (
-                <span>{text}-{record.typeName}</span>
-            )
-        }, {
             title: '创建时间',
             dataIndex: 'create_time',
             key: 'create_time',
@@ -81,6 +78,7 @@ class Ad extends React.Component {
             key: 'operation',
             fixed: 'right',
             width: 120,
+            align: 'center',
             render: (text, record, index) => (
                 <div>
                     <a onClick={() => this.onReview(record.id)}>审核</a>
@@ -118,13 +116,17 @@ class Ad extends React.Component {
         let param = {};
         param.id = id;
         ajax.getJSON(queryListUrl, param, (data) => {
-            data = data.backData;
-            data.map((item, index) => {
+            if(data.success){
+                const backData = data.backData;
+                backData.map(item => item.key = item.id);
+                this.setState({
+                    dataSource: backData,
+                    loading: false
+                });
+            }
+            else {
 
-            });
-            this.setState({
-                loading: false
-            });
+            }
         });
     }
 
@@ -207,7 +209,7 @@ class Ad extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={24}>
                         <Col span={18}>
-                            <Card title='广告列表'>
+                            <Card title='广告列表' loading={loading}>
                                 <Table
                                     bordered={true}
                                     dataSource={dataSource}

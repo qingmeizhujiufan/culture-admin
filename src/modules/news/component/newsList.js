@@ -13,6 +13,7 @@ import {
     notification,
     Spin,
     Tabs,
+    Card,
     message,
     Table,
     Modal
@@ -26,7 +27,7 @@ const Search = Input.Search;
 const TabPane = Tabs.TabPane;
 const getLiveListUrl = restUrl.ADDR + 'news/queryList';
 const reviewUrl = restUrl.ADDR + 'news/review';
-const delLiveUrl = restUrl.ADDR + 'health/delete';
+const delLiveUrl = restUrl.ADDR + 'news/delete';
 
 class NewsList extends React.Component {
     constructor(props) {
@@ -82,7 +83,7 @@ class NewsList extends React.Component {
             width: 120,
             render: (text, record, index) => (
                 <div>
-                    <a onClick={() => this.onReview(record.id)}>审核</a>
+                    <a onClick={() => this.onReview(record.id, index)}>审核</a>
                     <Divider type="vertical"/>
                     <Dropdown
                         overlay={
@@ -142,7 +143,7 @@ class NewsList extends React.Component {
         return `/frame/news/editNews/${id}`
     }
 
-    onReview = id => {
+    onReview = (id, index) => {
         Modal.confirm({
             title: '提示',
             content: '确认审核通过吗',
@@ -157,8 +158,12 @@ class NewsList extends React.Component {
                             message: '审核成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.getList();
-                        this.forceUpdate();
+                        const dataSource = [...this.state.dataSource];
+                        dataSource[index].state = 1;
+
+                        this.setState({
+                            dataSource,
+                        });
                     } else {
                         message.warning(data.backMsg);
                     }
@@ -182,8 +187,12 @@ class NewsList extends React.Component {
                             message: '删除成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.getList();
-                        this.forceUpdate();
+
+                        const dataSource = [...this.state.dataSource].filter(item => item.key !== id);
+
+                        this.setState({
+                            dataSource,
+                        });
                     } else {
                         message.warning(data.backMsg);
                     }
@@ -197,24 +206,24 @@ class NewsList extends React.Component {
 
         return (
             <div className="zui-content">
-                <div className="breadcrumb-block">
-                    <Breadcrumb>
-                        <Breadcrumb.Item>首页</Breadcrumb.Item>
-                        <Breadcrumb.Item>新闻资讯</Breadcrumb.Item>
-                        <Breadcrumb.Item>新闻列表</Breadcrumb.Item>
-                    </Breadcrumb>
+                <div className='pageHeader'>
+                    <div className="breadcrumb-block">
+                        <Breadcrumb>
+                            <Breadcrumb.Item>首页</Breadcrumb.Item>
+                            <Breadcrumb.Item>新闻资讯</Breadcrumb.Item>
+                            <Breadcrumb.Item>新闻列表</Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                    <h1 className='title'>新闻列表</h1>
                 </div>
-                <div className="ibox-title">
-                    <h5>新闻列表</h5>
-                </div>
-                <div className="ibox-content">
-                    <Spin spinning={loading}>
+                <div className='pageContent'>
+                    <Card loading={loading}>
                         <Table
                             bordered={true}
                             dataSource={dataSource}
                             columns={this.columns}
                         />
-                    </Spin>
+                    </Card>
                 </div>
             </div>
         );
