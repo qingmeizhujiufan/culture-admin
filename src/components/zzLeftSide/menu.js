@@ -17,6 +17,15 @@ const Menu = [
                 key: '1_3',
                 link: '/frame/organize',
                 label: '组织权限'
+            },{
+                key: '1_4',
+                link: '/frame/ad',
+                label: '广告平台'
+            }
+            ,{
+                key: '1_5',
+                link: '/frame/ad/addAd',
+                label: '新增广告'
             }
         ]
     }, {

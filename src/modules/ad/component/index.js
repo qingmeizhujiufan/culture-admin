@@ -1,34 +1,35 @@
 import React from 'react';
-import {Link} from 'react-router';
 import {
+    Form,
     Row,
     Col,
-    Input,
-    Icon,
-    Badge,
-    Menu,
     Breadcrumb,
-    Dropdown,
+    Icon,
     Divider,
+    Button,
     notification,
-    Spin,
-    Tabs,
-    message,
+    Collapse,
+    Card,
     Table,
-    Modal
+    Spin
 } from 'antd';
-import _ from 'lodash';
-import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
+import restUrl from 'RestUrl';
 import '../index.less';
+import {message, Modal} from "antd/lib/index";
 
-const Search = Input.Search;
-const TabPane = Tabs.TabPane;
-const getLiveListUrl = restUrl.ADDR + 'news/queryList';
-const reviewUrl = restUrl.ADDR + 'news/review';
-const delLiveUrl = restUrl.ADDR + 'health/delete';
+const Panel = Collapse.Panel;
 
-class NewsList extends React.Component {
+const queryListUrl = restUrl.ADDR + 'ad/queryList';
+const reviewUrl = restUrl.ADDR + 'ad/review';
+const delLiveUrl = restUrl.ADDR + 'ad/delete';
+
+const formItemLayout = {
+    labelCol: {span: 6},
+    wrapperCol: {span: 12},
+};
+
+class Ad extends React.Component {
     constructor(props) {
         super(props);
 
@@ -108,29 +109,22 @@ class NewsList extends React.Component {
         };
     }
 
-    componentWillMount = () => {
-    }
-
     componentDidMount = () => {
-        this.getList();
+        this.queryList();
     }
 
-    getList = () => {
-        this.setState({
-            loading: true
-        });
+    //获取失物招领详情
+    queryList = (id) => {
         let param = {};
-        ajax.getJSON(getLiveListUrl, param, data => {
-            if (data.success) {
-                let backData = data.backData;
-                backData.map(item => {
-                    item.key = item.id;
-                });
-                this.setState({
-                    dataSource: backData,
-                    loading: false
-                });
-            }
+        param.id = id;
+        ajax.getJSON(queryListUrl, param, (data) => {
+            data = data.backData;
+            data.map((item, index) => {
+
+            });
+            this.setState({
+                loading: false
+            });
         });
     }
 
@@ -139,7 +133,7 @@ class NewsList extends React.Component {
     }
 
     editrouter = (id) => {
-        return `/frame/news/editNews/${id}`
+        return `/frame/ad/editAd/${id}`
     }
 
     onReview = id => {
@@ -193,36 +187,46 @@ class NewsList extends React.Component {
     }
 
     render() {
-        const {loading, dataSource} = this.state;
+        let {
+            dataSource,
+            loading,
+        } = this.state;
 
         return (
             <div className="zui-content">
-                <div className="breadcrumb-block">
-                    <Breadcrumb>
-                        <Breadcrumb.Item>首页</Breadcrumb.Item>
-                        <Breadcrumb.Item>新闻资讯</Breadcrumb.Item>
-                        <Breadcrumb.Item>新闻列表</Breadcrumb.Item>
-                    </Breadcrumb>
+                <div className='pageHeader'>
+                    <div className="breadcrumb-block">
+                        <Breadcrumb>
+                            <Breadcrumb.Item>首页</Breadcrumb.Item>
+                            <Breadcrumb.Item>平台概况</Breadcrumb.Item>
+                            <Breadcrumb.Item>广告平台</Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                    <h1 className='title'>广告管理</h1>
                 </div>
-                <div className="ibox-title">
-                    <h5>新闻列表</h5>
-                </div>
-                <div className="ibox-content">
-                    <Spin spinning={loading}>
-                        <Table
-                            bordered={true}
-                            dataSource={dataSource}
-                            columns={this.columns}
-                        />
-                    </Spin>
+                <div className='pageContent'>
+                    <Row gutter={24}>
+                        <Col span={18}>
+                            <Card title='广告列表'>
+                                <Table
+                                    bordered={true}
+                                    dataSource={dataSource}
+                                    columns={this.columns}
+                                />
+                            </Card>
+                        </Col>
+                        <Col span={6}>
+                            <Card title='点击量'>
+                            </Card>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         );
     }
 }
-
-NewsList.contextTypes = {
+Ad.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default NewsList;
+export default Ad;
