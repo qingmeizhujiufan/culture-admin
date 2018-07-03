@@ -1,23 +1,33 @@
 import React from 'react';
-import { Form, Row, Col, Icon, Input, InputNumber, Dropdown, Menu, Avatar, Select, Divider, Button, Upload, notification, Spin } from 'antd';
+import {
+    Form,
+    Row,
+    Col,
+    Icon,
+    Input,
+    Breadcrumb,
+    Button,
+    Upload,
+    notification,
+    Spin
+} from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
 import ZZEditor from '../../../components/zzEditor/zzEditor';
 
-import { EditorState, convertFromRaw, convertToRaw, ContentState } from 'draft-js';
+import {EditorState, convertToRaw, ContentState} from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
 
 const getLiveDetailUrl = restUrl.ADDR + 'news/queryDetail';
 const saveLiveUrl = restUrl.ADDR + 'news/save';
 
 const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 12 },
+    labelCol: {span: 6},
+    wrapperCol: {span: 12},
 };
 
 class EditNews extends React.Component {
@@ -43,9 +53,9 @@ class EditNews extends React.Component {
         let param = {};
         param.id = this.props.params.id;
         ajax.getJSON(getLiveDetailUrl, param, data => {
-            if(data.success){
+            if (data.success) {
                 let backData = data.backData;
-                if(backData.newsContent && backData.newsContent !== ''){
+                if (backData.newsContent && backData.newsContent !== '') {
                     backData.newsContent = draftToHtml(JSON.parse(backData.newsContent));
                     const contentBlock = htmlToDraft(backData.newsContent);
                     const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
@@ -75,14 +85,14 @@ class EditNews extends React.Component {
                     fileList: photoList,
                     loading: false
                 });
-            }else {
-                
+            } else {
+
             }
         });
     }
 
-    handleChange = ({ fileList }) => {
-        this.setState({ 
+    handleChange = ({fileList}) => {
+        this.setState({
             fileList
         });
     }
@@ -90,7 +100,7 @@ class EditNews extends React.Component {
     normFile = (e) => {
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
-          return e;
+            return e;
         }
         return e && e.fileList;
     }
@@ -113,10 +123,10 @@ class EditNews extends React.Component {
                 console.log('handleSubmit  param === ', values);
 
                 ajax.postJSON(saveLiveUrl, JSON.stringify(values), (data) => {
-                    if(data.success){
+                    if (data.success) {
                         notification.open({
                             message: '修改新闻信息成功！',
-                            icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
+                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
                     }
                 });
@@ -125,83 +135,91 @@ class EditNews extends React.Component {
     }
 
     render() {
-        let { data, fileList, editorState, loading } = this.state;
-        const { getFieldDecorator, setFieldsValue } = this.props.form;
+        let {data, fileList, editorState, loading} = this.state;
+        const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
             <div className="zui-content">
-                <div className="ibox-title">
-                    <h5>修改动态信息</h5>
+                <div className='pageHeader'>
+                    <div className="breadcrumb-block">
+                        <Breadcrumb>
+                            <Breadcrumb.Item>首页</Breadcrumb.Item>
+                            <Breadcrumb.Item>新闻资讯</Breadcrumb.Item>
+                            <Breadcrumb.Item>新闻列表</Breadcrumb.Item>
+                            <Breadcrumb.Item>更新新闻</Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                    <h1 className='title'>修改新闻信息</h1>
                 </div>
-                <div className="ibox-content">
-                    <Spin spinning={loading}>
-                        <Form onSubmit={this.handleSubmit}>
-                            <Row>
-                                <Col span={12}>
-                                    <FormItem
-                                        label="封面图片"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('newsCover', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{ required: true, message: '封面图片不能为空!' }],
-                                            initialValue: data.newsCover
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture'}
-                                                className='upload-list-inline'
-                                                onChange={this.handleChange}
-                                            >
-                                                {fileList.length >= 1 ? null : <Button><Icon type="upload" /> 上传</Button>}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
-                                    <FormItem
-                                        label="名称"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('newsTitle', {
-                                            rules: [{ required: true, message: '名称不能为空!' }],
-                                            initialValue: data.newsTitle
-                                        })(
-                                            <Input placeholder="" />
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={12}>
-                                    <FormItem
-                                        label="说明"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('newsBrief', {
-                                            initialValue: data.newsBrief
-                                        })(
-                                            <Input.TextArea autosize={{minRows: 4, maxRows: 6}} />
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <ZZEditor editorState={editorState} saveEditorState={this.saveEditorState} />
-                                </Col>
-                            </Row>
-                            <Divider></Divider>
-                            <Row type="flex" justify="center">
-                                <Col>
-                                    <Button type="primary" htmlType="submit">
-                                        提交
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </Form>
-                    </Spin>
+                <div className='pageContent'>
+                    <div className="ibox-content">
+                        <Spin spinning={loading}>
+                            <Form onSubmit={this.handleSubmit}>
+                                <Row>
+                                    <Col span={12}>
+                                        <FormItem
+                                            label="封面图片"
+                                            {...formItemLayout}
+                                        >
+                                            {getFieldDecorator('newsCover', {
+                                                valuePropName: 'fileList',
+                                                getValueFromEvent: this.normFile,
+                                                rules: [{required: true, message: '封面图片不能为空!'}],
+                                                initialValue: data.newsCover
+                                            })(
+                                                <Upload
+                                                    action={restUrl.UPLOAD}
+                                                    listType={'picture'}
+                                                    className='upload-list-inline'
+                                                    onChange={this.handleChange}
+                                                >
+                                                    {fileList.length >= 1 ? null :
+                                                        <Button><Icon type="upload"/> 上传</Button>}
+                                                </Upload>
+                                            )}
+                                        </FormItem>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={12}>
+                                        <FormItem
+                                            label="名称"
+                                            {...formItemLayout}
+                                        >
+                                            {getFieldDecorator('newsTitle', {
+                                                rules: [{required: true, message: '名称不能为空!'}],
+                                                initialValue: data.newsTitle
+                                            })(
+                                                <Input placeholder=""/>
+                                            )}
+                                        </FormItem>
+                                    </Col>
+                                    <Col span={12}>
+                                        <FormItem
+                                            label="说明"
+                                            {...formItemLayout}
+                                        >
+                                            {getFieldDecorator('newsBrief', {
+                                                initialValue: data.newsBrief
+                                            })(
+                                                <Input.TextArea autosize={{minRows: 4, maxRows: 6}}/>
+                                            )}
+                                        </FormItem>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <ZZEditor editorState={editorState} saveEditorState={this.saveEditorState}/>
+                                    </Col>
+                                </Row>
+                                <div className='toolbar'>
+                                    <div className='pull-right'>
+                                        <Button type="primary" htmlType="submit">确认</Button>
+                                    </div>
+                                </div>
+                            </Form>
+                        </Spin>
+                    </div>
                 </div>
             </div>
         );
@@ -210,7 +228,7 @@ class EditNews extends React.Component {
 
 const WrappedEditLive = Form.create()(EditNews);
 EditNews.contextTypes = {
-    router:React.PropTypes.object
+    router: React.PropTypes.object
 }
 
 export default WrappedEditLive;

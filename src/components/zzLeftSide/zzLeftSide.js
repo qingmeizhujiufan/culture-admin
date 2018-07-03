@@ -39,6 +39,10 @@ class ZZLeftSide extends React.Component {
         });
     }
 
+    componentDidMount = () => {
+
+    }
+
     buildMenu = () => {
         return menuTree.map(function (item, index) {
             if (item.children) {

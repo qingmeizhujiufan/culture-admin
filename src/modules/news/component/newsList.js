@@ -47,6 +47,8 @@ class NewsList extends React.Component {
             title: '审核状态',
             dataIndex: 'state',
             key: 'state',
+            width: 120,
+            style: {textAlign: 'left'},
             render: (text, record, index) => {
                 if (text === 0) {
                     return (

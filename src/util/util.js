@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export default {
 
     //日期格式
@@ -75,9 +77,11 @@ export default {
     //list 转 tree
     listToTree: (list) => {
         if(list.length === 0) return;
+        const _list = [];
+        list.map(item => _list.push(_.assign({}, item)));
         let arr = [];
         //首先状态顶层节点
-        list.map(item => {
+        _list.map(item => {
             if (!item.pId) {
                 arr.push(item);
             }
@@ -88,8 +92,8 @@ export default {
         });
         while (toDo.length) {
             let node = toDo.shift();
-            for (let i = 0; i < list.length; i++) {
-                let row = list[i];
+            for (let i = 0; i < _list.length; i++) {
+                let row = _list[i];
                 if (node.id === row.pId) {
                     if (node.children) {
                         node.children.push(row);
