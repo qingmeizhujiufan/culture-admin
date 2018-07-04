@@ -14,14 +14,14 @@ import {message, Modal, notification} from "antd/lib/index";
 
 const TabPane = Tabs.TabPane;
 //获取公司信息
-const getCompanyListUrl = restUrl.ADDR + 'company/GetCompanyList';
+const getCompanyListUrl = restUrl.ADDR + 'taste/GetCompanyList';
 //更新公司文化
-const updateComCultureUrl = restUrl.ADDR + 'company/updateComCulture';
+const updateComCultureUrl = restUrl.ADDR + 'taste/updateComCulture';
 //更新公司相册
-const updateComPhotoUrl = restUrl.ADDR + 'company/updateComPhoto';
+const updateComPhotoUrl = restUrl.ADDR + 'taste/updateComPhoto';
 //获取公司服务信息
-const getServiceListUrl = restUrl.ADDR + 'company/GetServiceList';
-const delServiceUrl = restUrl.ADDR + 'company/delService';
+const getServiceListUrl = restUrl.ADDR + 'taste/GetServiceList';
+const delServiceUrl = restUrl.ADDR + 'taste/delService';
 
 class Website2 extends React.Component {
     constructor(props) {

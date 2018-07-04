@@ -1,62 +1,35 @@
 import React from 'react';
-import {Form, Row, Col, Icon, Input, Select, Divider, Button, notification, Spin} from 'antd';
+import { Form, Row, Col, Icon, Input, Select, Divider, Button, notification, Spin } from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../company.less';
 import ZZEditor from '../../../components/zzEditor/zzEditor';
 
-import {EditorState, convertFromRaw, convertToRaw, ContentState} from 'draft-js';
+import { EditorState, convertFromRaw, convertToRaw, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const saveAPServiceUrl = restUrl.ADDR + 'company/saveAPService';
-const getServiceDetailUrl = restUrl.ADDR + 'company/getServiceDetail';
+const saveAPServiceUrl = restUrl.ADDR + 'taste/saveAPService';
 
 const formItemLayout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 12},
+    labelCol: { span: 6 },
+    wrapperCol: { span: 12 },
 };
 
-class EditServiceAndHoliday extends React.Component {
+class AddServiceAndHoliday extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: {},
             fileList: [],
             editorState: EditorState.createEmpty(),
         };
     }
 
     componentDidMount = () => {
-        this.getServiceDetail();
-    }
-
-    getServiceDetail = () => {
-        let id = this.props.params.id;
-        let param = {};
-        param.id = id;
-        ajax.getJSON(getServiceDetailUrl, param, data => {
-            if (data.success) {
-                let backData = data.backData;
-                if (backData.service_content && backData.service_content !== '') {
-                    backData.service_content = draftToHtml(JSON.parse(backData.service_content));
-                    const contentBlock = htmlToDraft(backData.service_content);
-                    const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-                    const editorState = EditorState.createWithContent(contentState);
-
-                    this.setState({
-                        editorState
-                    });
-                }
-                this.setState({
-                    data: backData
-                });
-            }
-        })
     }
 
     saveEditorState = (editorState) => {
@@ -69,15 +42,14 @@ class EditServiceAndHoliday extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.id = this.props.params.id;
                 values.service_content = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 console.log('handleSubmit  param === ', values);
 
                 ajax.postJSON(saveAPServiceUrl, JSON.stringify(values), (data) => {
-                    if (data.success) {
+                    if(data.success){
                         notification.open({
                             message: '更新信息成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                            icon: <Icon type="smile-circle" style={{ color: '#108ee9' }} />,
                         });
                         // this.context.router.push('/frame/dish/healthFood');
                     }
@@ -87,13 +59,13 @@ class EditServiceAndHoliday extends React.Component {
     }
 
     render() {
-        let {data, editorState} = this.state;
-        const {getFieldDecorator, setFieldsValue} = this.props.form;
+        let { fileList, editorState } = this.state;
+        const { getFieldDecorator, setFieldsValue } = this.props.form;
 
         return (
             <div className="zui-content">
                 <div className="ibox-title">
-                    <h5>更新服务和节日信息</h5>
+                    <h5>新增服务和节日信息</h5>
                 </div>
                 <div className="ibox-content">
                     <Form onSubmit={this.handleSubmit}>
@@ -104,8 +76,8 @@ class EditServiceAndHoliday extends React.Component {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('companyId', {
-                                        rules: [{required: false}],
-                                        initialValue: data.companyId
+                                        rules: [{ required: false }],
+                                        initialValue: '1'
                                     })(
                                         <Select
                                         >
@@ -126,8 +98,8 @@ class EditServiceAndHoliday extends React.Component {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('service_type', {
-                                        rules: [{required: false}],
-                                        initialValue: data.service_type
+                                        rules: [{ required: false }],
+                                        initialValue: '服务资讯'
                                     })(
                                         <Select
                                         >
@@ -143,17 +115,16 @@ class EditServiceAndHoliday extends React.Component {
                                     {...formItemLayout}
                                 >
                                     {getFieldDecorator('service_title', {
-                                        rules: [{required: true, message: '名称不能为空!'}],
-                                        initialValue: data.service_title
+                                        rules: [{ required: true, message: '名称不能为空!' }],
                                     })(
-                                        <Input placeholder=""/>
+                                        <Input placeholder="" />
                                     )}
                                 </FormItem>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <ZZEditor editorState={editorState} saveEditorState={this.saveEditorState}/>
+                                <ZZEditor editorState={editorState} saveEditorState={this.saveEditorState} />
                             </Col>
                         </Row>
                         <Divider></Divider>
@@ -171,9 +142,9 @@ class EditServiceAndHoliday extends React.Component {
     }
 }
 
-const WrappedEditServiceAndHoliday = Form.create()(EditServiceAndHoliday);
-EditServiceAndHoliday.contextTypes = {
-    router: React.PropTypes.object
+const WrappedAddServiceAndHoliday = Form.create()(AddServiceAndHoliday);
+AddServiceAndHoliday.contextTypes = {
+    router:React.PropTypes.object
 }
 
-export default WrappedEditServiceAndHoliday;
+export default WrappedAddServiceAndHoliday;

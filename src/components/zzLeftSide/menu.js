@@ -79,11 +79,11 @@ const Menu = [
         	children: [
         		{
         			key: '4_1',
-        			link: '/frame/company/website',
+        			link: '/frame/taste/manage',
         			label: '图片管理'
         		}, {
         			key: '4_2',
-        			link: '/frame/company/webSiteResident',
+        			link: '/frame/taste/webSiteResident',
         			label: '上传图片'
         		}
         	]

@@ -23,11 +23,11 @@ import EditHealth from '../modules/dish/component/editHealth';
 import DishSurvey from '../modules/dish/component/survey';
 import BrandAdmin from '../modules/dish/component/brandAdmin';
 /* 公司信息管理 */
-import Website from '../modules/company/component/website';
-import Website2 from '../modules/company/component/website2';
-import AddServiceAndHoliday from '../modules/company/component/addServiceAndHoliday';
-import EditServiceAndHoliday from '../modules/company/component/editServiceAndHoliday';
-import OrderDetailInfo from '../modules/company/component/orderDetailInfo';
+import Taste from '../modules/taste/component';
+import Website2 from '../modules/taste/component/website2';
+import AddServiceAndHoliday from '../modules/taste/component/addServiceAndHoliday';
+import EditServiceAndHoliday from '../modules/taste/component/editServiceAndHoliday';
+import OrderDetailInfo from '../modules/taste/component/orderDetailInfo';
 /* 文化展示管理 */
 import RegionalFolklore from '../modules/cultureShow/component/regionalFolklore';
 import FolkloreShow from '../modules/cultureShow/component/folkloreShow';
@@ -63,7 +63,7 @@ module.exports = (
             <route path="dish/editHealth/:id" component={EditHealth} />
             <route path="dish/survey" component={DishSurvey} />
             <route path="dish/brandAdmin" component={BrandAdmin} />
-            <route path="company/website" component={Website} />
+            <route path="taste/manage" component={Taste} />
             <route path="company/webSiteResident" component={Website2} />
             <route path="company/addServiceAndHoliday" component={AddServiceAndHoliday} />
             <route path="company/editServiceAndHoliday/:id" component={EditServiceAndHoliday} />
