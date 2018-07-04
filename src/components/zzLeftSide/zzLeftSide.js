@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import {Layout, Icon, Menu} from 'antd';
 import {Scrollbars} from 'react-custom-scrollbars';
 import _ from 'lodash';
+import pathToRegexp from 'path-to-regexp';
 import menuTree from './menu';
 import './zzLeftSide.less';
 
@@ -21,26 +22,54 @@ class ZZLeftSide extends React.Component {
     }
 
     componentWillMount = () => {
-        let that = this;
-        let hashUrl = location.hash.split('#')[1];
+        const router = this.context.router;
+        const location = router.location;
+        const params = router.params;
+        const menu = this.getFlatMenu(menuTree);
+        console.log('hashUrl ==== ', location.pathname);
+        _.forEach(menu, item => {
+            let regexp;
+            if (Object.keys(params).length > 0) {
+                let pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
+                pathname = pathname.substring(0, pathname.lastIndexOf('/'));
+                console.log('pathname ==== ', pathname);
+                regexp = pathToRegexp(pathname);
 
-        _.forEach(menuTree, function (item) {
-            if (item.children) {
-                _.find(item.children, function (subItem) {
-                    if (subItem.link.indexOf(hashUrl) > -1) {
-                        that.setState({defaultSelectedKeys: subItem.key});
-                    }
-                });
+                if (regexp.exec(item.link)) {
+                    this.setState({defaultSelectedKeys: item.key});
+                    return;
+                }
             } else {
-                if (item.link.indexOf(hashUrl) > -1) {
-                    that.setState({defaultSelectedKeys: item.key});
+                let pathname = location.pathname;
+                regexp = pathToRegexp(pathname);
+
+                if (regexp.exec(item.link)) {
+                    this.setState({defaultSelectedKeys: item.key});
+                    return;
+                }
+
+                pathname = pathname.substring(0, pathname.lastIndexOf('/'));
+                regexp = pathToRegexp(pathname);
+
+                if(regexp.exec(item.link)){
+                    this.setState({defaultSelectedKeys: item.key});
+                    return;
                 }
             }
         });
     }
 
     componentDidMount = () => {
+    }
 
+    getFlatMenu = menu => {
+        return menu.reduce((keys, item) => {
+            keys.push(item);
+            if (item.children) {
+                return keys.concat(this.getFlatMenu(item.children));
+            }
+            return keys;
+        }, []);
     }
 
     buildMenu = () => {
@@ -88,7 +117,7 @@ class ZZLeftSide extends React.Component {
             >
                 <div className="logo">
                     <Link to="/">
-                        <img src={crh} alt="logo" />
+                        <img src={crh} alt="logo"/>
                         <h1>ADMIN</h1>
                     </Link>
                 </div>

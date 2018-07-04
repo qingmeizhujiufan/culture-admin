@@ -6,8 +6,8 @@ import {
     Col,
     Breadcrumb,
     Icon,
-    Divider,
     Button,
+    Divider,
     Badge,
     Dropdown,
     Menu,
@@ -26,7 +26,7 @@ const Panel = Collapse.Panel;
 
 const queryListUrl = restUrl.ADDR + 'ad/queryList';
 const reviewUrl = restUrl.ADDR + 'ad/review';
-const delLiveUrl = restUrl.ADDR + 'ad/delete';
+const deleteUrl = restUrl.ADDR + 'ad/delete';
 
 const formItemLayout = {
     labelCol: {span: 6},
@@ -41,6 +41,7 @@ class Ad extends React.Component {
             title: '动态标题',
             dataIndex: 'adTitle',
             key: 'adTitle',
+            align: 'center',
             render: (text, record, index) => (
                 <Link to={this.editrouter(record.id)}>{text}</Link>
             )
@@ -48,6 +49,7 @@ class Ad extends React.Component {
             title: '链接',
             dataIndex: 'adLink',
             key: 'adLink',
+            align: 'center',
         }, {
             title: '审核状态',
             dataIndex: 'state',
@@ -73,6 +75,7 @@ class Ad extends React.Component {
             title: '创建时间',
             dataIndex: 'create_time',
             key: 'create_time',
+            align: 'center',
         }, {
             title: <a><Icon type="setting" style={{fontSize: 18}}/></a>,
             key: 'operation',
@@ -116,7 +119,7 @@ class Ad extends React.Component {
         let param = {};
         param.id = id;
         ajax.getJSON(queryListUrl, param, (data) => {
-            if(data.success){
+            if (data.success) {
                 const backData = data.backData;
                 backData.map(item => item.key = item.id);
                 this.setState({
@@ -135,7 +138,7 @@ class Ad extends React.Component {
     }
 
     editrouter = (id) => {
-        return `/frame/ad/editAd/${id}`
+        return `/frame/ad/platform/edit/${id}`
     }
 
     onReview = id => {
@@ -153,8 +156,13 @@ class Ad extends React.Component {
                             message: '审核成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.getList();
-                        this.forceUpdate();
+
+                        const dataSource = [...this.state.dataSource];
+                        dataSource[index].state = 1;
+
+                        this.setState({
+                            dataSource,
+                        });
                     } else {
                         message.warning(data.backMsg);
                     }
@@ -172,14 +180,18 @@ class Ad extends React.Component {
             onOk: () => {
                 let param = {};
                 param.id = key;
-                ajax.postJSON(delLiveUrl, JSON.stringify(param), data => {
+                ajax.postJSON(deleteUrl, JSON.stringify(param), data => {
                     if (data.success) {
                         notification.open({
                             message: '删除成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.getList();
-                        this.forceUpdate();
+
+                        const dataSource = [...this.state.dataSource].filter(item => item.id !== key);
+
+                        this.setState({
+                            dataSource,
+                        });
                     } else {
                         message.warning(data.backMsg);
                     }
@@ -209,7 +221,7 @@ class Ad extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={24}>
                         <Col span={18}>
-                            <Card title='广告列表' loading={loading}>
+                            <Card title='广告列表' loading={loading} extra={<Button type="primary" icon="plus" href="#/frame/ad/platform/add">添加</Button>}>
                                 <Table
                                     bordered={true}
                                     dataSource={dataSource}
@@ -227,6 +239,7 @@ class Ad extends React.Component {
         );
     }
 }
+
 Ad.contextTypes = {
     router: React.PropTypes.object
 }

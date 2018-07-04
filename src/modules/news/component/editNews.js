@@ -22,7 +22,7 @@ import htmlToDraft from 'html-to-draftjs';
 
 const FormItem = Form.Item;
 
-const getLiveDetailUrl = restUrl.ADDR + 'news/queryDetail';
+const queryDetailUrl = restUrl.ADDR + 'news/queryDetail';
 const saveLiveUrl = restUrl.ADDR + 'news/save';
 
 const formItemLayout = {
@@ -43,16 +43,16 @@ class EditNews extends React.Component {
     }
 
     componentDidMount = () => {
-        this.getLiveDetail();
+        this.queryDetail();
     }
 
-    getLiveDetail = () => {
+    queryDetail = () => {
         this.setState({
             loading: true
         });
         let param = {};
         param.id = this.props.params.id;
-        ajax.getJSON(getLiveDetailUrl, param, data => {
+        ajax.getJSON(queryDetailUrl, param, data => {
             if (data.success) {
                 let backData = data.backData;
                 if (backData.newsContent && backData.newsContent !== '') {

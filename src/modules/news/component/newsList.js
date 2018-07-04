@@ -140,7 +140,7 @@ class NewsList extends React.Component {
     }
 
     editrouter = (id) => {
-        return `/frame/news/editNews/${id}`
+        return `/frame/news/newsList/edit/${id}`
     }
 
     onReview = (id, index) => {

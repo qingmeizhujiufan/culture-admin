@@ -9,6 +9,7 @@ import {
     Button,
     Upload,
     notification,
+    Message,
     Breadcrumb,
     Spin
 } from 'antd';
@@ -59,7 +60,9 @@ class AddAd extends React.Component {
                             message: '新增广告成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.context.router.push('/frame/ad');
+                        this.context.router.push('/frame/ad/platform');
+                    }else {
+                        Message.error(data.backMsg);
                     }
                 });
             }
@@ -77,6 +80,7 @@ class AddAd extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>平台概况</Breadcrumb.Item>
+                            <Breadcrumb.Item>广告平台</Breadcrumb.Item>
                             <Breadcrumb.Item>新增广告</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
@@ -110,6 +114,18 @@ class AddAd extends React.Component {
                                 </Col>
                             </Row>
                             <Row>
+                                <Col span={12}>
+                                    <FormItem
+                                        label="名称"
+                                        {...formItemLayout}
+                                    >
+                                        {getFieldDecorator('adTitle', {
+                                            rules: [{required: true, message: '名称不能为空!'}],
+                                        })(
+                                            <Input placeholder=""/>
+                                        )}
+                                    </FormItem>
+                                </Col>
                                 <Col span={12}>
                                     <FormItem
                                         label="链接"

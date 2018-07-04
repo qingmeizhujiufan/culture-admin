@@ -51,9 +51,9 @@ module.exports = (
         <Route path="/frame" component={Frame}>
             <IndexRoute component={Home}/>
             <route path="home" component={Home} />
-            <route path="ad" component={Ad} />
-            <route path="ad/editAd/:id" component={EditAd} />
-            <route path="ad/addAd" component={AddAd} />
+            <route path="ad/platform" component={Ad} />
+            <route path="ad/platform/edit/:id" component={EditAd} />
+            <route path="ad/platform/add" component={AddAd} />
             <route path="dish/dishList" component={DishList} />
             <route path="dish/dishDetailInfo/:id" component={DishDetailInfo} />
             <route path="dish/editDish/:id" component={EditDish} />
@@ -77,8 +77,8 @@ module.exports = (
             <route path="cultureShow/addBall" component={AddBall} />
             <route path="cultureShow/editBall/:id" component={EditBall} />
             <route path="news/newsList" component={NewsList} />
+            <route path="news/newsList/edit/:id" component={EditNews} />
             <route path="news/addNews" component={AddNews} />
-            <route path="news/editNews/:id" component={EditNews} />
             <route path="organize" component={Organize} />
         </Route>
     </Route>

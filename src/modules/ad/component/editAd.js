@@ -1,209 +1,200 @@
 import React from 'react';
-import {Link} from 'react-router';
 import {
+    Form,
     Row,
     Col,
     Icon,
-    Menu,
+    Input,
+    Divider,
+    Button,
+    Upload,
+    notification,
+    Message,
     Breadcrumb,
-    Spin,
-    Tabs,
-    Table
+    Spin
 } from 'antd';
-import _ from 'lodash';
-import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
+import restUrl from 'RestUrl';
 import '../index.less';
 
-const TabPane = Tabs.TabPane;
-const getLiveListUrl = restUrl.ADDR + 'FolkloreShow/getNeedList';
+const FormItem = Form.Item;
 
-class LiveList extends React.Component {
+const queryDetailUrl = restUrl.ADDR + 'ad/queryDetail';
+const saveUrl = restUrl.ADDR + 'ad/save';
+
+const formItemLayout = {
+    labelCol: {span: 6},
+    wrapperCol: {span: 12},
+};
+
+class EditAd extends React.Component {
     constructor(props) {
         super(props);
 
-        this.columns = [{
-            title: '电话号码',
-            dataIndex: 'telephone',
-            key: 'telephone'
-        }, {
-            title: '建议内容',
-            dataIndex: 'suggestion',
-            key: 'suggestion',
-        }, {
-            title: '创建时间',
-            dataIndex: 'create_time',
-            key: 'create_time',
-        }];
-
         this.state = {
-            loading: false,
-            dataSource_1: [],
-            dataSource_2: [],
-            dataSource_3: [],
-            dataSource_4: [],
-            dataSource_5: [],
-            dataSource_6: [],
-            dataSource_7: [],
-            dataSource_8: [],
-            dataSource_9: []
+            data: {},
+            fileList: []
         };
     }
 
-    componentWillMount = () => {
-    }
-
     componentDidMount = () => {
-        this.getList();
+        this.queryDetail();
     }
 
-    getList = () => {
+    queryDetail = () => {
         this.setState({
             loading: true
         });
         let param = {};
-        ajax.getJSON(getLiveListUrl, param, data => {
+        param.id = this.props.params.id;
+        ajax.getJSON(queryDetailUrl, param, data => {
             if (data.success) {
                 let backData = data.backData;
-                let dataSource_1 = [],
-                    dataSource_2 = [],
-                    dataSource_3 = [],
-                    dataSource_4 = [],
-                    dataSource_5 = [],
-                    dataSource_6 = [],
-                    dataSource_7 = [],
-                    dataSource_8 = [],
-                    dataSource_9 = [];
-                backData.map(item => {
-                    item.key = item.id;
-                    if (item.companyId === '1') dataSource_1.push(item);
-                    else if (item.companyId === '2') dataSource_2.push(item);
-                    else if (item.companyId === '3') dataSource_3.push(item);
-                    else if (item.companyId === '4') dataSource_4.push(item);
-                    else if (item.companyId === '5') dataSource_5.push(item);
-                    else if (item.companyId === '6') dataSource_6.push(item);
-                    else if (item.companyId === '7') dataSource_7.push(item);
-                    else if (item.companyId === '8') dataSource_8.push(item);
-                    else if (item.companyId === '9') dataSource_9.push(item);
-                });
+                const adCover = backData.newsCover;
+                let photoList = [{
+                    uid: adCover.id,
+                    name: adCover.fileName,
+                    status: 'done',
+                    url: restUrl.BASE_HOST + adCover.filePath,
+                    response: {
+                        data: {
+                            id: newsCover.id
+                        }
+                    }
+                }];
+
+                backData.adCover = photoList;
+
                 this.setState({
-                    dataSource_1,
-                    dataSource_2,
-                    dataSource_3,
-                    dataSource_4,
-                    dataSource_5,
-                    dataSource_6,
-                    dataSource_7,
-                    dataSource_8,
-                    dataSource_9,
+                    data: backData,
+                    fileList: photoList,
                     loading: false
+                });
+            } else {
+
+            }
+        });
+    }
+
+    normFile = (e) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.fileList;
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                values.adCover = values.adCover.map(item => {
+                    return item.response.data.id;
+                }).join(',');
+                console.log('handleSubmit  param === ', values);
+                ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
+                    if (data.success) {
+                        notification.open({
+                            message: '更新广告信息成功！',
+                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        });
+                    }else {
+                        Message.error(data.backMsg);
+                    }
                 });
             }
         });
     }
 
     render() {
-        const {
-            loading,
-            dataSource_1,
-            dataSource_2,
-            dataSource_3,
-            dataSource_4,
-            dataSource_5,
-            dataSource_6,
-            dataSource_7,
-            dataSource_8,
-            dataSource_9,
-        } = this.state;
+        let {data, fileList} = this.state;
+        const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
             <div className="zui-content">
-                <div className="breadcrumb-block">
-                    <Breadcrumb>
-                        <Breadcrumb.Item>首页</Breadcrumb.Item>
-                        <Breadcrumb.Item>便民信息</Breadcrumb.Item>
-                        <Breadcrumb.Item>提出你的需求</Breadcrumb.Item>
-                    </Breadcrumb>
+                <div className='pageHeader'>
+                    <div className="breadcrumb-block">
+                        <Breadcrumb>
+                            <Breadcrumb.Item>首页</Breadcrumb.Item>
+                            <Breadcrumb.Item>平台概况</Breadcrumb.Item>
+                            <Breadcrumb.Item>修改广告</Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                    <h1 className='title'>更新广告信息</h1>
                 </div>
-                <div className="ibox-title">
-                    <h5>提出你的需求</h5>
-                </div>
-                <div className="ibox-content">
-                    <Spin spinning={loading}>
-                        <Tabs defaultActiveKey="1">
-                            <TabPane tab="一楼食堂" key="1">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_1}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                            <TabPane tab="二楼食堂" key="2">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_2}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                            <TabPane tab="学生公寓1号" key="3">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_3}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                            <TabPane tab="学生公寓2号" key="4">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_4}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                            <TabPane tab="教师公寓" key="5">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_5}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                            <TabPane tab="学生公寓3号" key="6">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_6}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                            <TabPane tab="学生公寓4号" key="7">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_7}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                            <TabPane tab="学生公寓5号" key="8">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_8}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                            <TabPane tab="学生公寓6号" key="9">
-                                <Table
-                                    bordered={true}
-                                    dataSource={dataSource_9}
-                                    columns={this.columns}
-                                />
-                            </TabPane>
-                        </Tabs>
-                    </Spin>
+                <div className='pageContent'>
+                    <div className="ibox-content">
+                        <Form onSubmit={this.handleSubmit}>
+                            <Row>
+                                <Col span={12}>
+                                    <FormItem
+                                        label="封面图片"
+                                        {...formItemLayout}
+                                    >
+                                        {getFieldDecorator('adCover', {
+                                            valuePropName: 'fileList',
+                                            getValueFromEvent: this.normFile,
+                                            rules: [{required: true, message: '广告图片不能为空!'}],
+                                            initialValue: data.adCover
+                                        })(
+                                            <Upload
+                                                accept="image/*"
+                                                action={restUrl.UPLOAD}
+                                                listType={'picture'}
+                                                className='upload-list-inline'
+                                                onChange={this.handleChange}
+                                            >
+                                                {fileList.length >= 1 ? null :
+                                                    <Button><Icon type="upload"/> 上传</Button>}
+                                            </Upload>
+                                        )}
+                                    </FormItem>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={12}>
+                                    <FormItem
+                                        label="名称"
+                                        {...formItemLayout}
+                                    >
+                                        {getFieldDecorator('adTitle', {
+                                            rules: [{required: true, message: '名称不能为空!'}],
+                                            initialValue: data.adTitle
+                                        })(
+                                            <Input placeholder=""/>
+                                        )}
+                                    </FormItem>
+                                </Col>
+                                <Col span={12}>
+                                    <FormItem
+                                        label="链接"
+                                        {...formItemLayout}
+                                    >
+                                        {getFieldDecorator('adLink', {
+                                            rules: [{required: true, message: '链接不能为空!'}],
+                                            initialValue: data.adLink
+                                        })(
+                                            <Input placeholder=""/>
+                                        )}
+                                    </FormItem>
+                                </Col>
+                            </Row>
+                            <div className='toolbar'>
+                                <div className='pull-right'>
+                                    <Button type="primary" htmlType="submit">确认</Button>
+                                </div>
+                            </div>
+                        </Form>
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-LiveList.contextTypes = {
+const WrappedEditAd = Form.create()(EditAd);
+EditAd.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default LiveList;
+export default WrappedEditAd;

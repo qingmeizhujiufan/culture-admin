@@ -19,13 +19,8 @@ const Menu = [
                 label: '组织权限'
             },{
                 key: '1_4',
-                link: '/frame/ad',
+                link: '/frame/ad/platform',
                 label: '广告平台'
-            }
-            ,{
-                key: '1_5',
-                link: '/frame/ad/addAd',
-                label: '新增广告'
             }
         ]
     }, {
