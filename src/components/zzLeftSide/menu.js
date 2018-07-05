@@ -99,23 +99,23 @@ const Menu = [
         			label: '房源信息管理'
         		}
         	]
-        // }, {
-        //    key: '7',
-        //    iconType: 'rocket',
-        //    link: '',
-        //    label: '训练段动态',
-        //    children: [
-        //        {
-        //            key: '7_1',
-        //            link: '/frame/news/liveList',
-        //            label: '动态列表'
-        //        },
-        //        {
-        //            key: '7_2',
-        //            link: '/frame/news/addLive',
-        //            label: '新增动态'
-        //        }
-        //    ]
+        }, {
+           key: '6',
+           iconType: 'rocket',
+           link: '',
+           label: '用户管理',
+           children: [
+               {
+                   key: '6_1',
+                   link: '/frame/user/count',
+                   label: '统计分析'
+               },
+               {
+                   key: '6_2',
+                   link: '/frame/news/addLive',
+                   label: '新增动态'
+               }
+           ]
         // }, {
         // 	key: '6',
         // 	iconType: 'credit-card',

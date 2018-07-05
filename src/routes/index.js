@@ -41,8 +41,10 @@ import EditBall from '../modules/cultureShow/component/editBall';
 import NewsList from '../modules/news/component/newsList';
 import AddNews from '../modules/news/component/addNews';
 import EditNews from '../modules/news/component/editNews';
-/* 班车信息 */
+/* 组织管理 */
 import Organize from '../modules/organize/component/';
+/* 用户管理 */
+import User from '../modules/user/component/';
 
 module.exports = (
     <Route path="/" component={App}>
@@ -80,6 +82,7 @@ module.exports = (
             <route path="news/newsList/edit/:id" component={EditNews} />
             <route path="news/addNews" component={AddNews} />
             <route path="organize" component={Organize} />
+            <route path="user/count" component={User} />
         </Route>
     </Route>
 );

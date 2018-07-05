@@ -1,23 +1,33 @@
 import React from 'react';
-import {Icon, Divider, Breadcrumb, Spin, Card, Button} from 'antd';
+import {Table, Icon, Divider, Breadcrumb, Spin, Card, Button, message} from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
-import {
-    Bar,
-} from 'Comps/Charts';
 import '../index.less';
 
 const ButtonGroup = Button.Group;
 
 const getNewlyUrl = restUrl.ADDR + 'user/getNewlyRegisterUserData';
 
+const columns = [{
+    title: '姓名',
+    dataIndex: 'name',
+    key: 'name',
+}, {
+    title: '性别',
+    dataIndex: 'sex',
+    key: 'sex',
+}, {
+    title: '电话',
+    dataIndex: 'telephone',
+    key: 'telephone',
+}];
+
 class Index extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: [],
-            type: 'week',
+            dataSource: [],
             loading: true,
         };
     }
@@ -26,24 +36,17 @@ class Index extends React.Component {
     }
 
     componentDidMount = () => {
-        this.getNewlyData();
-    }
-
-    getNewlyData = () => {
-        let param = {};
-        param.type = this.state.type;
+        var param = {};
+        param.type = 'week';
         ajax.getJSON(getNewlyUrl, param, data => {
             if(data.success){
                 data = data.backData;
-                const chartData = [];
-                data.map(item => {
-                    chartData.push({
-                        x: item.countDate,
-                        y: item.num
-                    });
+                console.log('Index === ', data);
+                data.map(function (item, index) {
+                    item.key = index;
                 });
                 this.setState({
-                    data: chartData,
+                    dataSource: data,
                     loading: false
                 });
             }else {
@@ -52,14 +55,8 @@ class Index extends React.Component {
         });
     }
 
-    changeType = type => {
-        this.setState({type: type}, () => {
-            this.getNewlyData();
-        });
-    }
-
     render() {
-        const {data, loading} = this.state;
+        const {dataSource, loading} = this.state;
 
         return (
             <div className="zui-content">
@@ -78,15 +75,19 @@ class Index extends React.Component {
                         title="最近注册用户统计"
                         extra={(
                             <ButtonGroup>
-                                <Button onClick={() => this.changeType('threeday')}>最近三天</Button>
-                                <Button onClick={() => this.changeType('week')}>最近一周</Button>
+                                <Button>最近三天</Button>
+                                <Button>最近一周</Button>
                                 <Button>最近一个月</Button>
                                 <Button>最近半年</Button>
                             </ButtonGroup>
                         )}
                     >
                         <Spin spinning={loading}>
-                            <Bar height={400} title="最近一周注册用户统计" data={data} />
+                            <Table
+                                bordered={true}
+                                dataSource={dataSource}
+                                columns={columns}
+                            />
                         </Spin>
                     </Card>
                 </div>

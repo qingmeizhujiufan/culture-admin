@@ -17,12 +17,6 @@ const data = [
     {x: 'Other', y: 150, income: 3710}
 ];
 
-// 定义度量
-const cols = {
-    sold: {alias: '销售量'},
-    genre: {alias: '游戏种类'}
-};
-
 class Index extends React.Component {
     constructor(props) {
         super(props);
