@@ -2,7 +2,7 @@ import React from 'react';
 import {Form, Row, Col, Icon, Input, Select, Divider, Button, notification, Spin} from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
-import '../company.less';
+import '../index.less';
 import ZZEditor from '../../../components/zzEditor/zzEditor';
 
 import {EditorState, convertFromRaw, convertToRaw, ContentState} from 'draft-js';

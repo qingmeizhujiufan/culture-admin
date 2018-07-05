@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {Row, Col, Table, Icon, Divider, Breadcrumb, Menu, Dropdown, Spin, Popconfirm, Tabs, Upload, Button} from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
-import '../company.less';
+import '../index.less';
 
 import ZZEditor from '../../../components/zzEditor/zzEditor';
 

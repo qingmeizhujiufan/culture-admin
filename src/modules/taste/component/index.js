@@ -1,21 +1,19 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Row, Col, Table, Icon, Divider, Breadcrumb, Menu, Dropdown, Spin, Card, Tabs, Badge, Button} from 'antd';
+import {Row, Col, Table, Icon, Divider, Breadcrumb, Menu, Dropdown, Spin, Card, Tabs, Badge, Button, List} from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
-import '../company.less';
+import '../index.less';
 
 import {message, Modal, notification} from "antd/lib/index";
 
 const TabPane = Tabs.TabPane;
 //获取所有兴趣圈图片
 const queryListUrl = restUrl.ADDR + 'taste/queryList';
+//获取TOP 10
+const queryRankingListTop10Url = restUrl.ADDR + 'taste/queryRankingListTop10';
 
-//获取公司服务信息
-const getServiceListUrl = restUrl.ADDR + 'taste/GetServiceList';
-const delServiceUrl = restUrl.ADDR + 'taste/delService';
-
-class OrderList extends React.Component {
+class Taste extends React.Component {
     constructor(props) {
         super(props);
 
@@ -99,7 +97,9 @@ class OrderList extends React.Component {
             data_1: {},
             data_2: {},
             dataSource: [],
-            loading: false
+            loading_1: true,
+            loading_2: true,
+            loading_3: true,
         };
     }
 
@@ -108,6 +108,8 @@ class OrderList extends React.Component {
 
     componentDidMount = () => {
         this.queryList();
+        this.queryRankingListTOP10('like');
+        this.queryRankingListTOP10('comment');
     }
 
     //获取兴趣圈图片
@@ -115,17 +117,36 @@ class OrderList extends React.Component {
         ajax.getJSON(queryListUrl, null, (data) => {
             if (data.success) {
                 let backData = data.backData;
-                let service_1 = [], service_2 = [];
-                let holiday_1 = [], holiday_2 = [];
                 backData.map(item => {
                     item.key = item.id;
                 });
                 this.setState({
                     dataSource: backData,
-                    service_2,
-                    holiday_1,
-                    holiday_2
+                    loading_1: false
                 });
+            }
+        });
+    }
+
+    //获取TOP 10
+    queryRankingListTOP10 = (type) => {
+        const param = {};
+        param.type = type;
+        ajax.getJSON(queryRankingListTop10Url, param, data => {
+            if (data.success) {
+                let backData = data.backData;
+                if (type == 'like') {
+                    this.setState({
+                        data_1: backData,
+                        loading_2: false,
+                    });
+                } else if (type == 'comment') {
+                    this.setState({
+                        data_2: backData,
+                        loading_3: false,
+                    });
+                }
+
             }
         });
     }
@@ -162,13 +183,15 @@ class OrderList extends React.Component {
     render() {
         let {
             dataSource,
-            loading,
-            submitLoading_1,
-            submitLoading_2,
+            data_1,
+            data_2,
+            loading_1,
+            loading_2,
+            loading_3,
         } = this.state;
 
         return (
-            <div className="zui-content">
+            <div className="zui-content taste">
                 <div className='pageHeader'>
                     <div className="breadcrumb-block">
                         <Breadcrumb>
@@ -182,7 +205,7 @@ class OrderList extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={24}>
                         <Col span={16}>
-                            <Card title='图片列表'>
+                            <Card title='图片列表' loading={loading_1}>
                                 <Table
                                     bordered={true}
                                     dataSource={dataSource}
@@ -191,13 +214,43 @@ class OrderList extends React.Component {
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title='排行榜TOP 10'>
+                            <Card title='排行榜TOP 10' className='ranking-list'>
                                 <Tabs defaultActiveKey="1">
                                     <TabPane tab="点赞排行" key="1">
-
+                                        <Spin spinning={loading_2}>
+                                            <List
+                                                itemLayout="horizontal"
+                                                dataSource={data_1}
+                                                renderItem={item => (
+                                                    <List.Item>
+                                                        <List.Item.Meta
+                                                            avatar={<img
+                                                                src={restUrl.BASE_HOST + item.tasteCover.filePath}/>}
+                                                            title={<a>{item.tasteBrief}</a>}
+                                                            description="Ant Design"
+                                                        />
+                                                    </List.Item>
+                                                )}
+                                            />
+                                        </Spin>
                                     </TabPane>
                                     <TabPane tab="评论排行" key="2">
-
+                                        <Spin spinning={loading_3}>
+                                            <List
+                                                itemLayout="horizontal"
+                                                dataSource={data_2}
+                                                renderItem={item => (
+                                                    <List.Item>
+                                                        <List.Item.Meta
+                                                            avatar={<img
+                                                                src={restUrl.BASE_HOST + item.tasteCover.filePath}/>}
+                                                            title={<a>{item.tasteBrief}</a>}
+                                                            description="Ant Design"
+                                                        />
+                                                    </List.Item>
+                                                )}
+                                            />
+                                        </Spin>
                                     </TabPane>
                                 </Tabs>
                             </Card>
@@ -209,8 +262,8 @@ class OrderList extends React.Component {
     }
 }
 
-OrderList.contextTypes = {
+Taste.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default OrderList;
+export default Taste;

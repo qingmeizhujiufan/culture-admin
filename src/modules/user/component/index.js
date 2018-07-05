@@ -2,7 +2,7 @@ import React from 'react';
 import {Table, Icon, Divider, Breadcrumb, Spin} from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
-import '../user.less';
+import '../index.less';
 
 const getUserListUrl = restUrl.ADDR + 'User/getUserList';
 
@@ -20,7 +20,7 @@ const columns = [{
     key: 'village',
 }];
 
-class UserList extends React.Component {
+class Index extends React.Component {
     constructor(props) {
         super(props);
 
@@ -37,7 +37,7 @@ class UserList extends React.Component {
         var param = {};
         ajax.getJSON(getUserListUrl, null, (data) => {
             data = eval('(' + data.backData + ')');
-            console.log('UserList === ', data);
+            console.log('Index === ', data);
             data.map(function (item, index) {
                 item.key = index;
             });
@@ -76,8 +76,8 @@ class UserList extends React.Component {
     }
 }
 
-UserList.contextTypes = {
+Index.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default UserList;
+export default Index;
