@@ -1,12 +1,11 @@
 import React from 'react';
-import {Table, Icon, Divider, Breadcrumb, Spin, Card, Button, message} from 'antd';
+import {Table, Icon, Divider, Breadcrumb, Spin, Card, Button, message, Alert } from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
 
-const ButtonGroup = Button.Group;
-
-const getNewlyUrl = restUrl.ADDR + 'user/getNewlyRegisterUserData';
+const queryListUrl = restUrl.ADDR + 'user/queryList';
+const delUrl = restUrl.ADDR + 'user/delete';
 
 const columns = [{
     title: '姓名',
@@ -27,8 +26,10 @@ class Index extends React.Component {
         super(props);
 
         this.state = {
+            selectedRowKeys: [], // Check here to configure the default column
             dataSource: [],
             loading: true,
+            delLoading: false
         };
     }
 
@@ -36,12 +37,13 @@ class Index extends React.Component {
     }
 
     componentDidMount = () => {
-        var param = {};
-        param.type = 'week';
-        ajax.getJSON(getNewlyUrl, param, data => {
+        this.getList();
+    }
+
+    getList = () => {
+        ajax.getJSON(queryListUrl, null, data => {
             if(data.success){
                 data = data.backData;
-                console.log('Index === ', data);
                 data.map(function (item, index) {
                     item.key = index;
                 });
@@ -55,8 +57,40 @@ class Index extends React.Component {
         });
     }
 
+    onSelectChange = (selectedRowKeys) => {
+        console.log('selectedRowKeys changed: ', selectedRowKeys);
+        this.setState({ selectedRowKeys });
+    }
+
+    batchDel = () => {
+        const param = {};
+        param.ids = this.state.selectedRowKeys.join(',');
+        console.log('ids === ', param);
+        this.setState({
+            delLoading: true
+        });
+        ajax.postJSON(delUrl, JSON.stringify(param), data => {
+            if(data.success){
+                const dataSource = [...this.state.dataSource].filter(item => item.id.indexOf(param.ids) <= -1);
+                this.setState({
+                    dataSource,
+                    selectedRowKeys: []
+                });
+            }else {
+                message.error(data.backMsg);
+            }
+            this.setState({
+                delLoading: false
+            });
+        });
+    }
+
     render() {
-        const {dataSource, loading} = this.state;
+        const {dataSource, selectedRowKeys, loading, delLoading} = this.state;
+        const rowSelection = {
+            selectedRowKeys,
+            onChange: this.onSelectChange,
+        };
 
         return (
             <div className="zui-content">
@@ -65,28 +99,24 @@ class Index extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>用户管理</Breadcrumb.Item>
-                            <Breadcrumb.Item>统计分析</Breadcrumb.Item>
+                            <Breadcrumb.Item>用户列表</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>人员统计分析</h1>
+                    <h1 className='title'>用户列表</h1>
                 </div>
                 <div className='pageContent'>
                     <Card
-                        title="最近注册用户统计"
-                        extra={(
-                            <ButtonGroup>
-                                <Button>最近三天</Button>
-                                <Button>最近一周</Button>
-                                <Button>最近一个月</Button>
-                                <Button>最近半年</Button>
-                            </ButtonGroup>
-                        )}
+                        title="用户列表"
                     >
+                        <Button type='primary' icon='close' loading={delLoading} style={{marginBottom: 15}} onClick={() => this.batchDel()}>批量删除</Button>
+                        <Alert style={{marginBottom: 15}} message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a style={{marginLeft: 20}}>清空</a></span>} type="info" showIcon />
                         <Spin spinning={loading}>
                             <Table
                                 bordered={true}
                                 dataSource={dataSource}
                                 columns={columns}
+                                rowKey={record => record.id}
+                                rowSelection={rowSelection}
                             />
                         </Spin>
                     </Card>

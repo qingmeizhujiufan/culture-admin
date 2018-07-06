@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, IndexRoute} from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router'
 
 import App from '../modules/App';
 import Frame from '../modules/Frame';
@@ -45,6 +45,7 @@ import EditNews from '../modules/news/component/editNews';
 import Organize from '../modules/organize/component/';
 /* 用户管理 */
 import User from '../modules/user/component/';
+import UserList from '../modules/user/component/userList';
 
 module.exports = (
     <Route path="/" component={App}>
@@ -83,6 +84,7 @@ module.exports = (
             <route path="news/addNews" component={AddNews} />
             <route path="organize" component={Organize} />
             <route path="user/count" component={User} />
+            <route path="user/list" component={UserList} />
         </Route>
     </Route>
 );

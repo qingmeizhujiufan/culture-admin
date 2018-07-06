@@ -112,8 +112,8 @@ const Menu = [
                },
                {
                    key: '6_2',
-                   link: '/frame/news/addLive',
-                   label: '新增动态'
+                   link: '/frame/user/list',
+                   label: '用户列表'
                }
            ]
         // }, {

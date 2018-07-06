@@ -22,16 +22,11 @@ class Index extends React.Component {
         super(props);
 
         this.state = {
-            data: []
+            data: data
         };
     }
 
     componentDidMount = () => {
-        setTimeout(() => {
-            this.setState({
-                data,
-            });
-        }, 1000);
     }
 
     render() {
