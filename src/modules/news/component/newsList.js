@@ -25,7 +25,7 @@ import '../index.less';
 
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
-const getLiveListUrl = restUrl.ADDR + 'news/queryList';
+const getLiveListUrl = restUrl.ADDR + 'news/queryListByAdmin';
 const reviewUrl = restUrl.ADDR + 'news/review';
 const delLiveUrl = restUrl.ADDR + 'news/delete';
 
@@ -67,6 +67,8 @@ class NewsList extends React.Component {
             }
         }, {
             title: '创建人',
+            width: 120,
+            align: 'center',
             dataIndex: 'creatorName',
             key: 'creatorName',
             render: (text, record, index) => (
@@ -74,6 +76,8 @@ class NewsList extends React.Component {
             )
         }, {
             title: '创建时间',
+            width: 120,
+            align: 'center',
             dataIndex: 'create_time',
             key: 'create_time',
         }, {

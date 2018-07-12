@@ -9,7 +9,9 @@ import {message, Modal, notification} from "antd/lib/index";
 
 const TabPane = Tabs.TabPane;
 //获取所有兴趣圈图片
-const queryListUrl = restUrl.ADDR + 'taste/queryList';
+const queryListUrl = restUrl.ADDR + 'taste/queryListByAdmin';
+const reviewUrl = restUrl.ADDR + 'taste/review';
+const deleteUrl = restUrl.ADDR + 'taste/delete';
 //获取TOP 10
 const queryRankingListTop10Url = restUrl.ADDR + 'taste/queryRankingListTop10';
 
@@ -73,23 +75,27 @@ class Taste extends React.Component {
             title: <a><Icon type="setting" style={{fontSize: 18}}/></a>,
             key: 'operation',
             fixed: 'right',
-            width: 100,
+            width: 120,
             align: 'center',
             render: (text, record, index) => (
-                <Dropdown
-                    overlay={
-                        <Menu>
-                            <Menu.Item>
-                                <Link to={this.editrouter(record.id)}>编辑</Link>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <a onClick={() => this.onDelete(record.key)}>删除</a>
-                            </Menu.Item>
-                        </Menu>
-                    }
-                >
-                    <a className="ant-dropdown-link">操作</a>
-                </Dropdown>
+                <div>
+                    <a onClick={() => this.onReview(record.id, index)}>审核</a>
+                    <Divider type="vertical"/>
+                    <Dropdown
+                        overlay={
+                            <Menu>
+                                <Menu.Item>
+                                    <Link to={this.editrouter(record.id)}>编辑</Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <a onClick={() => this.onDelete(record.key)}>删除</a>
+                                </Menu.Item>
+                            </Menu>
+                        }
+                    >
+                        <a className="ant-dropdown-link">操作</a>
+                    </Dropdown>
+                </div>
             ),
         }];
 
@@ -153,6 +159,35 @@ class Taste extends React.Component {
 
     editrouter = (id) => {
         return `/frame/company/editServiceAndHoliday/${id}`
+    }
+
+    onReview = (id, index) => {
+        Modal.confirm({
+            title: '提示',
+            content: '确认审核通过吗',
+            okText: '确认',
+            cancelText: '取消',
+            onOk: () => {
+                let param = {};
+                param.id = id;
+                ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
+                    if (data.success) {
+                        notification.open({
+                            message: '审核成功！',
+                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        });
+                        const dataSource = [...this.state.dataSource];
+                        dataSource[index].state = 1;
+
+                        this.setState({
+                            dataSource,
+                        });
+                    } else {
+                        message.warning(data.backMsg);
+                    }
+                });
+            }
+        });
     }
 
     onDelete = (key) => {

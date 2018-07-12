@@ -77,13 +77,15 @@ class AddNews extends React.Component {
                             message: '新增新闻成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.setState({
-                            loading: false
-                        });
+
                         this.context.router.push('/frame/news/newsList');
                     }else {
                         message.error(data.backMsg);
                     }
+
+                    this.setState({
+                        loading: false
+                    });
                 });
             }
         });
