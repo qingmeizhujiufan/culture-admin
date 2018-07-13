@@ -31,10 +31,7 @@ class Taste extends React.Component {
             title: '图片描述',
             dataIndex: 'tasteBrief',
             key: 'tasteBrief',
-            align: 'center',
-            render: (text, record, index) => (
-                <Link to={this.editrouter(record.id)}>{text}</Link>
-            )
+            align: 'center'
         }, {
             title: '喜欢数量',
             dataIndex: 'likeNum',
@@ -84,9 +81,6 @@ class Taste extends React.Component {
                     <Dropdown
                         overlay={
                             <Menu>
-                                <Menu.Item>
-                                    <Link to={this.editrouter(record.id)}>编辑</Link>
-                                </Menu.Item>
                                 <Menu.Item>
                                     <a onClick={() => this.onDelete(record.key)}>删除</a>
                                 </Menu.Item>
@@ -199,17 +193,23 @@ class Taste extends React.Component {
             onOk: () => {
                 let param = {};
                 param.id = key;
-                ajax.postJSON(delServiceUrl, JSON.stringify(param), data => {
+                this.setState({loading_1: true});
+                ajax.postJSON(deleteUrl, JSON.stringify(param), data => {
                     if (data.success) {
                         notification.open({
                             message: '删除成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.getServiceList();
-                        this.forceUpdate();
+                        const dataSource = [...this.state.dataSource].filter(item => item.id !== key);
+
+                        this.setState({
+                            dataSource,
+                        });
                     } else {
                         message.warning(data.backMsg);
                     }
+
+                    this.setState({loading_1: false});
                 });
             }
         });
