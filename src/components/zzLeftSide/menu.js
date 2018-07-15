@@ -21,6 +21,10 @@ const Menu = [
                 key: '1_4',
                 link: '/frame/ad/platform',
                 label: '广告平台'
+            },{
+                key: '1_5',
+                link: '/frame/city',
+                label: '城市管理'
             }
         ]
     }, {

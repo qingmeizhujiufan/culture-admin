@@ -43,6 +43,8 @@ import AddNews from '../modules/news/component/addNews';
 import EditNews from '../modules/news/component/editNews';
 /* 组织管理 */
 import Organize from '../modules/organize/component/';
+/* 城市管理 */
+import City from '../modules/city/component/';
 /* 用户管理 */
 import User from '../modules/user/component/';
 import UserList from '../modules/user/component/userList';
@@ -83,6 +85,7 @@ module.exports = (
             <route path="news/newsList/edit/:id" component={EditNews} />
             <route path="news/addNews" component={AddNews} />
             <route path="organize" component={Organize} />
+            <route path="city" component={City} />
             <route path="user/count" component={User} />
             <route path="user/list" component={UserList} />
         </Route>
