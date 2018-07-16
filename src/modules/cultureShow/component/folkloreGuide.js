@@ -4,7 +4,7 @@ import {Row, Col, Icon, Table, Breadcrumb, notification, Spin, Menu, message, Dr
 import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
-import '../residence.less';
+import '../index.less';
 import {Modal} from "antd/lib/index";
 
 const getGymListUrl = restUrl.ADDR + 'survey/getGymList';

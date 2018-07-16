@@ -8,6 +8,7 @@ import {
     Breadcrumb,
     Button,
     Upload,
+    Select,
     notification,
     Spin
 } from 'antd';
@@ -21,7 +22,8 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
 const FormItem = Form.Item;
-
+const Option = Select.Option;
+const queryListUrl = restUrl.ADDR + 'city/queryList';
 const queryDetailUrl = restUrl.ADDR + 'news/queryDetail';
 const saveLiveUrl = restUrl.ADDR + 'news/save';
 
@@ -37,13 +39,32 @@ class EditNews extends React.Component {
         this.state = {
             data: {},
             fileList: [],
+            cityList: [],
             editorState: EditorState.createEmpty(),
-            loading: false
+            loading: false,
+            cityLoading: false
         };
     }
 
     componentDidMount = () => {
+        this.getList();
         this.queryDetail();
+    }
+
+    getList = () => {
+        this.setState({
+            cityLoading: true
+        });
+        let param = {};
+        ajax.getJSON(queryListUrl, param, data => {
+            if (data.success) {
+                let backData = data.backData;
+                this.setState({
+                    cityList: backData,
+                    cityLoading: false
+                });
+            }
+        });
     }
 
     queryDetail = () => {
@@ -135,7 +156,7 @@ class EditNews extends React.Component {
     }
 
     render() {
-        let {data, fileList, editorState, loading} = this.state;
+        let {data, fileList, editorState, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -153,7 +174,7 @@ class EditNews extends React.Component {
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
-                        <Spin spinning={loading}>
+                        <Spin spinning={loading} size="large">
                             <Form onSubmit={this.handleSubmit}>
                                 <Row>
                                     <Col span={12}>
@@ -177,6 +198,27 @@ class EditNews extends React.Component {
                                                         <Button><Icon type="upload"/> 上传</Button>}
                                                 </Upload>
                                             )}
+                                        </FormItem>
+                                    </Col>
+                                    <Col span={12}>
+                                        <FormItem
+                                            label="城市选择"
+                                            {...formItemLayout}
+                                        >
+                                            <Spin spinning={cityLoading} indicator={<Icon type="loading"/>}>
+                                                {getFieldDecorator('cityId', {
+                                                    rules: [{required: true, message: '城市不能为空!'}],
+                                                    initialValue: data.cityId
+                                                })(
+                                                    <Select>
+                                                        {
+                                                            cityList.map(item => {
+                                                                return (<Option key={item.id} value={item.id}>{item.cityName}</Option>)
+                                                            })
+                                                        }
+                                                    </Select>
+                                                )}
+                                            </Spin>
                                         </FormItem>
                                     </Col>
                                 </Row>

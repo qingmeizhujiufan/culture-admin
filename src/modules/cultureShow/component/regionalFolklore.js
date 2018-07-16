@@ -4,7 +4,7 @@ import {Row, Col, Input, Icon, List, Divider, Breadcrumb, Badge, notification, S
 import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
-import '../residence.less';
+import '../index.less';
 
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;

@@ -19,7 +19,7 @@ import {
 import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
-import '../residence.less';
+import '../index.less';
 
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;

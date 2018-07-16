@@ -45,6 +45,12 @@ class NewsList extends React.Component {
             dataIndex: 'newsBrief',
             key: 'newsBrief',
         }, {
+            title: '新闻城市',
+            width: 120,
+            align: 'center',
+            dataIndex: 'cityName',
+            key: 'cityName',
+        }, {
             title: '审核状态',
             dataIndex: 'state',
             key: 'state',

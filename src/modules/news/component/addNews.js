@@ -10,6 +10,7 @@ import {
     Upload,
     notification,
     Breadcrumb,
+    Select,
     Spin
 } from 'antd';
 import ajax from 'Utils/ajax';
@@ -20,7 +21,8 @@ import ZZEditor from '../../../components/zzEditor/zzEditor';
 import {EditorState, convertToRaw} from 'draft-js';
 
 const FormItem = Form.Item;
-
+const Option = Select.Option;
+const queryListUrl = restUrl.ADDR + 'city/queryList';
 const saveNewsUrl = restUrl.ADDR + 'news/save';
 
 const formItemLayout = {
@@ -34,12 +36,31 @@ class AddNews extends React.Component {
 
         this.state = {
             fileList: [],
+            cityList: [],
             editorState: EditorState.createEmpty(),
-            loading: false
+            loading: false,
+            cityLoading: false
         };
     }
 
     componentDidMount = () => {
+        this.getList();
+    }
+
+    getList = () => {
+        this.setState({
+            cityLoading: true
+        });
+        let param = {};
+        ajax.getJSON(queryListUrl, param, data => {
+            if (data.success) {
+                let backData = data.backData;
+                this.setState({
+                    cityList: backData,
+                    cityLoading: false
+                });
+            }
+        });
     }
 
     handleChange = ({fileList}) => this.setState({fileList})
@@ -79,7 +100,7 @@ class AddNews extends React.Component {
                         });
 
                         this.context.router.push('/frame/news/newsList');
-                    }else {
+                    } else {
                         message.error(data.backMsg);
                     }
 
@@ -92,7 +113,7 @@ class AddNews extends React.Component {
     }
 
     render() {
-        let {fileList, editorState, loading} = this.state;
+        let {fileList, editorState, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -131,6 +152,26 @@ class AddNews extends React.Component {
                                                     <Button><Icon type="upload"/> 上传</Button>}
                                             </Upload>
                                         )}
+                                    </FormItem>
+                                </Col>
+                                <Col span={12}>
+                                    <FormItem
+                                        label="城市选择"
+                                        {...formItemLayout}
+                                    >
+                                        <Spin spinning={cityLoading} indicator={<Icon type="loading"/>}>
+                                            {getFieldDecorator('cityId', {
+                                                rules: [{required: true, message: '城市不能为空!'}],
+                                            })(
+                                                <Select>
+                                                    {
+                                                        cityList.map(item => {
+                                                            return (<Option key={item.id} value={item.id}>{item.cityName}</Option>)
+                                                        })
+                                                    }
+                                                </Select>
+                                            )}
+                                        </Spin>
                                     </FormItem>
                                 </Col>
                             </Row>

@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
-import '../residence.less';
+import '../index.less';
 import ZZEditor from '../../../components/zzEditor/zzEditor';
 
 import {EditorState, convertFromRaw, convertToRaw, ContentState} from 'draft-js';
