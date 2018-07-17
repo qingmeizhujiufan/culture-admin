@@ -35,7 +35,7 @@ import FolkloreGuide from '../modules/cultureShow/component/folkloreGuide';
 import FolkloreGoods from '../modules/cultureShow/component/folkloreGoods';
 import AddHealthLife from '../modules/cultureShow/component/addHealthLife';
 import EditResidenceHealth from '../modules/cultureShow/component/editHealth';
-import AddBall from '../modules/cultureShow/component/addBall';
+import AddCulture from '../modules/cultureShow/component/addCulture';
 import EditBall from '../modules/cultureShow/component/editBall';
 /* 新闻模块 */
 import NewsList from '../modules/news/component/newsList';
@@ -79,7 +79,7 @@ module.exports = (
             <route path="cultureShow/folkloreGoods" component={FolkloreGoods} />
             <route path="cultureShow/addHealthLife" component={AddHealthLife} />
             <route path="cultureShow/editHealth/:id" component={EditResidenceHealth} />
-            <route path="cultureShow/addBall" component={AddBall} />
+            <route path="cultureShow/add" component={AddCulture} />
             <route path="cultureShow/editBall/:id" component={EditBall} />
             <route path="news/newsList" component={NewsList} />
             <route path="news/newsList/edit/:id" component={EditNews} />
