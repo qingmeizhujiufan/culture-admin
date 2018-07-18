@@ -83,7 +83,7 @@ class AddCulture extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.cultureCover = values.newsCover.map(item => {
+                values.cultureCover = values.cultureCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
                 values.cultureContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
