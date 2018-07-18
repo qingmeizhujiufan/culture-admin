@@ -29,14 +29,9 @@ import AddServiceAndHoliday from '../modules/taste/component/addServiceAndHolida
 import EditServiceAndHoliday from '../modules/taste/component/editServiceAndHoliday';
 import OrderDetailInfo from '../modules/taste/component/orderDetailInfo';
 /* 文化展示管理 */
-import RegionalFolklore from '../modules/cultureShow/component/regionalFolklore';
-import FolkloreShow from '../modules/cultureShow/component/folkloreShow';
-import FolkloreGuide from '../modules/cultureShow/component/folkloreGuide';
-import FolkloreGoods from '../modules/cultureShow/component/folkloreGoods';
-import AddHealthLife from '../modules/cultureShow/component/addHealthLife';
-import EditResidenceHealth from '../modules/cultureShow/component/editHealth';
-import AddCulture from '../modules/cultureShow/component/addCulture';
-import EditBall from '../modules/cultureShow/component/editBall';
+import CultureList from '../modules/culture/component/cultureList';
+import AddCulture from '../modules/culture/component/addCulture';
+import EditCulture from '../modules/culture/component/editCulture';
 /* 新闻模块 */
 import NewsList from '../modules/news/component/newsList';
 import AddNews from '../modules/news/component/addNews';
@@ -73,14 +68,9 @@ module.exports = (
             <route path="company/addServiceAndHoliday" component={AddServiceAndHoliday} />
             <route path="company/editServiceAndHoliday/:id" component={EditServiceAndHoliday} />
             <route path="company/orderDetailInfo/:id" component={OrderDetailInfo} />
-            <route path="cultureShow/regionalFolklore" component={RegionalFolklore} />
-            <route path="cultureShow/folkloreShow" component={FolkloreShow} />
-            <route path="cultureShow/folkloreGuide" component={FolkloreGuide} />
-            <route path="cultureShow/folkloreGoods" component={FolkloreGoods} />
-            <route path="cultureShow/addHealthLife" component={AddHealthLife} />
-            <route path="cultureShow/editHealth/:id" component={EditResidenceHealth} />
-            <route path="cultureShow/add" component={AddCulture} />
-            <route path="cultureShow/editBall/:id" component={EditBall} />
+            <route path="culture/list" component={CultureList} />
+            <route path="culture/add" component={AddCulture} />
+            <route path="culture/cultureList/edit/:id" component={EditCulture} />
             <route path="news/newsList" component={NewsList} />
             <route path="news/newsList/edit/:id" component={EditNews} />
             <route path="news/addNews" component={AddNews} />

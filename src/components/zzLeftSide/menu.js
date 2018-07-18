@@ -35,28 +35,12 @@ const Menu = [
         children: [
             {
                 key: '2_1',
-                link: '/frame/cultureShow/regionalFolklore/',
-                label: '地域民俗'
+                link: '/frame/culture/list',
+                label: '文化列表'
             }, {
                 key: '2_2',
-                link: '/frame/cultureShow/folkloreShow/',
-                label: '民俗展馆及活动'
-            }, {
-                key: '2_3',
-                link: '/frame/cultureShow/folkloreGuide/',
-                label: '民俗游推荐'
-            }, {
-                key: '2_4',
-                link: '/frame/cultureShow/folkloreGoods/',
-                label: '湖北民俗商品'
-            }, {
-                key: '2_5',
-                link: '/frame/need/',
-                label: '全站搜索'
-            }, {
-                key: '2_6',
-                link: '/frame/need/',
-                label: '地图导读'
+                link: '/frame/culture/add',
+                label: '新增文化'
             }
         ]
         }, {
@@ -99,7 +83,7 @@ const Menu = [
         	children: [
         		{
         			key: '5_1',
-        			link: '/frame/cultureShow/propertyInformation',
+        			link: '/frame/culture/propertyInformation',
         			label: '房源信息管理'
         		}
         	]

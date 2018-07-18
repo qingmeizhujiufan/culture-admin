@@ -22,7 +22,7 @@ import {EditorState, convertToRaw} from 'draft-js';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const queryListUrl = restUrl.ADDR + 'culture/queryList';
+const queryListUrl = restUrl.ADDR + 'city/queryList';
 const saveUrl = restUrl.ADDR + 'culture/save';
 
 const formItemLayout = {
@@ -83,10 +83,10 @@ class AddCulture extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.newsCover = values.newsCover.map(item => {
+                values.cultureCover = values.newsCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
-                values.newsContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
+                values.cultureContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 values.creator = sessionStorage.userId;
                 console.log('handleSubmit  param === ', values);
                 this.setState({
@@ -95,11 +95,11 @@ class AddCulture extends React.Component {
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
-                            message: '新增新闻成功！',
+                            message: '新增文化成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
 
-                        this.context.router.push('/frame/news/newsList');
+                        this.context.router.push('/frame/culture/list');
                     } else {
                         message.error(data.backMsg);
                     }
@@ -122,11 +122,11 @@ class AddCulture extends React.Component {
                     <div className="breadcrumb-block">
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>新闻资讯</Breadcrumb.Item>
-                            <Breadcrumb.Item>新增新闻</Breadcrumb.Item>
+                            <Breadcrumb.Item>文化展示</Breadcrumb.Item>
+                            <Breadcrumb.Item>新增文化</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>新增新闻</h1>
+                    <h1 className='title'>新增文化</h1>
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
@@ -137,7 +137,7 @@ class AddCulture extends React.Component {
                                         label="封面图片"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('newsCover', {
+                                        {getFieldDecorator('cultureCover', {
                                             valuePropName: 'fileList',
                                             getValueFromEvent: this.normFile,
                                             rules: [{required: true, message: '封面图片不能为空!'}],
@@ -181,7 +181,7 @@ class AddCulture extends React.Component {
                                         label="名称"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('newsTitle', {
+                                        {getFieldDecorator('cultureTitle', {
                                             rules: [{required: true, message: '名称不能为空!'}],
                                         })(
                                             <Input placeholder=""/>
@@ -193,7 +193,7 @@ class AddCulture extends React.Component {
                                         label="简介"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('newsBrief', {})(
+                                        {getFieldDecorator('cultureBrief', {})(
                                             <Input.TextArea autosize={{minRows: 4, maxRows: 6}}/>
                                         )}
                                     </FormItem>

@@ -25,25 +25,25 @@ import '../index.less';
 
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
-const getLiveListUrl = restUrl.ADDR + 'news/queryListByAdmin';
-const reviewUrl = restUrl.ADDR + 'news/review';
-const delLiveUrl = restUrl.ADDR + 'news/delete';
+const getLiveListUrl = restUrl.ADDR + 'culture/queryListByAdmin';
+const reviewUrl = restUrl.ADDR + 'culture/review';
+const delLiveUrl = restUrl.ADDR + 'culture/delete';
 
-class NewsList extends React.Component {
+class CultureList extends React.Component {
     constructor(props) {
         super(props);
 
         this.columns = [{
-            title: '动态标题',
-            dataIndex: 'newsTitle',
-            key: 'newsTitle',
+            title: '标题',
+            dataIndex: 'cultureTitle',
+            key: 'cultureTitle',
             render: (text, record, index) => (
                 <Link to={this.editrouter(record.id)}>{text}</Link>
             )
         }, {
             title: '描述',
-            dataIndex: 'newsBrief',
-            key: 'newsBrief',
+            dataIndex: 'cultureBrief',
+            key: 'cultureBrief',
         }, {
             title: '新闻城市',
             width: 120,
@@ -150,7 +150,7 @@ class NewsList extends React.Component {
     }
 
     editrouter = (id) => {
-        return `/frame/news/newsList/edit/${id}`
+        return `/frame/culture/cultureList/edit/${id}`
     }
 
     onReview = (id, index) => {
@@ -220,11 +220,11 @@ class NewsList extends React.Component {
                     <div className="breadcrumb-block">
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>新闻资讯</Breadcrumb.Item>
-                            <Breadcrumb.Item>新闻列表</Breadcrumb.Item>
+                            <Breadcrumb.Item>文化展示</Breadcrumb.Item>
+                            <Breadcrumb.Item>文化列表</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>新闻列表</h1>
+                    <h1 className='title'>文化列表</h1>
                 </div>
                 <div className='pageContent'>
                     <Card loading={loading}>
@@ -240,8 +240,8 @@ class NewsList extends React.Component {
     }
 }
 
-NewsList.contextTypes = {
+CultureList.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default NewsList;
+export default CultureList;
