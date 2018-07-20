@@ -32,6 +32,8 @@ import OrderDetailInfo from '../modules/taste/component/orderDetailInfo';
 import CultureList from '../modules/culture/component/cultureList';
 import AddCulture from '../modules/culture/component/addCulture';
 import EditCulture from '../modules/culture/component/editCulture';
+import ArtList from '../modules/culture/component/artList';
+import AddArt from '../modules/culture/component/addArt';
 /* 新闻模块 */
 import NewsList from '../modules/news/component/newsList';
 import AddNews from '../modules/news/component/addNews';
@@ -68,9 +70,11 @@ module.exports = (
             <route path="company/addServiceAndHoliday" component={AddServiceAndHoliday} />
             <route path="company/editServiceAndHoliday/:id" component={EditServiceAndHoliday} />
             <route path="company/orderDetailInfo/:id" component={OrderDetailInfo} />
-            <route path="culture/list" component={CultureList} />
-            <route path="culture/add" component={AddCulture} />
+            <route path="culture/cultureList" component={CultureList} />
+            <route path="culture/addCulture" component={AddCulture} />
             <route path="culture/cultureList/edit/:id" component={EditCulture} />
+            <route path="culture/artList" component={ArtList} />
+            <route path="culture/addArt" component={AddArt} />
             <route path="news/newsList" component={NewsList} />
             <route path="news/newsList/edit/:id" component={EditNews} />
             <route path="news/addNews" component={AddNews} />

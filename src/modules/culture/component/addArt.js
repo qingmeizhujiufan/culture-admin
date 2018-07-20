@@ -23,14 +23,14 @@ import {EditorState, convertToRaw} from 'draft-js';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const queryListUrl = restUrl.ADDR + 'city/queryList';
-const saveUrl = restUrl.ADDR + 'culture/save';
+const saveUrl = restUrl.ADDR + 'art/save';
 
 const formItemLayout = {
     labelCol: {span: 6},
     wrapperCol: {span: 12},
 };
 
-class AddCulture extends React.Component {
+class AddArt extends React.Component {
     constructor(props) {
         super(props);
 
@@ -83,10 +83,10 @@ class AddCulture extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.cultureCover = values.cultureCover.map(item => {
+                values.artCover = values.artCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
-                values.cultureContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
+                values.artContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 values.creator = sessionStorage.userId;
                 console.log('handleSubmit  param === ', values);
                 this.setState({
@@ -95,11 +95,11 @@ class AddCulture extends React.Component {
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
-                            message: '新增文化成功！',
+                            message: '新增艺术品成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
 
-                        this.context.router.push('/frame/culture/list');
+                        this.context.router.push('/frame/culture/artList');
                     } else {
                         message.error(data.backMsg);
                     }
@@ -123,10 +123,10 @@ class AddCulture extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>新增文化</Breadcrumb.Item>
+                            <Breadcrumb.Item>新增艺术品</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>新增文化</h1>
+                    <h1 className='title'>新增艺术品</h1>
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
@@ -137,7 +137,7 @@ class AddCulture extends React.Component {
                                         label="封面图片"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('cultureCover', {
+                                        {getFieldDecorator('artCover', {
                                             valuePropName: 'fileList',
                                             getValueFromEvent: this.normFile,
                                             rules: [{required: true, message: '封面图片不能为空!'}],
@@ -181,7 +181,7 @@ class AddCulture extends React.Component {
                                         label="名称"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('cultureTitle', {
+                                        {getFieldDecorator('artTitle', {
                                             rules: [{required: true, message: '名称不能为空!'}],
                                         })(
                                             <Input placeholder=""/>
@@ -193,7 +193,7 @@ class AddCulture extends React.Component {
                                         label="简介"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('cultureBrief', {})(
+                                        {getFieldDecorator('artBrief', {})(
                                             <Input.TextArea autosize={{minRows: 4, maxRows: 6}}/>
                                         )}
                                     </FormItem>
@@ -206,7 +206,7 @@ class AddCulture extends React.Component {
                             </Row>
                             <div className='toolbar'>
                                 <div className='pull-right'>
-                                    <Button size='large' type="primary" htmlType="submit" loading={loading}>提交</Button>
+                                    <Button size="large" type="primary" htmlType="submit" loading={loading}>提交</Button>
                                 </div>
                             </div>
                         </Form>
@@ -217,9 +217,9 @@ class AddCulture extends React.Component {
     }
 }
 
-const WrappedAddCulture = Form.create()(AddCulture);
-AddCulture.contextTypes = {
+const WrappedAddArt = Form.create()(AddArt);
+AddArt.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default WrappedAddCulture;
+export default WrappedAddArt;
