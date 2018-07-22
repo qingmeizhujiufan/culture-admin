@@ -34,6 +34,7 @@ import AddCulture from '../modules/culture/component/addCulture';
 import EditCulture from '../modules/culture/component/editCulture';
 import ArtList from '../modules/culture/component/artList';
 import AddArt from '../modules/culture/component/addArt';
+import EditArt from '../modules/culture/component/editArt';
 /* 新闻模块 */
 import NewsList from '../modules/news/component/newsList';
 import AddNews from '../modules/news/component/addNews';
@@ -75,6 +76,7 @@ module.exports = (
             <route path="culture/cultureList/edit/:id" component={EditCulture} />
             <route path="culture/artList" component={ArtList} />
             <route path="culture/addArt" component={AddArt} />
+            <route path="culture/artList/edit/:id" component={EditArt} />
             <route path="news/newsList" component={NewsList} />
             <route path="news/newsList/edit/:id" component={EditNews} />
             <route path="news/addNews" component={AddNews} />

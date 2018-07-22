@@ -17,10 +17,13 @@ import {
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
+import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const queryListUrl = restUrl.ADDR + 'city/queryList';
+const queryDetailUrl = restUrl.ADDR + 'art/queryDetail';
 const saveUrl = restUrl.ADDR + 'art/save';
 
 const formItemLayout = {
@@ -28,13 +31,13 @@ const formItemLayout = {
     wrapperCol: {span: 12},
 };
 
-class AddArt extends React.Component {
+class EditArt extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            data: {},
             fileList: [],
-            fileContentList: [],
             cityList: [],
             loading: false,
             cityLoading: false
@@ -43,6 +46,7 @@ class AddArt extends React.Component {
 
     componentDidMount = () => {
         this.getList();
+        this.queryDetail();
     }
 
     getList = () => {
@@ -61,9 +65,50 @@ class AddArt extends React.Component {
         });
     }
 
-    handleChange = ({fileList}) => this.setState({fileList})
+    queryDetail = () => {
+        this.setState({
+            loading: true
+        });
+        let param = {};
+        param.id = this.props.params.id;
+        ajax.getJSON(queryDetailUrl, param, data => {
+            if (data.success) {
+                let backData = data.backData;
+                backData.artCover.map((item, index) => {
+                    item.uid = item.id;
+                    item.name = item.fileName;
+                    item.status = 'done';
+                    item.url = restUrl.BASE_HOST + item.filePath;
+                    item.response = {
+                        data: {
+                            id: item.id
+                        }
+                    };
+                });
 
-    handleContentChange = ({fileList}) => this.setState({fileContentList: fileList});
+                backData.artContent.map((item, index) => {
+                    item.uid = item.id;
+                    item.name = item.fileName;
+                    item.status = 'done';
+                    item.url = restUrl.BASE_HOST + item.filePath;
+                    item.response = {
+                        data: {
+                            id: item.id
+                        }
+                    };
+                });
+
+                this.setState({
+                    data: backData,
+                    loading: false
+                });
+            } else {
+
+            }
+        });
+    }
+
+    handleChange = ({fileList}) => this.setState({fileList})
 
     normFile = (e) => {
         console.log('Upload event:', e);
@@ -77,6 +122,7 @@ class AddArt extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                values.id = this.props.params.id;
                 values.artCover = values.artCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
@@ -91,11 +137,9 @@ class AddArt extends React.Component {
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
-                            message: '新增艺术品成功！',
+                            message: '修改艺术品信息成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-
-                        this.context.router.push('/frame/culture/artList');
                     } else {
                         message.error(data.backMsg);
                     }
@@ -109,7 +153,7 @@ class AddArt extends React.Component {
     }
 
     render() {
-        let {fileList, fileContentList, loading, cityList, cityLoading} = this.state;
+        let {data, fileList, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -137,6 +181,7 @@ class AddArt extends React.Component {
                                             valuePropName: 'fileList',
                                             getValueFromEvent: this.normFile,
                                             rules: [{required: true, message: '封面图片不能为空!'}],
+                                            initialValue: data.artCover
                                         })(
                                             <Upload
                                                 action={restUrl.UPLOAD}
@@ -144,7 +189,7 @@ class AddArt extends React.Component {
                                                 className='upload-list-inline'
                                                 onChange={this.handleChange}
                                             >
-                                                {fileList.length >= 1 ? null :
+                                                {fileList.length >= 3 ? null :
                                                     <Button><Icon type="upload"/> 上传</Button>}
                                             </Upload>
                                         )}
@@ -158,6 +203,7 @@ class AddArt extends React.Component {
                                         <Spin spinning={cityLoading} indicator={<Icon type="loading"/>}>
                                             {getFieldDecorator('cityId', {
                                                 rules: [{required: true, message: '城市不能为空!'}],
+                                                initialValue: data.cityId
                                             })(
                                                 <Select>
                                                     {
@@ -180,6 +226,7 @@ class AddArt extends React.Component {
                                     >
                                         {getFieldDecorator('artTitle', {
                                             rules: [{required: true, message: '名称不能为空!'}],
+                                            initialValue: data.artTitle
                                         })(
                                             <Input placeholder=""/>
                                         )}
@@ -192,6 +239,7 @@ class AddArt extends React.Component {
                                     >
                                         {getFieldDecorator('artMoney', {
                                             rules: [{required: true, message: '金额不能为空!'}],
+                                            initialValue: data.artMoney
                                         })(
                                             <InputNumber
                                                 min={0}
@@ -211,7 +259,9 @@ class AddArt extends React.Component {
                                         label="购买链接"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('buyUrl', {})(
+                                        {getFieldDecorator('buyUrl', {
+                                            initialValue: data.buyUrl
+                                        })(
                                             <Input placeholder=""/>
                                         )}
                                     </FormItem>
@@ -221,7 +271,9 @@ class AddArt extends React.Component {
                                         label="简介"
                                         {...formItemLayout}
                                     >
-                                        {getFieldDecorator('artBrief', {})(
+                                        {getFieldDecorator('artBrief', {
+                                            initialValue: data.artBrief
+                                        })(
                                             <Input.TextArea autosize={{minRows: 4, maxRows: 6}}/>
                                         )}
                                     </FormItem>
@@ -238,13 +290,13 @@ class AddArt extends React.Component {
                                             valuePropName: 'fileList',
                                             getValueFromEvent: this.normFile,
                                             rules: [{required: true, message: '详情图片不能为空!'}],
+                                            initialValue: data.artContent
                                         })(
                                             <Upload
                                                 action={restUrl.UPLOAD}
                                                 multiple
                                                 listType={'picture'}
                                                 className='upload-list-inline'
-                                                onChange={this.handleContentChange}
                                             >
                                                 <Button><Icon type="upload"/> 上传</Button>
                                             </Upload>
@@ -265,9 +317,9 @@ class AddArt extends React.Component {
     }
 }
 
-const WrappedAddArt = Form.create()(AddArt);
-AddArt.contextTypes = {
+const WrappedEditArt = Form.create()(EditArt);
+EditArt.contextTypes = {
     router: React.PropTypes.object
 }
 
-export default WrappedAddArt;
+export default WrappedEditArt;

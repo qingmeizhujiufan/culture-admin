@@ -32,7 +32,6 @@ class Index extends React.Component {
     }
 
     componentDidMount = () => {
-        window.dispatchEvent(new Event('resize'));
     }
 
     render() {

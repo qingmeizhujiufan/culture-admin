@@ -1,13 +1,11 @@
 import React from 'react';
-import {Icon, Divider, Breadcrumb, Spin, Card, Button} from 'antd';
+import {Icon, Divider, Breadcrumb, Spin, Card, Radio} from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import {
     Bar,
 } from 'Comps/Charts';
 import '../index.less';
-
-const ButtonGroup = Button.Group;
 
 const getNewlyUrl = restUrl.ADDR + 'user/getNewlyRegisterUserData';
 
@@ -18,7 +16,7 @@ class Index extends React.Component {
         this.state = {
             data: [],
             type: 'week',
-            loading: true,
+            loading: false
         };
     }
 
@@ -32,6 +30,7 @@ class Index extends React.Component {
     getNewlyData = () => {
         let param = {};
         param.type = this.state.type;
+        this.setState({loading: true});
         ajax.getJSON(getNewlyUrl, param, data => {
             if(data.success){
                 data = data.backData;
@@ -43,17 +42,19 @@ class Index extends React.Component {
                     });
                 });
                 this.setState({
-                    data: chartData,
-                    loading: false
+                    data: chartData
                 });
             }else {
                 message.error(data.backMsg);
             }
+            this.setState({loading: false});
         });
     }
 
-    changeType = type => {
-        this.setState({type: type}, () => {
+    changeType = e => {
+        console.log('e === ', e.target);
+        if(this.state.type === e.target.value) return;
+        this.setState({type: e.target.value}, () => {
             this.getNewlyData();
         });
     }
@@ -77,15 +78,15 @@ class Index extends React.Component {
                     <Card
                         title="最近注册用户统计"
                         extra={(
-                            <ButtonGroup>
-                                <Button onClick={() => this.changeType('threeday')}>最近三天</Button>
-                                <Button onClick={() => this.changeType('week')}>最近一周</Button>
-                                <Button>最近一个月</Button>
-                                <Button>最近半年</Button>
-                            </ButtonGroup>
+                            <Radio.Group defaultValue="week" buttonStyle="solid" onChange={e => this.changeType(e)}>
+                                <Radio.Button value="threeday">最近三天</Radio.Button>
+                                <Radio.Button value="week">最近一周</Radio.Button>
+                                <Radio.Button value="month">最近一个月</Radio.Button>
+                                <Radio.Button value="halfyear">最近半年</Radio.Button>
+                            </Radio.Group>
                         )}
                     >
-                        <Spin spinning={loading}>
+                        <Spin spinning={loading} size='large'>
                             <Bar height={400} title="最近一周注册用户统计" data={data} />
                         </Spin>
                     </Card>

@@ -16,7 +16,8 @@ import {
     Card,
     message,
     Table,
-    Modal
+    Modal,
+    Switch
 } from 'antd';
 import _ from 'lodash';
 import restUrl from 'RestUrl';
@@ -28,13 +29,14 @@ const TabPane = Tabs.TabPane;
 const queryListUrl = restUrl.ADDR + 'art/queryListByAdmin';
 const reviewUrl = restUrl.ADDR + 'art/review';
 const delLiveUrl = restUrl.ADDR + 'art/delete';
+const settingRecommendUrl = restUrl.ADDR + 'art/settingRecommend';
 
 class ArtList extends React.Component {
     constructor(props) {
         super(props);
 
         this.columns = [{
-            title: '标题',
+            title: '艺术品名称',
             width: 450,
             dataIndex: 'artTitle',
             key: 'artTitle',
@@ -72,6 +74,20 @@ class ArtList extends React.Component {
                     );
                 }
             }
+        }, {
+            title: '是否推荐',
+            width: 120,
+            align: 'center',
+            dataIndex: 'isRecommend',
+            key: 'isRecommend',
+            render: (text, record, index) => (
+                <Switch
+                    checkedChildren="是"
+                    unCheckedChildren="否"
+                    checked={text === 1 ? true : false}
+                    onChange={checked => this.onRecommendChange(checked, record, index)}
+                />
+            )
         }, {
             title: '创建人',
             width: 120,
@@ -146,12 +162,34 @@ class ArtList extends React.Component {
         });
     }
 
+    onRecommendChange = (checked, record, index) => {
+        const param = {};
+        param.id = record.id;
+        param.isRecommend = checked ? 1 : 0;
+        ajax.postJSON(settingRecommendUrl, JSON.stringify(param), data => {
+            if (data.success) {
+                notification.open({
+                    message: '推荐设置成功！',
+                    icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                });
+                const dataSource = [...this.state.dataSource];
+                dataSource[index].isRecommend = checked ? 1 : 0;
+
+                this.setState({
+                    dataSource,
+                });
+            } else {
+                message.warning(data.backMsg);
+            }
+        })
+    }
+
     detailrouter = (id) => {
         return `/frame/dish/dishDetailInfo/${id}`
     }
 
     editrouter = (id) => {
-        return `/frame/culture/cultureList/edit/${id}`
+        return `/frame/culture/artList/edit/${id}`
     }
 
     onReview = (id, index) => {
