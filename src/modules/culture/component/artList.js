@@ -37,7 +37,8 @@ class ArtList extends React.Component {
 
         this.columns = [{
             title: '艺术品名称',
-            width: 450,
+            width: 250,
+            align: 'center',
             dataIndex: 'artTitle',
             key: 'artTitle',
             render: (text, record, index) => (
