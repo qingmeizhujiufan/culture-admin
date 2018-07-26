@@ -76,7 +76,20 @@ class Taste extends React.Component {
             align: 'center',
             render: (text, record, index) => (
                 <div>
-                    <a onClick={() => this.onReview(record.id, index)}>审核</a>
+                    <Dropdown
+                        overlay={
+                            <Menu>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, 1)}>审核通过</a>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, -1)}>不合格</a>
+                                </Menu.Item>
+                            </Menu>
+                        }
+                    >
+                        <a className="ant-dropdown-link">审核</a>
+                    </Dropdown>
                     <Divider type="vertical"/>
                     <Dropdown
                         overlay={
@@ -155,15 +168,16 @@ class Taste extends React.Component {
         return `/frame/company/editServiceAndHoliday/${id}`
     }
 
-    onReview = (id, index) => {
+    onReview = (record, index, state) => {
         Modal.confirm({
-            title: '提示',
-            content: '确认审核通过吗',
+            title: '审核图片',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
                 let param = {};
-                param.id = id;
+                param.id = record.id;
+                param.state = state;
+                param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
                         notification.open({

@@ -117,7 +117,6 @@ class ZZLeftSide extends React.Component {
             >
                 <div className="logo">
                     <Link to="/">
-                        <img src={crh} alt="logo"/>
                         <h1>ADMIN</h1>
                     </Link>
                 </div>
@@ -126,7 +125,7 @@ class ZZLeftSide extends React.Component {
                         theme="dark"
                         mode="inline"
                         defaultSelectedKeys={[defaultSelectedKeys]}
-                        defaultOpenKeys={['2']}
+                        defaultOpenKeys={['1', '2', '3', '4', '5', '6']}
                     >
                         {this.buildMenu()}
                     </Menu>

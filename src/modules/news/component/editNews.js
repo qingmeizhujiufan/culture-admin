@@ -256,7 +256,7 @@ class EditNews extends React.Component {
                                 </Row>
                                 <div className='toolbar'>
                                     <div className='pull-right'>
-                                        <Button type="primary" htmlType="submit">确认</Button>
+                                        <Button type="primary" size={'large'} htmlType="submit">确认</Button>
                                     </div>
                                 </div>
                             </Form>

@@ -77,10 +77,6 @@ const Menu = [
                 key: '4_1',
                 link: '/frame/taste/manage',
                 label: '图片管理'
-            }, {
-                key: '4_2',
-                link: '/frame/taste/webSiteResident',
-                label: '上传图片'
             }
         ]
     }, {
@@ -91,8 +87,8 @@ const Menu = [
         children: [
             {
                 key: '5_1',
-                link: '/frame/culture/propertyInformation',
-                label: '房源信息管理'
+                link: '/frame/',
+                label: '在线视频管理'
             }
         ]
     }, {

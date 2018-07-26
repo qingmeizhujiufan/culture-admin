@@ -206,7 +206,7 @@ class AddNews extends React.Component {
                             </Row>
                             <div className='toolbar'>
                                 <div className='pull-right'>
-                                    <Button type="primary" htmlType="submit" loading={loading}>提交</Button>
+                                    <Button type="primary" size='large' htmlType="submit" loading={loading}>提交</Button>
                                 </div>
                             </div>
                         </Form>
