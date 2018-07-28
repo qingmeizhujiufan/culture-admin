@@ -59,7 +59,7 @@ class Taste extends React.Component {
                     );
                 } else if (text === -1) {
                     return (
-                        <span><Badge status="success"/>不合格</span>
+                        <span><Badge status="error"/>不合格</span>
                     );
                 }
             }
@@ -185,7 +185,7 @@ class Taste extends React.Component {
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
                         const dataSource = [...this.state.dataSource];
-                        dataSource[index].state = 1;
+                        dataSource[index].state = state;
 
                         this.setState({
                             dataSource,
