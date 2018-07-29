@@ -87,9 +87,13 @@ const Menu = [
         children: [
             {
                 key: '5_1',
-                link: '/frame/',
-                label: '在线视频管理'
-            }
+                link: '/frame/video/list',
+                label: '在线视频列表'
+            },{
+                key: '5_2',
+                link: '/frame/video/list/add',
+                label: '新增视频'
+            },
         ]
     }, {
         key: '6',
