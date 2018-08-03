@@ -22,6 +22,7 @@ import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
 import '../index.less';
+import {ZZCard} from 'Comps/zz-antD';
 
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
@@ -34,8 +35,9 @@ class NewsList extends React.Component {
         super(props);
 
         this.columns = [{
-            title: '动态标题',
+            title: '新闻标题',
             dataIndex: 'newsTitle',
+            width: 250,
             key: 'newsTitle',
             render: (text, record, index) => (
                 <Link to={this.editrouter(record.id)}>{text}</Link>
@@ -93,7 +95,20 @@ class NewsList extends React.Component {
             width: 120,
             render: (text, record, index) => (
                 <div>
-                    <a onClick={() => this.onReview(record.id, index)}>审核</a>
+                    <Dropdown
+                        overlay={
+                            <Menu>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, 1)}>审核通过</a>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, -1)}>不合格</a>
+                                </Menu.Item>
+                            </Menu>
+                        }
+                    >
+                        <a className="ant-dropdown-link">审核</a>
+                    </Dropdown>
                     <Divider type="vertical"/>
                     <Dropdown
                         overlay={
@@ -153,15 +168,16 @@ class NewsList extends React.Component {
         return `/frame/news/newsList/edit/${id}`
     }
 
-    onReview = (id, index) => {
+    onReview = (record, index, state) => {
         Modal.confirm({
-            title: '提示',
-            content: '确认审核通过吗',
+            title: '审核新闻',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
                 let param = {};
-                param.id = id;
+                param.id = record.id;
+                param.state = state;
+                param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
                         notification.open({
@@ -169,7 +185,7 @@ class NewsList extends React.Component {
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
                         const dataSource = [...this.state.dataSource];
-                        dataSource[index].state = 1;
+                        dataSource[index].state = state;
 
                         this.setState({
                             dataSource,
@@ -227,13 +243,23 @@ class NewsList extends React.Component {
                     <h1 className='title'>新闻列表</h1>
                 </div>
                 <div className='pageContent'>
-                    <Card loading={loading}>
+                    <ZZCard loading={loading}>
+                        <Row>
+                            <Col span={8}>
+                                <Search
+                                    placeholder="搜索新闻关键字"
+                                    enterButton={<span><Icon type="search"></Icon> 搜索</span>}
+                                    size="large"
+                                    onSearch={value => console.log(value)}
+                                />
+                            </Col>
+                        </Row>
                         <Table
                             bordered={true}
                             dataSource={dataSource}
                             columns={this.columns}
                         />
-                    </Card>
+                    </ZZCard>
                 </div>
             </div>
         );
