@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import PropTypes from 'prop-types';
 import {Layout, Row, Col, Affix, Icon, Input, Dropdown, Menu, Avatar, Tooltip, notification} from 'antd';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
@@ -81,7 +82,7 @@ class ZZHeader extends React.Component {
 }
 
 ZZHeader.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default ZZHeader;

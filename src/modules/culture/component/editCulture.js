@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -270,7 +271,7 @@ class EditCulture extends React.Component {
 
 const WrappedEditCulture = Form.create()(EditCulture);
 EditCulture.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedEditCulture;

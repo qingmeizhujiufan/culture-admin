@@ -1,13 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router';
+import PropTypes from 'prop-types';
 import {Layout, Icon, Menu} from 'antd';
 import {Scrollbars} from 'react-custom-scrollbars';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import menuTree from './menu';
 import './zzLeftSide.less';
-
-import crh from 'Img/crh.png';
 
 const {Sider} = Layout;
 const SubMenu = Menu.SubMenu;
@@ -136,7 +135,7 @@ class ZZLeftSide extends React.Component {
 }
 
 ZZLeftSide.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default ZZLeftSide;

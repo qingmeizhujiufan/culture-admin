@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -270,7 +271,7 @@ class EditNews extends React.Component {
 
 const WrappedEditLive = Form.create()(EditNews);
 EditNews.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedEditLive;

@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Row, Col, Table, Icon, Divider, Breadcrumb, Menu, Dropdown, Spin, Card, Tabs, Badge, Button, List} from 'antd';
+import PropTypes from 'prop-types';
+import {Row, Col, Icon, Divider, Breadcrumb, Menu, Dropdown, Spin, Tabs, Badge, Button, List} from 'antd';
+import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
@@ -254,16 +256,16 @@ class Taste extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={24}>
                         <Col span={16}>
-                            <Card title='图片列表' loading={loading_1}>
-                                <Table
+                            <ZZCard title='图片列表' loading={loading_1}>
+                                <ZZTable
                                     bordered={true}
                                     dataSource={dataSource}
                                     columns={this.columns}
                                 />
-                            </Card>
+                            </ZZCard>
                         </Col>
                         <Col span={8}>
-                            <Card title='排行榜TOP 10' className='ranking-list'>
+                            <ZZCard title='排行榜TOP 10' className='ranking-list'>
                                 <Tabs defaultActiveKey="1">
                                     <TabPane tab="点赞排行" key="1">
                                         <Spin spinning={loading_2}>
@@ -302,7 +304,7 @@ class Taste extends React.Component {
                                         </Spin>
                                     </TabPane>
                                 </Tabs>
-                            </Card>
+                            </ZZCard>
                         </Col>
                     </Row>
                 </div>
@@ -312,7 +314,7 @@ class Taste extends React.Component {
 }
 
 Taste.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default Taste;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -194,7 +195,7 @@ class EditAd extends React.Component {
 
 const WrappedEditAd = Form.create()(EditAd);
 EditAd.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedEditAd;

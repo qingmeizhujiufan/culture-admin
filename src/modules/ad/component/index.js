@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -241,7 +242,7 @@ class Ad extends React.Component {
 }
 
 Ad.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default Ad;

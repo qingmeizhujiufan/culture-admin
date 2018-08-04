@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import PropTypes from 'prop-types';
 import {
     Row,
     Col,
@@ -13,16 +14,16 @@ import {
     notification,
     Spin,
     Tabs,
-    Card,
     message,
-    Table,
-    Modal
+    Modal,
+    Radio,
+    Button
 } from 'antd';
 import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
 import '../index.less';
-import {ZZCard} from 'Comps/zz-antD';
+import {ZZCard, ZZTable} from 'Comps/zz-antD';
 
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
@@ -154,7 +155,9 @@ class NewsList extends React.Component {
                 });
                 this.setState({
                     dataSource: backData,
-                    loading: false
+                    loading: false,
+                    searchText: '',
+                    state: 999
                 });
             }
         });
@@ -228,10 +231,14 @@ class NewsList extends React.Component {
     }
 
     render() {
-        const {loading, dataSource} = this.state;
+        const {loading, dataSource, searchText, state} = this.state;
+        let n_dataSource = [...dataSource].filter(item => item.newsTitle.indexOf(searchText) > -1);
+        if(state !== 999){
+            n_dataSource = n_dataSource.filter(item => item.state === state);
+        }
 
         return (
-            <div className="zui-content">
+            <div className="zui-content page-newsList">
                 <div className='pageHeader'>
                     <div className="breadcrumb-block">
                         <Breadcrumb>
@@ -241,22 +248,32 @@ class NewsList extends React.Component {
                         </Breadcrumb>
                     </div>
                     <h1 className='title'>新闻列表</h1>
-                </div>
-                <div className='pageContent'>
-                    <ZZCard loading={loading}>
-                        <Row>
+                    <div className='search-area'>
+                        <Row type='flex' justify="space-around" align="middle">
                             <Col span={8}>
                                 <Search
                                     placeholder="搜索新闻关键字"
-                                    enterButton={<span><Icon type="search"></Icon> 搜索</span>}
+                                    enterButton
                                     size="large"
-                                    onSearch={value => console.log(value)}
+                                    onSearch={searchText => this.setState({searchText})}
                                 />
                             </Col>
                         </Row>
-                        <Table
-                            bordered={true}
-                            dataSource={dataSource}
+                    </div>
+                </div>
+                <div className='pageContent'>
+                    <ZZCard
+                        loading={loading}
+                        title={<Radio.Group value={state} onChange={e => this.setState({state: e.target.value})}>
+                            <Radio.Button value={999}>所有</Radio.Button>
+                            <Radio.Button value={0}>待审核</Radio.Button>
+                            <Radio.Button value={1}>审核通过</Radio.Button>
+                            <Radio.Button value={-1}>不合格</Radio.Button>
+                        </Radio.Group>}
+                        extra={<Button type="primary" icon='plus' href='#/frame/news/addNews'>新增新闻</Button>}
+                    >
+                        <ZZTable
+                            dataSource={n_dataSource}
                             columns={this.columns}
                         />
                     </ZZCard>
@@ -267,7 +284,7 @@ class NewsList extends React.Component {
 }
 
 NewsList.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default NewsList;

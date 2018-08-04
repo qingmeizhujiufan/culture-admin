@@ -101,8 +101,8 @@ class Login extends React.Component {
 
 const WrappedLogin = Form.create()(Login);
 
-Login.contextTypes = {
-    router: React.PropTypes.object
-}
+// Login.contextTypes = {
+//     router: React.PropTypes.object
+// }
 
 export default WrappedLogin;

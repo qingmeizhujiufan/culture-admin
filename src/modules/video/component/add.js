@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -189,7 +190,7 @@ class AddVideo extends React.Component {
 
 const WrappedAddVideo = Form.create()(AddVideo);
 AddVideo.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedAddVideo;

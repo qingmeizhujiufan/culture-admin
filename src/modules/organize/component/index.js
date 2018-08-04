@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -301,7 +302,7 @@ class Organize extends React.Component {
 
 const WrappedOrganize = Form.create()(Organize);
 Organize.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedOrganize;

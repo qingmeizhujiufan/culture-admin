@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import PropTypes from 'prop-types';
 import {
     Row,
     Col,
@@ -248,7 +249,7 @@ class VideoList extends React.Component {
 }
 
 VideoList.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default VideoList;

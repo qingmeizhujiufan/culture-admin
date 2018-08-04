@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Icon, Divider, Breadcrumb, Spin, Card, Radio} from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
@@ -97,7 +98,7 @@ class Index extends React.Component {
 }
 
 Index.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default Index;

@@ -6,6 +6,7 @@ import Frame from '../modules/Frame';
 
 /* 首页 */
 import Home from '../modules/home/component/home';
+import SliderSetting from '../modules/home/component/sliderSetting';
 /* 登录 */
 import Login from '../modules/login/component/login';
 /* 广告模块 */
@@ -14,10 +15,6 @@ import EditAd from '../modules/ad/component/editAd';
 import AddAd from '../modules/ad/component/addAd';
 /* 公司信息管理 */
 import Taste from '../modules/taste/component';
-import Website2 from '../modules/taste/component/website2';
-import AddServiceAndHoliday from '../modules/taste/component/addServiceAndHoliday';
-import EditServiceAndHoliday from '../modules/taste/component/editServiceAndHoliday';
-import OrderDetailInfo from '../modules/taste/component/orderDetailInfo';
 /* 文化展示管理 */
 import CultureList from '../modules/culture/component/cultureList';
 import AddCulture from '../modules/culture/component/addCulture';
@@ -48,14 +45,11 @@ module.exports = (
         <Route path="/frame" component={Frame}>
             <IndexRoute component={Home}/>
             <route path="home" component={Home} />
+            <route path="sliderSetting" component={SliderSetting} />
             <route path="ad/platform" component={Ad} />
             <route path="ad/platform/edit/:id" component={EditAd} />
             <route path="ad/platform/add" component={AddAd} />
             <route path="taste/manage" component={Taste} />
-            <route path="company/webSiteResident" component={Website2} />
-            <route path="company/addServiceAndHoliday" component={AddServiceAndHoliday} />
-            <route path="company/editServiceAndHoliday/:id" component={EditServiceAndHoliday} />
-            <route path="company/orderDetailInfo/:id" component={OrderDetailInfo} />
             <route path="culture/cultureList" component={CultureList} />
             <route path="culture/addCulture" component={AddCulture} />
             <route path="culture/cultureList/edit/:id" component={EditCulture} />

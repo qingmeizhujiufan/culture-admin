@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -219,7 +220,7 @@ class AddCulture extends React.Component {
 
 const WrappedAddCulture = Form.create()(AddCulture);
 AddCulture.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedAddCulture;

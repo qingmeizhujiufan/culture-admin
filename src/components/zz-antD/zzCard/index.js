@@ -4,7 +4,6 @@ import './index.less';
 
 class ZZCard extends React.Component {
     render() {
-        console.log({...this.props});
         return (
             <Card
                 className='zzCard'

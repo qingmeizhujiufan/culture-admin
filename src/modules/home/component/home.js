@@ -200,8 +200,8 @@ class Index extends React.Component {
     }
 }
 
-Index.contextTypes = {
-    router: React.PropTypes.object
-}
+// Index.contextTypes = {
+//     router: React.PropTypes.object
+// }
 
 export default Index;

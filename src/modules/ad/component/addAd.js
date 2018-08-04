@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -154,7 +155,7 @@ class AddAd extends React.Component {
 
 const WrappedAddAd = Form.create()(AddAd);
 AddAd.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedAddAd;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -267,7 +268,7 @@ class AddArt extends React.Component {
 
 const WrappedAddArt = Form.create()(AddArt);
 AddArt.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedAddArt;

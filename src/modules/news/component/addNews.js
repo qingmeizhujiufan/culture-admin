@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Form,
     Row,
@@ -219,7 +220,7 @@ class AddNews extends React.Component {
 
 const WrappedAddLive = Form.create()(AddNews);
 AddNews.contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
 }
 
 export default WrappedAddLive;

@@ -25,6 +25,10 @@ const Menu = [
                 key: '1_5',
                 link: '/frame/city',
                 label: '城市管理'
+            }, {
+                key: '1_6',
+                link: '/frame/sliderSetting',
+                label: '网站文化展示图设置'
             }
         ]
     }, {
