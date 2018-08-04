@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Table, Icon, Divider, Breadcrumb, Spin, Card, Button, message, Alert } from 'antd';
+import {Icon, Divider, Breadcrumb, Spin, Button, message, Alert } from 'antd';
+import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
@@ -106,13 +107,13 @@ class Index extends React.Component {
                     <h1 className='title'>用户列表</h1>
                 </div>
                 <div className='pageContent'>
-                    <Card
+                    <ZZCard
                         title="用户列表"
                     >
                         <Button type='primary' icon='close' loading={delLoading} style={{marginBottom: 15}} onClick={() => this.batchDel()}>批量删除</Button>
                         <Alert style={{marginBottom: 15}} message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a style={{marginLeft: 20}}>清空</a></span>} type="info" showIcon />
                         <Spin spinning={loading}>
-                            <Table
+                            <ZZTable
                                 bordered={true}
                                 dataSource={dataSource}
                                 columns={columns}
@@ -120,7 +121,7 @@ class Index extends React.Component {
                                 rowSelection={rowSelection}
                             />
                         </Spin>
-                    </Card>
+                    </ZZCard>
                 </div>
             </div>
         );

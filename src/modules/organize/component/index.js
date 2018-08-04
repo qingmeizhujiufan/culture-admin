@@ -10,14 +10,13 @@ import {
     Select,
     Divider,
     Button,
-    Card,
     notification,
     Tree,
     Spin,
     Tabs,
-    Table,
     message
 } from 'antd';
+import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import util from 'Utils/util';
@@ -212,15 +211,15 @@ class Organize extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={32}>
                         <Col span={6}>
-                            <Card loading={loading} title="组织树" extra={<a>More</a>}>
+                            <ZZCard loading={loading} title="组织树" extra={<a>More</a>}>
                                 {this.loadTree(data)}
-                            </Card>
+                            </ZZCard>
                         </Col>
                         <Col span={18}>
-                            <Card loading={loading} title="管理员管理">
+                            <ZZCard loading={loading} title="管理员管理">
                                 <Tabs defaultActiveKey="1">
                                     <TabPane tab={<span><Icon type="bars"/>管理员列表</span>} key="1">
-                                        <Table
+                                        <ZZTable
                                             dataSource={util.listToTree(data)}
                                             columns={this.columns}
                                             bordered={true}
@@ -291,7 +290,7 @@ class Organize extends React.Component {
                                         </Form>
                                     </TabPane>
                                 </Tabs>
-                            </Card>
+                            </ZZCard>
                         </Col>
                     </Row>
                 </div>

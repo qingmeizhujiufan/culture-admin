@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Icon, Divider, Breadcrumb, Spin, Card, Radio} from 'antd';
+import {Icon, Divider, Breadcrumb, Spin, Radio} from 'antd';
+import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import {
@@ -76,7 +77,7 @@ class Index extends React.Component {
                     <h1 className='title'>人员统计分析</h1>
                 </div>
                 <div className='pageContent'>
-                    <Card
+                    <ZZCard
                         title="最近注册用户统计"
                         extra={(
                             <Radio.Group defaultValue="week" buttonStyle="solid" onChange={e => this.changeType(e)}>
@@ -90,7 +91,7 @@ class Index extends React.Component {
                         <Spin spinning={loading} size='large'>
                             <Bar height={400} title="最近一周注册用户统计" data={data} />
                         </Spin>
-                    </Card>
+                    </ZZCard>
                 </div>
             </div>
         );

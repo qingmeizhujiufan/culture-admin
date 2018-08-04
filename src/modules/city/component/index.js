@@ -15,11 +15,10 @@ import {
     notification,
     Spin,
     Tabs,
-    Card,
     message,
-    Table,
     Modal
 } from 'antd';
+import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
@@ -173,7 +172,7 @@ class CityList extends React.Component {
                     <h1 className='title'>城市管理</h1>
                 </div>
                 <div className='pageContent'>
-                    <Card
+                    <ZZCard
                         title="城市列表"
                         loading={loading}
                         extra={<Search
@@ -182,12 +181,12 @@ class CityList extends React.Component {
                             enterButton='开通城市'
                             style={{width: 300}}
                         />}>
-                        <Table
+                        <ZZTable
                             bordered={true}
                             dataSource={dataSource}
                             columns={this.columns}
                         />
-                    </Card>
+                    </ZZCard>
                 </div>
             </div>
         );

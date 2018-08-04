@@ -14,12 +14,11 @@ import {
     notification,
     Spin,
     Tabs,
-    Card,
     message,
-    Table,
     Modal,
-    Switch
+    Switch, Radio, Button
 } from 'antd';
+import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
@@ -134,7 +133,9 @@ class ArtList extends React.Component {
 
         this.state = {
             loading: false,
-            dataSource: []
+            dataSource: [],
+            searchText: '',
+            state: 999
         };
     }
 
@@ -253,7 +254,11 @@ class ArtList extends React.Component {
     }
 
     render() {
-        const {loading, dataSource} = this.state;
+        const {loading, dataSource, searchText, state} = this.state;
+        let n_dataSource = [...dataSource].filter(item => item.artTitle.indexOf(searchText) > -1);
+        if(state !== 999){
+            n_dataSource = n_dataSource.filter(item => item.state === state);
+        }
 
         return (
             <div className="zui-content">
@@ -266,15 +271,36 @@ class ArtList extends React.Component {
                         </Breadcrumb>
                     </div>
                     <h1 className='title'>艺术品列表</h1>
+                    <div className='search-area'>
+                        <Row type='flex' justify="space-around" align="middle">
+                            <Col span={8}>
+                                <Search
+                                    placeholder="搜索艺术品关键字"
+                                    enterButton
+                                    size="large"
+                                    onSearch={searchText => this.setState({searchText})}
+                                />
+                            </Col>
+                        </Row>
+                    </div>
                 </div>
                 <div className='pageContent'>
-                    <Card loading={loading}>
-                        <Table
+                    <ZZCard
+                        loading={loading}
+                        title={<Radio.Group value={state} onChange={e => this.setState({state: e.target.value})}>
+                            <Radio.Button value={999}>所有</Radio.Button>
+                            <Radio.Button value={0}>待审核</Radio.Button>
+                            <Radio.Button value={1}>审核通过</Radio.Button>
+                            <Radio.Button value={-1}>不合格</Radio.Button>
+                        </Radio.Group>}
+                        extra={<Button type="primary" icon='plus' href='#/frame/culture/addArt'>新增艺术品</Button>}
+                    >
+                        <ZZTable
                             bordered={true}
-                            dataSource={dataSource}
+                            dataSource={n_dataSource}
                             columns={this.columns}
                         />
-                    </Card>
+                    </ZZCard>
                 </div>
             </div>
         );

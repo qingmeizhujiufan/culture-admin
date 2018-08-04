@@ -131,7 +131,9 @@ class NewsList extends React.Component {
 
         this.state = {
             loading: false,
-            dataSource: []
+            dataSource: [],
+            searchText: '',
+            state: 999
         };
     }
 
@@ -155,9 +157,7 @@ class NewsList extends React.Component {
                 });
                 this.setState({
                     dataSource: backData,
-                    loading: false,
-                    searchText: '',
-                    state: 999
+                    loading: false
                 });
             }
         });
@@ -233,7 +233,7 @@ class NewsList extends React.Component {
     render() {
         const {loading, dataSource, searchText, state} = this.state;
         let n_dataSource = [...dataSource].filter(item => item.newsTitle.indexOf(searchText) > -1);
-        if(state !== 999){
+        if (state !== 999) {
             n_dataSource = n_dataSource.filter(item => item.state === state);
         }
 

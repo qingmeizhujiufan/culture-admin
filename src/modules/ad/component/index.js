@@ -14,10 +14,9 @@ import {
     Menu,
     notification,
     Collapse,
-    Card,
-    Table,
     Spin
 } from 'antd';
+import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
@@ -222,17 +221,17 @@ class Ad extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={24}>
                         <Col span={18}>
-                            <Card title='广告列表' loading={loading} extra={<Button type="primary" icon="plus" href="#/frame/ad/platform/add">添加</Button>}>
-                                <Table
+                            <ZZCard title='广告列表' loading={loading} extra={<Button type="primary" icon="plus" href="#/frame/ad/platform/add">添加</Button>}>
+                                <ZZTable
                                     bordered={true}
                                     dataSource={dataSource}
                                     columns={this.columns}
                                 />
-                            </Card>
+                            </ZZCard>
                         </Col>
                         <Col span={6}>
-                            <Card title='点击量'>
-                            </Card>
+                            <ZZCard title='点击量'>
+                            </ZZCard>
                         </Col>
                     </Row>
                 </div>
