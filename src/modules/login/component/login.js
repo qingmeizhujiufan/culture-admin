@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Form, Icon, Row, Col, Input, Button, Checkbox, message} from 'antd';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
@@ -101,8 +102,8 @@ class Login extends React.Component {
 
 const WrappedLogin = Form.create()(Login);
 
-// Login.contextTypes = {
-//     router: React.PropTypes.object
-// }
+Login.contextTypes = {
+    router: PropTypes.object
+}
 
 export default WrappedLogin;
