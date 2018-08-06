@@ -1,5 +1,6 @@
 import React from 'react';
 import {Layout, Menu, Icon, Row, Col, Steps, Carousel, Progress, Timeline, Card} from 'antd';
+import {ZZCard} from 'Comps/zz-antD';
 import {
     Bar,
 } from 'Comps/Charts';
@@ -41,25 +42,27 @@ class Index extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={24} className="base-info">
                         <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
-                            <div className="base-box">
-                                <Row type="flex" align="middle">
-                                    <Col><Icon type="cloud" className="icon"
-                                               style={{backgroundColor: '#2dcb73', color: '#c0efd5'}}/></Col>
-                                    <Col>
-                                        <h3>5468</h3>
-                                        <span>New signups</span>
-                                    </Col>
-                                </Row>
-                            </div>
+                            <ZZCard>
+                                <div className="base-box">
+                                    <Row type="flex" align="middle">
+                                        <Col><Icon type="user" className="icon"
+                                                   style={{backgroundColor: '#2dcb73', color: '#fff'}}/></Col>
+                                        <Col>
+                                            <h3>5468</h3>
+                                            <span>用户人数</span>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            </ZZCard>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
                             <div className="base-box">
                                 <Row type="flex" align="middle">
-                                    <Col><Icon type="html5" className="icon"
-                                               style={{backgroundColor: '#ff604f', color: '#ffcfca'}}/></Col>
+                                    <Col><Icon type="picture" className="icon"
+                                               style={{backgroundColor: '#ff604f', color: '#fff'}}/></Col>
                                     <Col>
                                         <h3>2,300</h3>
-                                        <span>Total equity</span>
+                                        <span>美图总数</span>
                                     </Col>
                                 </Row>
                             </div>
@@ -68,10 +71,10 @@ class Index extends React.Component {
                             <div className="base-box">
                                 <Row type="flex" align="middle">
                                     <Col><Icon type="youtube" className="icon"
-                                               style={{backgroundColor: '#dde1e7', color: '#424445'}}/></Col>
+                                               style={{backgroundColor: '#faad14', color: '#fff'}}/></Col>
                                     <Col>
                                         <h3>3,823</h3>
-                                        <span>Views today</span>
+                                        <span>视频总数</span>
                                     </Col>
                                 </Row>
                             </div>
@@ -79,11 +82,11 @@ class Index extends React.Component {
                         <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
                             <div className="base-box">
                                 <Row type="flex" align="middle">
-                                    <Col><Icon type="twitter" className="icon"
-                                               style={{backgroundColor: 'transparent', color: '#000'}}/></Col>
+                                    <Col><Icon type="cloud" className="icon"
+                                               style={{backgroundColor: '#1890ff', color: '#fff'}}/></Col>
                                     <Col>
                                         <h3>12</h3>
-                                        <span>Fog Overcast</span>
+                                        <span>艺术品总数</span>
                                     </Col>
                                 </Row>
                             </div>
@@ -165,19 +168,19 @@ class Index extends React.Component {
                                 <h5 style={{color: '#fff'}}>这是图表</h5>
                             </div>
                             <div className="ibox-content">
-                                <Bar height={400} title="销售额趋势" data={data} />
+                                <Bar height={400} title="销售额趋势" data={data}/>
                                 {/*<Chart*/}
-                                    {/*height={400}*/}
-                                    {/*padding='auto'*/}
-                                    {/*forceFit*/}
-                                    {/*data={data}*/}
-                                    {/*scale={cols}*/}
+                                {/*height={400}*/}
+                                {/*padding='auto'*/}
+                                {/*forceFit*/}
+                                {/*data={data}*/}
+                                {/*scale={cols}*/}
                                 {/*>*/}
-                                    {/*<Axis name="genre"/>*/}
-                                    {/*<Axis name="sold"/>*/}
-                                    {/*<Legend position="top" dy={20}/>*/}
-                                    {/*<Tooltip/>*/}
-                                    {/*<Geom type="interval" position="genre*sold" color="genre"/>*/}
+                                {/*<Axis name="genre"/>*/}
+                                {/*<Axis name="sold"/>*/}
+                                {/*<Legend position="top" dy={20}/>*/}
+                                {/*<Tooltip/>*/}
+                                {/*<Geom type="interval" position="genre*sold" color="genre"/>*/}
                                 {/*</Chart>*/}
                             </div>
                         </Col>
