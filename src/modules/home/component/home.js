@@ -4,6 +4,8 @@ import {ZZCard} from 'Comps/zz-antD';
 import {
     Bar,
 } from 'Comps/Charts';
+import ajax from 'Utils/ajax';
+import restUrl from 'RestUrl';
 import '../home.less';
 import cover from 'Img/cover.jpg';
 import profileCover from 'Img/profile-cover.jpg';
@@ -20,12 +22,16 @@ const data = [
     {x: 'Other', y: 150, income: 3710}
 ];
 
+const getWebTotalUrl = restUrl.ADDR + 'Server/getWebTotal';
+
 class Index extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: data
+            data: data,
+            webTotal: {},
+            totalLoading: false
         };
     }
 
@@ -33,63 +39,76 @@ class Index extends React.Component {
     }
 
     componentDidMount = () => {
+        this.getWebTotal();
+    }
+
+    getWebTotal = () => {
+        this.setState({totalLoading: true});
+        ajax.getJSON(getWebTotalUrl, null, data => {
+           if(data.success){
+               this.setState({
+                   webTotal: data.backData,
+                   totalLoading: false
+               });
+           } else {
+
+           }
+        });
     }
 
     render() {
-        const {data} = this.state;
+        const {data, webTotal, totalLoading} = this.state;
         return (
             <div className="zui-content home">
                 <div className='pageContent'>
                     <Row gutter={24} className="base-info">
                         <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
-                            <ZZCard>
-                                <div className="base-box">
-                                    <Row type="flex" align="middle">
-                                        <Col><Icon type="user" className="icon"
-                                                   style={{backgroundColor: '#2dcb73', color: '#fff'}}/></Col>
-                                        <Col>
-                                            <h3>5468</h3>
-                                            <span>用户人数</span>
-                                        </Col>
-                                    </Row>
-                                </div>
+                            <ZZCard loading={totalLoading}>
+                                <Row type="flex" align="middle">
+                                    <Col><Icon type="user" className="icon"
+                                               style={{backgroundColor: '#2dcb73', color: '#fff'}}/></Col>
+                                    <Col>
+                                        <h3>{webTotal.userTotal}</h3>
+                                        <span>用户人数</span>
+                                    </Col>
+                                </Row>
                             </ZZCard>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
-                            <div className="base-box">
+                            <ZZCard loading={totalLoading}>
                                 <Row type="flex" align="middle">
                                     <Col><Icon type="picture" className="icon"
                                                style={{backgroundColor: '#ff604f', color: '#fff'}}/></Col>
                                     <Col>
-                                        <h3>2,300</h3>
+                                        <h3>{webTotal.tasteTotal}</h3>
                                         <span>美图总数</span>
                                     </Col>
                                 </Row>
-                            </div>
+                            </ZZCard>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
-                            <div className="base-box">
+                            <ZZCard loading={totalLoading}>
                                 <Row type="flex" align="middle">
                                     <Col><Icon type="youtube" className="icon"
                                                style={{backgroundColor: '#faad14', color: '#fff'}}/></Col>
                                     <Col>
-                                        <h3>3,823</h3>
+                                        <h3>{webTotal.videoTotal}</h3>
                                         <span>视频总数</span>
                                     </Col>
                                 </Row>
-                            </div>
+                            </ZZCard>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
-                            <div className="base-box">
+                            <ZZCard loading={totalLoading}>
                                 <Row type="flex" align="middle">
                                     <Col><Icon type="cloud" className="icon"
                                                style={{backgroundColor: '#1890ff', color: '#fff'}}/></Col>
                                     <Col>
-                                        <h3>12</h3>
+                                        <h3>{webTotal.artTotal}</h3>
                                         <span>艺术品总数</span>
                                     </Col>
                                 </Row>
-                            </div>
+                            </ZZCard>
                         </Col>
                     </Row>
                     <Row gutter={24}>
