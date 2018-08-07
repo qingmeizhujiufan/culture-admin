@@ -16,7 +16,7 @@ class ZZTable extends React.Component {
 ZZTable.defaultProps = {
     bordered: true,
     pagination: {
-        showTotal: total => `共 ${total} 项`,
+        showTotal: total => `共 ${total} 条`,
         showSizeChanger: true,
         showQuickJumper: true
     }

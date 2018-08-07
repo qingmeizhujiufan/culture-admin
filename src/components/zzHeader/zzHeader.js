@@ -61,13 +61,13 @@ class ZZHeader extends React.Component {
                     <Col span={10}>
                     </Col>
                     <Col span={12} style={{textAlign: 'right'}}>
-                        <Input
-                            className="input-search"
-                            placeholder="别说话，搜我..."
-                            prefix={<Icon type="search"
-                                          style={{color: 'rgba(0,0,0,1)', fontSize: 16, fontWeight: 600}}/>}
-                            style={{width: 200}}
-                        />
+                        {/*<Input*/}
+                            {/*className="input-search"*/}
+                            {/*placeholder="别说话，搜我..."*/}
+                            {/*prefix={<Icon type="search"*/}
+                                          {/*style={{color: 'rgba(0,0,0,1)', fontSize: 16, fontWeight: 600}}/>}*/}
+                            {/*style={{width: 200}}*/}
+                        {/*/>*/}
                         <Dropdown overlay={this.menu}>
                             <a className="ant-dropdown-link">
                                 <Avatar style={{verticalAlign: '-6px', backgroundColor: '#fc5a59'}} size="small"

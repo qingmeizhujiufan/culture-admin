@@ -1,8 +1,9 @@
 import React from 'react';
-import {Layout, Menu, Icon, Row, Col, Steps, Carousel, Progress, Timeline, Card} from 'antd';
+import {Layout, Menu, Icon, Row, Col, Steps, Carousel, Progress, Timeline, Card, Radio, Spin} from 'antd';
 import {ZZCard} from 'Comps/zz-antD';
 import {
     Bar,
+    Pie,
 } from 'Comps/Charts';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
@@ -23,6 +24,8 @@ const data = [
 ];
 
 const getWebTotalUrl = restUrl.ADDR + 'Server/getWebTotal';
+const getNewlyUrl = restUrl.ADDR + 'user/getNewlyRegisterUserData';
+const countCANUrl = restUrl.ADDR + 'Server/countCAN';
 
 class Index extends React.Component {
     constructor(props) {
@@ -31,7 +34,12 @@ class Index extends React.Component {
         this.state = {
             data: data,
             webTotal: {},
-            totalLoading: false
+            totalLoading: false,
+            type: 'week',
+            userData: [],
+            userLoading: false,
+            canTotal: [],
+            canLoading: false,
         };
     }
 
@@ -40,6 +48,8 @@ class Index extends React.Component {
 
     componentDidMount = () => {
         this.getWebTotal();
+        this.getNewlyData();
+        this.countCAN();
     }
 
     getWebTotal = () => {
@@ -56,8 +66,68 @@ class Index extends React.Component {
         });
     }
 
+    getNewlyData = () => {
+        let param = {};
+        param.type = this.state.type;
+        this.setState({userLoading: true});
+        ajax.getJSON(getNewlyUrl, param, data => {
+            if(data.success){
+                data = data.backData;
+                const chartData = [];
+                data.map(item => {
+                    chartData.push({
+                        x: item.countDate,
+                        y: item.num
+                    });
+                });
+                this.setState({
+                    userData: chartData
+                });
+            }else {
+                message.error(data.backMsg);
+            }
+            this.setState({userLoading: false});
+        });
+    }
+
+    countCAN = () => {
+        this.setState({canLoading: true});
+        ajax.getJSON(countCANUrl, null, data => {
+            if(data.success){
+                const backData = data.backData;
+                const canTotal = [{
+                    x: '文化',
+                    y: backData.cultureTotal
+                }, {
+                    x: '艺术品',
+                    y: backData.artTotal
+                }, {
+                    x: '新闻',
+                    y: backData.newsTotal
+                }, {
+                    x: '视频',
+                    y: backData.videoTotal
+                }];
+                this.setState({
+                    canTotal,
+                    canLoading: false
+                });
+            } else {
+
+            }
+        });
+    }
+
+    changeType = e => {
+        console.log('e === ', e.target);
+        if(this.state.type === e.target.value) return;
+        this.setState({type: e.target.value}, () => {
+            this.getNewlyData();
+        });
+    }
+
     render() {
-        const {data, webTotal, totalLoading} = this.state;
+        const {data, webTotal, totalLoading, type, userData, userLoading, canTotal, canLoading} = this.state;
         return (
             <div className="zui-content home">
                 <div className='pageContent'>
@@ -65,11 +135,23 @@ class Index extends React.Component {
                         <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
                             <ZZCard loading={totalLoading}>
                                 <Row type="flex" align="middle">
-                                    <Col><Icon type="user" className="icon"
+                                    <Col><Icon type="flag" className="icon"
                                                style={{backgroundColor: '#2dcb73', color: '#fff'}}/></Col>
                                     <Col>
-                                        <h3>{webTotal.userTotal}</h3>
-                                        <span>用户人数</span>
+                                        <h3>{webTotal.cultureTotal}</h3>
+                                        <span>文化总数</span>
+                                    </Col>
+                                </Row>
+                            </ZZCard>
+                        </Col>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
+                            <ZZCard loading={totalLoading}>
+                                <Row type="flex" align="middle">
+                                    <Col><Icon type="cloud" className="icon"
+                                               style={{backgroundColor: '#1890ff', color: '#fff'}}/></Col>
+                                    <Col>
+                                        <h3>{webTotal.artTotal}</h3>
+                                        <span>艺术品总数</span>
                                     </Col>
                                 </Row>
                             </ZZCard>
@@ -98,122 +180,38 @@ class Index extends React.Component {
                                 </Row>
                             </ZZCard>
                         </Col>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={6} xxl={6}>
-                            <ZZCard loading={totalLoading}>
-                                <Row type="flex" align="middle">
-                                    <Col><Icon type="cloud" className="icon"
-                                               style={{backgroundColor: '#1890ff', color: '#fff'}}/></Col>
-                                    <Col>
-                                        <h3>{webTotal.artTotal}</h3>
-                                        <span>艺术品总数</span>
-                                    </Col>
-                                </Row>
-                            </ZZCard>
-                        </Col>
                     </Row>
                     <Row gutter={24}>
-                        <Col span={9}>
-                            <div className="slider-box">
-                                <Carousel autoplay>
-                                    <div><img src={cover}/></div>
-                                    <div><img src={profileCover}/></div>
-                                </Carousel>
-                                <div className="footer">这是首页轮播图</div>
-                            </div>
-                        </Col>
-                        <Col span={10}>
-                            <div className="ibox-title">
-                                <h5>订单情况</h5>
-                            </div>
-                            <div className="ibox-content">
-                                <Row type="flex" justify="space-between" align="top">
-                                    <Col xs={24} sm={16} md={8}>
-                                        <Progress type="dashboard" percent={75} format={(percent) => percent + '%'}
-                                                  style={{margin: '25px 0'}}/>
-                                        <div>
-                                            <h3>完成率</h3>
-                                            <p>这是说明</p>
-                                        </div>
-                                    </Col>
-                                    <Col xs={24} sm={16} md={8}>
-                                        <Progress type="dashboard" percent={70} status="exception"
-                                                  format={(percent) => percent + '%'} style={{margin: '25px 0'}}/>
-                                        <div>
-                                            <h3>取消率</h3>
-                                            <p>这是说明</p>
-                                        </div>
-                                    </Col>
-                                    <Col xs={24} sm={16} md={8}>
-                                        <Progress type="dashboard" percent={80} status="success"
-                                                  format={(percent) => percent + '%'} style={{margin: '25px 0'}}/>
-                                        <div>
-                                            <h3>支付达成率</h3>
-                                            <p>这是说明</p>
-                                        </div>
-                                    </Col>
-                                </Row>
-                            </div>
-                        </Col>
-                        <Col span={5}>
-                            <div className="ibox-title">
-                                <h5>项目进度</h5>
-                            </div>
-                            <div className="ibox-content">
-                                <Steps direction="vertical" current={1}>
-                                    <Step title="Finished" description="This is a description."/>
-                                    <Step title="In Progress" description="This is a description."/>
-                                    <Step title="Waiting" description="This is a description."/>
-                                </Steps>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row gutter={24} style={{marginTop: '15px'}}>
-                        <Col span={7}>
-                            <div className="ibox-title" style={{backgroundColor: '#fc5a59'}}>
-                                <h5 style={{color: '#fff'}}>这是标题</h5>
-                            </div>
-                            <div className="ibox-content">
-                                <Timeline>
-                                    <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
-                                    <Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>
-                                    <Timeline.Item dot={<Icon type="clock-circle-o" style={{fontSize: '16px'}}/>}
-                                                   color="red">Technical testing 2015-09-01</Timeline.Item>
-                                    <Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>
-                                </Timeline>
-                            </div>
-                        </Col>
-                        <Col span={12}>
-                            <div className="ibox-title" style={{backgroundColor: '#6495ed'}}>
-                                <h5 style={{color: '#fff'}}>这是图表</h5>
-                            </div>
-                            <div className="ibox-content">
-                                <Bar height={400} title="销售额趋势" data={data}/>
-                                {/*<Chart*/}
-                                {/*height={400}*/}
-                                {/*padding='auto'*/}
-                                {/*forceFit*/}
-                                {/*data={data}*/}
-                                {/*scale={cols}*/}
-                                {/*>*/}
-                                {/*<Axis name="genre"/>*/}
-                                {/*<Axis name="sold"/>*/}
-                                {/*<Legend position="top" dy={20}/>*/}
-                                {/*<Tooltip/>*/}
-                                {/*<Geom type="interval" position="genre*sold" color="genre"/>*/}
-                                {/*</Chart>*/}
-                            </div>
-                        </Col>
-                        <Col span={5}>
-                            <Card
-                                hoverable
-                                cover={<img alt="example"
-                                            src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"/>}
+                        <Col span={18}>
+                            <ZZCard
+                                title="最近注册用户统计"
+                                extra={(
+                                    <Radio.Group defaultValue="week" buttonStyle="solid" onChange={e => this.changeType(e)}>
+                                        <Radio.Button value="threeday">最近三天</Radio.Button>
+                                        <Radio.Button value="week">最近一周</Radio.Button>
+                                        <Radio.Button value="month">最近一个月</Radio.Button>
+                                        <Radio.Button value="halfyear">最近半年</Radio.Button>
+                                    </Radio.Group>
+                                )}
+                                loading={userLoading}
+                                style={{height: 415}}
                             >
-                                <Meta
-                                    title="Europe Street beat"
-                                    description="www.instagram.com"
+                                <Bar height={300} data={userData} />
+                            </ZZCard>
+                        </Col>
+                        <Col span={6}>
+                            <ZZCard
+                                title={'浏览占比'}
+                                loading={canLoading}
+                            >
+                                <Pie
+                                    hasLegend
+                                    subTitle="销售额"
+                                    data={canTotal}
+                                    height={248}
+                                    lineWidth={4}
                                 />
-                            </Card>
+                            </ZZCard>
                         </Col>
                     </Row>
                 </div>
