@@ -23,7 +23,7 @@ const Menu = [
                 label: '城市管理'
             }, {
                 key: '1_5',
-                link: '/frame/sliderSetting',
+                link: '/frame/webSetting',
                 label: '网站设置'
             }
         ]

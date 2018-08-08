@@ -16,6 +16,8 @@ const formItemLayout = {
 
 const queryHomeCulutreDetailUrl = restUrl.ADDR + 'Server/queryHomeCulutreDetail';
 const saveUrl = restUrl.ADDR + 'Server/saveHomeSlider';
+const queryMusicUrl = restUrl.ADDR + 'Server/queryMusic';
+const saveMusicUrl = restUrl.ADDR + 'Server/saveMusic';
 
 class SliderSetting extends React.Component {
     constructor(props) {
@@ -410,16 +412,142 @@ const WrappedSliderSetting = Form.create()(SliderSetting);
 class MusicSetting extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state={
+            data: {},
+            loading: false,
+            submitLoading: false,
+            fileList: []
+        };
+    }
+
+    componentWillMount = () => {
+    }
+
+    componentDidMount = () => {
+        this.queryMusicDetail();
+    }
+
+    queryMusicDetail = () => {
+        this.setState({
+            loading: true
+        });
+        let param = {};
+        ajax.getJSON(queryMusicUrl, param, data => {
+            if (data.success) {
+                let backData = data.music;
+                const bgMusic = backData.bgMusic;
+                let bgMusicList = [{
+                    uid: bgMusic.id,
+                    name: bgMusic.fileName,
+                    status: 'done',
+                    url: restUrl.BASE_HOST + bgMusic.filePath,
+                    response: {
+                        data: {
+                            id: bgMusic.id
+                        }
+                    }
+                }];
+                backData.bgMusic = bgMusicList;
+                this.setState({
+                    data: backData,
+                    fileList: bgMusicList,
+                    loading: false
+                });
+            } else {
+
+            }
+        });
+    }
+
+    handleChange = ({fileList}) => {
+        this.setState({fileList});
+    }
+
+    normFile = (e) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.fileList;
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                values.bgMusic = values.bgMusic.map(item => {
+                    return item.response.data.id;
+                }).join(',');
+
+                this.setState({
+                    submitLoading: true
+                });
+                ajax.postJSON(saveMusicUrl, JSON.stringify(values), (data) => {
+                    if (data.success) {
+                        notification.open({
+                            message: '背景音乐保存成功！',
+                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        });
+                    } else {
+                        message.error(data.backMsg);
+                    }
+
+                    this.setState({
+                        submitLoading: false
+                    });
+                });
+            }
+        });
     }
 
     render() {
-        return (
-            <Form onSubmit={this.handleMusicSubmit}>
+        const {
+            data,
+            loading,
+            submitLoading,
+            fileList
+        } = this.state;
+        const {getFieldDecorator, setFieldsValue} = this.props.form;
 
+        return (
+            <Form onSubmit={this.handleSubmit}>
+                <Row gutter={24}>
+                    <Col>
+                        <FormItem
+                            label="背景音乐上传"
+                            labelCol={{span: 24}}
+                            wrapperCol={{span: 24}}
+                        >
+                            {getFieldDecorator('bgMusic', {
+                                valuePropName: 'fileList',
+                                getValueFromEvent: this.normFile,
+                                rules: [{required: true, message: '音乐不能为空!'}],
+                                initialValue: data.bgMusic
+                            })(
+                                <Upload
+                                    action={restUrl.UPLOAD}
+                                    onChange={this.handleChange}
+                                >
+                                    {fileList.length >= 1 ? null : ( <Button>
+                                        <Icon type="upload" /> 上传
+                                    </Button>)}
+                                </Upload>
+                            )}
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Divider/>
+                <div style={{textAlign: 'center'}}>
+                    <Button size="large" type="primary" htmlType="submit"
+                            loading={submitLoading}>提交</Button>
+                </div>
             </Form>
         );
     }
 }
+
+const WrappedMusicSetting = Form.create()(MusicSetting);
 
 class WebSetting extends React.Component {
     constructor(props) {
@@ -447,7 +575,7 @@ class WebSetting extends React.Component {
                         </Col>
                         <Col span={6}>
                             <ZZCard title='网站背景音乐设置'>
-                                <MusicSetting/>
+                                <WrappedMusicSetting/>
                             </ZZCard>
                         </Col>
                     </Row>

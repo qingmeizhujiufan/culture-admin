@@ -6,7 +6,7 @@ import Frame from '../modules/Frame';
 
 /* 首页 */
 import Home from '../modules/home/component/home';
-import SliderSetting from '../modules/home/component/sliderSetting';
+import WebSetting from '../modules/home/component/webSetting';
 /* 登录 */
 import Login from '../modules/login/component/login';
 /* 广告模块 */
@@ -45,7 +45,7 @@ module.exports = (
         <Route path="/frame" component={Frame}>
             <IndexRoute component={Home}/>
             <route path="home" component={Home} />
-            <route path="sliderSetting" component={SliderSetting} />
+            <route path="webSetting" component={WebSetting} />
             <route path="ad/platform" component={Ad} />
             <route path="ad/platform/edit/:id" component={EditAd} />
             <route path="ad/platform/add" component={AddAd} />
