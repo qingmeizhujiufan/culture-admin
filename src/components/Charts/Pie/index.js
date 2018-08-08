@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {Chart, Tooltip, Geom, Coord} from 'bizcharts';
-import { DataView } from '@antv/data-set';
+import {DataView} from '@antv/data-set';
 import {Divider} from 'antd';
 import ReactFitText from 'react-fittext';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import autoHeight from '../autoHeight';
+import './index.less';
 
 /* eslint react/no-danger:0 */
 @autoHeight()
@@ -117,6 +118,7 @@ class Pie extends Component {
             subTitle,
             total,
             hasLegend = false,
+            className,
             style,
             height,
             forceFit = true,
@@ -129,6 +131,10 @@ class Pie extends Component {
         } = this.props;
 
         const {legendData, legendBlock} = this.state;
+        // const pieClassName = classNames(styles.pie, className, {
+        //     [styles.hasLegend]: !!hasLegend,
+        //     [styles.legendBlock]: legendBlock,
+        // });
 
         const {
             data: propsData,
@@ -198,9 +204,9 @@ class Pie extends Component {
         });
 
         return (
-            <div ref={this.handleRoot} style={style}>
+            <div ref={this.handleRoot} className='pie hasLegend legendBlock' style={style}>
                 <ReactFitText maxFontSize={25}>
-                    <div>
+                    <div className='pie'>
                         <Chart
                             scale={scale}
                             height={height}
@@ -223,7 +229,7 @@ class Pie extends Component {
                         </Chart>
 
                         {(subTitle || total) && (
-                            <div>
+                            <div className='total'>
                                 {subTitle && <h4 className="pie-sub-title">{subTitle}</h4>}
                                 {/* eslint-disable-next-line */}
                                 {total && (
@@ -235,18 +241,20 @@ class Pie extends Component {
                 </ReactFitText>
 
                 {hasLegend && (
-                    <ul>
+                    <ul className='legend'>
                         {legendData.map((item, i) => (
                             <li key={item.x} onClick={() => this.handleLegendClick(item, i)}>
                                 <span
+                                    className='dot'
                                     style={{
                                         backgroundColor: !item.checked ? '#aaa' : item.color,
                                     }}
                                 />
-                                <span>{item.x}</span>
+                                <span className='legendTitle'>{item.x}</span>
                                 <Divider type="vertical"/>
-                                <span>{`${(isNaN(item.percent) ? 0 : item.percent * 100).toFixed(2)}%`}</span>
-                                <span>{valueFormat ? valueFormat(item.y) : item.y}</span>
+                                <span
+                                    className='percent'>{`${(isNaN(item.percent) ? 0 : item.percent * 100).toFixed(2)}%`}</span>
+                                <span className='value'>{valueFormat ? valueFormat(item.y) : item.y}</span>
                             </li>
                         ))}
                     </ul>

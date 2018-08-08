@@ -8,20 +8,20 @@ import {
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../home.less';
-import cover from 'Img/cover.jpg';
-import profileCover from 'Img/profile-cover.jpg';
 
 const Step = Steps.Step;
 const {Meta} = Card;
 
-// 数据源
-const data = [
-    {x: 'Sports', y: 275, income: 2300},
-    {x: 'Strategy', y: 115, income: 667},
-    {x: 'Action', y: 120, income: 982},
-    {x: 'Shooter', y: 350, income: 5271},
-    {x: 'Other', y: 150, income: 3710}
-];
+const tabList = [{
+    key: 'culture',
+    tab: '文化',
+}, {
+    key: 'art',
+    tab: '艺术品',
+}, {
+    key: 'news',
+    tab: '新闻',
+}];
 
 const getWebTotalUrl = restUrl.ADDR + 'Server/getWebTotal';
 const getNewlyUrl = restUrl.ADDR + 'user/getNewlyRegisterUserData';
@@ -32,7 +32,7 @@ class Index extends React.Component {
         super(props);
 
         this.state = {
-            data: data,
+            data: [],
             webTotal: {},
             totalLoading: false,
             type: 'week',
@@ -128,6 +128,8 @@ class Index extends React.Component {
 
     render() {
         const {data, webTotal, totalLoading, type, userData, userLoading, canTotal, canLoading} = this.state;
+        // const pieTotal = canTotal.length === 4 ? (canTotal[0].y + canTotal[1].y + canTotal[2].y + canTotal[3].y) : null;
+
         return (
             <div className="zui-content home">
                 <div className='pageContent'>
@@ -194,9 +196,9 @@ class Index extends React.Component {
                                     </Radio.Group>
                                 )}
                                 loading={userLoading}
-                                style={{height: 415}}
+                                style={{height: 496}}
                             >
-                                <Bar height={300} data={userData} />
+                                <Bar height={380} data={userData} />
                             </ZZCard>
                         </Col>
                         <Col span={6}>
@@ -206,7 +208,8 @@ class Index extends React.Component {
                             >
                                 <Pie
                                     hasLegend
-                                    subTitle="销售额"
+                                    subTitle="总体浏览量"
+                                    total={canTotal.reduce((pre, now) => now.y + pre, 0)}
                                     data={canTotal}
                                     height={248}
                                     lineWidth={4}
@@ -214,6 +217,17 @@ class Index extends React.Component {
                             </ZZCard>
                         </Col>
                     </Row>
+                    {/*<Row style={{marginTop: 24}}>*/}
+                        {/*<Col>*/}
+                            {/*<ZZCard*/}
+                                {/*tabList={tabList}*/}
+                                {/*activeTabKey={'culture'}*/}
+                                {/*onTabChange={(key) => { this.onTabChange(key, 'noTitleKey'); }}*/}
+                            {/*>*/}
+                                {/*<h1>fafads</h1>*/}
+                            {/*</ZZCard>*/}
+                        {/*</Col>*/}
+                    {/*</Row>*/}
                 </div>
             </div>
         );

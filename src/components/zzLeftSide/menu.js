@@ -11,22 +11,18 @@ const Menu = [
                 label: '首页'
             }, {
                 key: '1_2',
-                link: '/frame/home',
-                label: '流量数据统计'
-            }, {
-                key: '1_3',
                 link: '/frame/organize',
                 label: '组织权限'
             }, {
-                key: '1_4',
+                key: '1_3',
                 link: '/frame/ad/platform',
                 label: '广告平台'
             }, {
-                key: '1_5',
+                key: '1_4',
                 link: '/frame/city',
                 label: '城市管理'
             }, {
-                key: '1_6',
+                key: '1_5',
                 link: '/frame/sliderSetting',
                 label: '网站文化展示图设置'
             }
