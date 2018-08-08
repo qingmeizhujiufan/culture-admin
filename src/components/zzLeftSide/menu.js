@@ -24,7 +24,7 @@ const Menu = [
             }, {
                 key: '1_5',
                 link: '/frame/sliderSetting',
-                label: '网站文化展示图设置'
+                label: '网站设置'
             }
         ]
     }, {

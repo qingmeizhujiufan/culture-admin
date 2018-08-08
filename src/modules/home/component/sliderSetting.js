@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Upload, Icon, Modal, Row, Col, Card, Breadcrumb, Form, Button, notification, message} from 'antd';
+import {Upload, Icon, Modal, Row, Col, Breadcrumb, Form, Button, notification, message, Divider, Spin} from 'antd';
+import {ZZCard} from 'Comps/zz-antD';
 import '../home.less';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
+import ZZSpin from "Comps/zzSpin/zzSpin";
 
 const FormItem = Form.Item;
 
@@ -47,7 +49,6 @@ class SliderSetting extends React.Component {
             loading: true
         });
         let param = {};
-        param.id = this.props.params.id;
         ajax.getJSON(queryHomeCulutreDetailUrl, param, data => {
             if (data.success) {
                 let backData = data.backData;
@@ -195,230 +196,270 @@ class SliderSetting extends React.Component {
         );
 
         return (
+            <Form onSubmit={this.handleSubmit}>
+                <Spin spinning={loading}>
+                    <Row gutter={24}>
+                        <Col span={8}>
+                            <FormItem
+                                label="第1张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_1', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_1
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_1')}
+                                    >
+                                        {fileList_1.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem
+                                label="第2张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_2', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_2
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_2')}
+                                    >
+                                        {fileList_2.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem
+                                label="第3张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_3', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_3
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_3')}
+                                    >
+                                        {fileList_3.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row gutter={24}>
+                        <Col span={8}>
+                            <FormItem
+                                label="第4张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_4', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_4
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_4')}
+                                    >
+                                        {fileList_4.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem
+                                label="第5张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_5', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_5
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_5')}
+                                    >
+                                        {fileList_5.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem
+                                label="第6张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_6', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_6
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_6')}
+                                    >
+                                        {fileList_6.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row gutter={24}>
+                        <Col span={8}>
+                            <FormItem
+                                label="第7张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_7', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_7
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_7')}
+                                    >
+                                        {fileList_7.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem
+                                label="第8张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_8', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_8
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_8')}
+                                    >
+                                        {fileList_8.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem
+                                label="第9张"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('slider_9', {
+                                    valuePropName: 'fileList',
+                                    getValueFromEvent: this.normFile,
+                                    rules: [{required: true, message: '图片不能为空!'}],
+                                    initialValue: data.slider_9
+                                })(
+                                    <Upload
+                                        action={restUrl.UPLOAD}
+                                        listType={'picture-card'}
+                                        onChange={e => this.handleChange(e, 'slider_9')}
+                                    >
+                                        {fileList_9.length >= 1 ? null : uploadButton}
+                                    </Upload>
+                                )}
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Divider/>
+                    <div style={{textAlign: 'center'}}>
+                        <Button size="large" type="primary" htmlType="submit"
+                                loading={submitLoading}>提交</Button>
+                    </div>
+                </Spin>
+            </Form>
+
+        );
+    }
+}
+
+const WrappedSliderSetting = Form.create()(SliderSetting);
+
+class MusicSetting extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <Form onSubmit={this.handleMusicSubmit}>
+
+            </Form>
+        );
+    }
+}
+
+class WebSetting extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
             <div className="zui-content home">
                 <div className='pageHeader'>
                     <div className="breadcrumb-block">
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>网站文化展示图设置</Breadcrumb.Item>
+                            <Breadcrumb.Item>网站设置</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>网站文化展示图设置</h1>
+                    <h1 className='title'>网站设置</h1>
                 </div>
                 <div className='pageContent'>
-                    <Form onSubmit={this.handleSubmit}>
-                        <Card
-                            loading={loading}
-                            extra={<Button size="large" type="primary" htmlType="submit"
-                                           loading={submitLoading}>提交</Button>}
-                        >
-                            <Row gutter={24}>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第1张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_1', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_1
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_1')}
-                                            >
-                                                {fileList_1.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第2张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_2', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_2
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_2')}
-                                            >
-                                                {fileList_2.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第3张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_3', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_3
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_3')}
-                                            >
-                                                {fileList_3.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            <Row gutter={24}>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第4张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_4', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_4
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_4')}
-                                            >
-                                                {fileList_4.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第5张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_5', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_5
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_5')}
-                                            >
-                                                {fileList_5.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第6张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_6', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_6
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_6')}
-                                            >
-                                                {fileList_6.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            <Row gutter={24}>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第7张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_7', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_7
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_7')}
-                                            >
-                                                {fileList_7.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第8张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_8', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_8
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_8')}
-                                            >
-                                                {fileList_8.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={8}>
-                                    <FormItem
-                                        label="第9张"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('slider_9', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '图片不能为空!'}],
-                                            initialValue: data.slider_9
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture-card'}
-                                                onChange={e => this.handleChange(e, 'slider_9')}
-                                            >
-                                                {fileList_9.length >= 1 ? null : uploadButton}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                        </Card>
-                    </Form>
+                    <Row gutter={24}>
+                        <Col span={18}>
+                            <ZZCard title='网站文化展示轮播图设置'>
+                                <WrappedSliderSetting/>
+                            </ZZCard>
+                        </Col>
+                        <Col span={6}>
+                            <ZZCard title='网站背景音乐设置'>
+                                <MusicSetting/>
+                            </ZZCard>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         );
     }
 }
 
-const WrappedSliderSetting = Form.create()(SliderSetting);
-SliderSetting.contextTypes = {
+WebSetting.contextTypes = {
     router: PropTypes.object
 }
 
 
-export default WrappedSliderSetting;
+export default WebSetting;
