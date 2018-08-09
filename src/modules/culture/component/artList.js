@@ -120,6 +120,9 @@ class ArtList extends React.Component {
                                     <Link to={this.editrouter(record.id)}>编辑</Link>
                                 </Menu.Item>
                                 <Menu.Item>
+                                    <Link to={'/frame/culture/commentArt'}>查看评论</Link>
+                                </Menu.Item>
+                                <Menu.Item>
                                     <a onClick={() => this.onDelete(record.id)}>删除</a>
                                 </Menu.Item>
                             </Menu>

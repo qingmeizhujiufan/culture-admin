@@ -40,6 +40,21 @@ class CityList extends React.Component {
             dataIndex: 'cityName',
             key: 'cityName'
         }, {
+            title: '文化展示总数',
+            align: 'right',
+            dataIndex: 'cultureTotal',
+            key: 'cultureTotal',
+        }, {
+            title: '艺术品总数',
+            align: 'right',
+            dataIndex: 'artTotal',
+            key: 'artTotal',
+        }, {
+            title: '新闻总数',
+            align: 'right',
+            dataIndex: 'newsTotal',
+            key: 'newsTotal',
+        }, {
             title: '创建时间',
             align: 'center',
             dataIndex: 'create_time',
@@ -55,9 +70,6 @@ class CityList extends React.Component {
                     <Dropdown
                         overlay={
                             <Menu>
-                                <Menu.Item>
-                                    <Link to={this.editrouter(record.id)}>编辑</Link>
-                                </Menu.Item>
                                 <Menu.Item>
                                     <a onClick={() => this.onDelete(record.id)}>删除</a>
                                 </Menu.Item>
@@ -103,14 +115,6 @@ class CityList extends React.Component {
         });
     }
 
-    detailrouter = (id) => {
-        return `/frame/dish/dishDetailInfo/${id}`
-    }
-
-    editrouter = (id) => {
-        return `/frame/news/newsList/edit/${id}`
-    }
-
     onDelete = (key) => {
         Modal.confirm({
             title: '提示',
@@ -141,6 +145,17 @@ class CityList extends React.Component {
     }
 
     addCity = value => {
+        const {dataSource} = this.state;
+        if(value === ''){
+            message.error('城市名不能为空！');
+            return;
+        }
+        for(let i = 0; i < dataSource.length;i++){
+            if(dataSource[i].cityName.indexOf(value) > -1){
+                message.error('城市名不能重复！');
+                return;
+            }
+        }
         const param = {};
         param.cityName = value;
 

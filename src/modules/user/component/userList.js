@@ -114,7 +114,6 @@ class Index extends React.Component {
                         <Alert style={{marginBottom: 15}} message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a style={{marginLeft: 20}}>清空</a></span>} type="info" showIcon />
                         <Spin spinning={loading}>
                             <ZZTable
-                                bordered={true}
                                 dataSource={dataSource}
                                 columns={columns}
                                 rowKey={record => record.id}

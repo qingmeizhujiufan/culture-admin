@@ -15,13 +15,16 @@ import EditAd from '../modules/ad/component/editAd';
 import AddAd from '../modules/ad/component/addAd';
 /* 公司信息管理 */
 import Taste from '../modules/taste/component';
+import CommentTaste from '../modules/taste/component/commentTaste';
 /* 文化展示管理 */
 import CultureList from '../modules/culture/component/cultureList';
 import AddCulture from '../modules/culture/component/addCulture';
 import EditCulture from '../modules/culture/component/editCulture';
+import CommentCulture from '../modules/culture/component/commentCulture';
 import ArtList from '../modules/culture/component/artList';
 import AddArt from '../modules/culture/component/addArt';
 import EditArt from '../modules/culture/component/editArt';
+import CommentArt from '../modules/culture/component/commentArt';
 /* 新闻模块 */
 import NewsList from '../modules/news/component/newsList';
 import AddNews from '../modules/news/component/addNews';
@@ -50,12 +53,15 @@ module.exports = (
             <route path="ad/platform/edit/:id" component={EditAd} />
             <route path="ad/platform/add" component={AddAd} />
             <route path="taste/manage" component={Taste} />
+            <route path="comment/commentTaste" component={CommentTaste} />
             <route path="culture/cultureList" component={CultureList} />
             <route path="culture/addCulture" component={AddCulture} />
             <route path="culture/cultureList/edit/:id" component={EditCulture} />
+            <route path="comment/commentCulture(/:id)" component={CommentCulture} />
             <route path="culture/artList" component={ArtList} />
             <route path="culture/addArt" component={AddArt} />
             <route path="culture/artList/edit/:id" component={EditArt} />
+            <route path="comment/commentArt" component={CommentArt} />
             <route path="news/newsList" component={NewsList} />
             <route path="news/newsList/edit/:id" component={EditNews} />
             <route path="news/addNews" component={AddNews} />

@@ -257,7 +257,7 @@ class EditCulture extends React.Component {
                                 </Row>
                                 <div className='toolbar'>
                                     <div className='pull-right'>
-                                        <Button type="primary" htmlType="submit">确认</Button>
+                                        <Button size='large' type="primary" htmlType="submit">保存</Button>
                                     </div>
                                 </div>
                             </Form>

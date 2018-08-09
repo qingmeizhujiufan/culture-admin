@@ -39,16 +39,16 @@ const Menu = [
                 label: '文化列表'
             }, {
                 key: '2_2',
-                link: '/frame/culture/addCulture',
-                label: '新增文化'
+                link: '/frame/comment/commentCulture',
+                label: '文化评论管理'
             }, {
                 key: '2_3',
                 link: '/frame/culture/artList',
                 label: '艺术品列表'
             }, {
                 key: '2_4',
-                link: '/frame/culture/addArt',
-                label: '新增艺术品'
+                link: '/frame/comment/commentArt',
+                label: '艺术品评论管理'
             }
         ]
     }, {
@@ -61,10 +61,6 @@ const Menu = [
                 key: '3_1',
                 link: '/frame/news/newsList',
                 label: '新闻列表'
-            }, {
-                key: '3_2',
-                link: '/frame/news/addNews',
-                label: '添加新闻'
             }
         ]
     }, {
@@ -77,6 +73,10 @@ const Menu = [
                 key: '4_1',
                 link: '/frame/taste/manage',
                 label: '图片管理'
+            }, {
+                key: '4_2',
+                link: '/frame/comment/commentTaste',
+                label: '图片评论管理'
             }
         ]
     }, {

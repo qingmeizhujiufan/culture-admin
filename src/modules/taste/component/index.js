@@ -97,6 +97,9 @@ class Taste extends React.Component {
                         overlay={
                             <Menu>
                                 <Menu.Item>
+                                    <Link to={'/frame/taste/commentTaste'}>查看评论</Link>
+                                </Menu.Item>
+                                <Menu.Item>
                                     <a onClick={() => this.onDelete(record.key)}>删除</a>
                                 </Menu.Item>
                             </Menu>

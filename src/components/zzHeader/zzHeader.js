@@ -25,11 +25,11 @@ class ZZHeader extends React.Component {
 
     logout = () => {
         let param = {};
-        param.userId = localStorage.userId;
+        param.userId = sessionStorage.userId;
         ajax.postJSON(logoutUrl, JSON.stringify(param), (data) => {
             if (data.success) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('userId');
+                sessionStorage.removeItem('token');
+                sessionStorage.removeItem('userId');
                 notification.open({
                     message: '已安全退出！',
                     icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,

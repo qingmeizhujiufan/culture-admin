@@ -100,7 +100,7 @@ class AddNews extends React.Component {
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
 
-                        this.context.router.push('/frame/news/newsList');
+                        return this.context.router.push('/frame/news/newsList');
                     } else {
                         message.error(data.backMsg);
                     }

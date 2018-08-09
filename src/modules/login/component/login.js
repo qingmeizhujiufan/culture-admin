@@ -34,7 +34,7 @@ class Login extends React.Component {
                     if (data.success) {
                         sessionStorage.token = data.token;
                         sessionStorage.userId = data.userId;
-                        this.context.router.push('/frame/home');
+                        return this.context.router.push('/frame/home');
                     } else {
                         message.error(data.backMsg);
                     }

@@ -5,7 +5,6 @@ import {ZZCard} from 'Comps/zz-antD';
 import '../home.less';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
-import ZZSpin from "Comps/zzSpin/zzSpin";
 
 const FormItem = Form.Item;
 
@@ -413,7 +412,7 @@ class MusicSetting extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state={
+        this.state = {
             data: {},
             loading: false,
             submitLoading: false,
@@ -437,7 +436,7 @@ class MusicSetting extends React.Component {
             if (data.success) {
                 let backData = data.music;
                 const bgMusic = backData.bgMusic;
-                let bgMusicList = [{
+                let bgMusicList = bgMusic.fileName ? [{
                     uid: bgMusic.id,
                     name: bgMusic.fileName,
                     status: 'done',
@@ -447,7 +446,7 @@ class MusicSetting extends React.Component {
                             id: bgMusic.id
                         }
                     }
-                }];
+                }] : [];
                 backData.bgMusic = bgMusicList;
                 this.setState({
                     data: backData,
@@ -529,8 +528,8 @@ class MusicSetting extends React.Component {
                                     action={restUrl.UPLOAD}
                                     onChange={this.handleChange}
                                 >
-                                    {fileList.length >= 1 ? null : ( <Button>
-                                        <Icon type="upload" /> 上传
+                                    {fileList.length >= 1 ? null : (<Button>
+                                        <Icon type="upload"/> 上传
                                     </Button>)}
                                 </Upload>
                             )}
