@@ -245,7 +245,7 @@ class EditCulture extends React.Component {
                                             {getFieldDecorator('cultureBrief', {
                                                 initialValue: data.cultureBrief
                                             })(
-                                                <Input.TextArea autosize={{minRows: 4, maxRows: 6}}/>
+                                                <Input.TextArea autosize={{minRows: 4, maxRows: 6}} maxLength={100}/>
                                             )}
                                         </FormItem>
                                     </Col>

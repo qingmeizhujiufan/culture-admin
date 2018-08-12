@@ -84,7 +84,6 @@ class Index extends React.Component {
                                 <Radio.Button value="threeday">最近三天</Radio.Button>
                                 <Radio.Button value="week">最近一周</Radio.Button>
                                 <Radio.Button value="month">最近一个月</Radio.Button>
-                                <Radio.Button value="halfyear">最近半年</Radio.Button>
                             </Radio.Group>
                         )}
                     >

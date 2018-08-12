@@ -17,6 +17,13 @@ const deleteUrl = restUrl.ADDR + 'taste/delete';
 //获取TOP 10
 const queryRankingListTop10Url = restUrl.ADDR + 'taste/queryRankingListTop10';
 
+const IconText = ({type, text}) => (
+    <span>
+    <Icon type={type} style={{marginRight: 8}}/>
+        {text}
+  </span>
+);
+
 class Taste extends React.Component {
     constructor(props) {
         super(props);
@@ -258,7 +265,7 @@ class Taste extends React.Component {
                 </div>
                 <div className='pageContent'>
                     <Row gutter={24}>
-                        <Col span={16}>
+                        <Col span={18}>
                             <ZZCard title='图片列表' loading={loading_1}>
                                 <ZZTable
                                     bordered={true}
@@ -267,21 +274,28 @@ class Taste extends React.Component {
                                 />
                             </ZZCard>
                         </Col>
-                        <Col span={8}>
+                        <Col span={6}>
                             <ZZCard title='排行榜TOP 10' className='ranking-list'>
                                 <Tabs defaultActiveKey="1">
                                     <TabPane tab="点赞排行" key="1">
                                         <Spin spinning={loading_2}>
                                             <List
-                                                itemLayout="horizontal"
+                                                itemLayout="vertical"
                                                 dataSource={data_1}
                                                 renderItem={item => (
-                                                    <List.Item>
+                                                    <List.Item
+                                                        actions={[<IconText type="star-o" text={item.likeNum}/>,
+                                                            <IconText type="message" text={item.commentNum}/>]}
+                                                        extra={<img
+                                                            style={{
+                                                                width: 100,
+                                                                height: 80
+                                                            }}
+                                                            src={restUrl.BASE_HOST + item.tasteCover.filePath}/>}
+                                                    >
                                                         <List.Item.Meta
-                                                            avatar={<img
-                                                                src={restUrl.BASE_HOST + item.tasteCover.filePath}/>}
-                                                            title={<a>{item.tasteBrief}</a>}
-                                                            description="Ant Design"
+                                                            title={<a>{item.tasteTitle}</a>}
+                                                            description={item.tasteBrief}
                                                         />
                                                     </List.Item>
                                                 )}
@@ -291,15 +305,22 @@ class Taste extends React.Component {
                                     <TabPane tab="评论排行" key="2">
                                         <Spin spinning={loading_3}>
                                             <List
-                                                itemLayout="horizontal"
+                                                itemLayout="vertical"
                                                 dataSource={data_2}
                                                 renderItem={item => (
-                                                    <List.Item>
+                                                    <List.Item
+                                                        actions={[<IconText type="star-o" text={item.likeNum}/>,
+                                                            <IconText type="message" text={item.commentNum}/>]}
+                                                        extra={<img
+                                                            style={{
+                                                                width: 100,
+                                                                height: 80
+                                                            }}
+                                                            src={restUrl.BASE_HOST + item.tasteCover.filePath}/>}
+                                                    >
                                                         <List.Item.Meta
-                                                            avatar={<img
-                                                                src={restUrl.BASE_HOST + item.tasteCover.filePath}/>}
-                                                            title={<a>{item.tasteBrief}</a>}
-                                                            description="Ant Design"
+                                                            title={<a>{item.tasteTitle}</a>}
+                                                            description={item.tasteBrief}
                                                         />
                                                     </List.Item>
                                                 )}

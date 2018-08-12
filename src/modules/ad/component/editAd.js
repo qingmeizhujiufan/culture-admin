@@ -12,15 +12,18 @@ import {
     notification,
     Message,
     Breadcrumb,
-    Spin
+    Spin,
+    Select
 } from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
 
+const Option = Select.Option;
 const FormItem = Form.Item;
 
 const queryDetailUrl = restUrl.ADDR + 'ad/queryDetail';
+const queryListUrl = restUrl.ADDR + 'ad/queryList';
 const saveUrl = restUrl.ADDR + 'ad/save';
 
 const formItemLayout = {
@@ -28,18 +31,36 @@ const formItemLayout = {
     wrapperCol: {span: 12},
 };
 
+const adList = [
+    {
+        value: 'culture_1',
+        name: '旅游广告位'
+    }, {
+        value: 'taste_1',
+        name: '图片展示广告位一'
+    }, {
+        value: 'taste_2',
+        name: '图片展示广告位二'
+    }
+];
+
 class EditAd extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             data: {},
-            fileList: []
+            fileList: [],
+            options: [],
+            loading: false,
+            submitLoading: false,
+            adLoading: false
         };
     }
 
     componentDidMount = () => {
         this.queryDetail();
+        this.queryList();
     }
 
     queryDetail = () => {
@@ -51,7 +72,7 @@ class EditAd extends React.Component {
         ajax.getJSON(queryDetailUrl, param, data => {
             if (data.success) {
                 let backData = data.backData;
-                const adCover = backData.newsCover;
+                const adCover = backData.adCover;
                 let photoList = [{
                     uid: adCover.id,
                     name: adCover.fileName,
@@ -59,7 +80,7 @@ class EditAd extends React.Component {
                     url: restUrl.BASE_HOST + adCover.filePath,
                     response: {
                         data: {
-                            id: newsCover.id
+                            id: adCover.id
                         }
                     }
                 }];
@@ -68,12 +89,41 @@ class EditAd extends React.Component {
 
                 this.setState({
                     data: backData,
-                    fileList: photoList,
-                    loading: false
+                    fileList: photoList
                 });
             } else {
+                Message.error(data.backMsg);
+            }
+            this.setState({loading: false});
+        });
+    }
+
+    //获取所有广告位
+    queryList = () => {
+        const {options} = this.state;
+        this.setState({adLoading: true});
+        ajax.getJSON(queryListUrl, null, (data) => {
+            if (data.success) {
+                let backData = data.backData;
+                const adsenseList = [];
+                backData.map(item => {
+                    adsenseList.push(item.adsense);
+                });
+                adList.map(item => {
+                    options.push(<Option
+                        key={item.value}
+                        value={item.value}
+                        disabled={adsenseList.findIndex((val => val === item.value)) > -1 ? true : false}
+                    >{item.name}</Option>);
+                })
+                this.setState({
+                    options,
+                });
+            }
+            else {
 
             }
+            this.setState({adLoading: false});
         });
     }
 
@@ -89,6 +139,7 @@ class EditAd extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                values.id = this.props.params.id;
                 values.adCover = values.adCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
@@ -99,7 +150,7 @@ class EditAd extends React.Component {
                             message: '更新广告信息成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                    }else {
+                    } else {
                         Message.error(data.backMsg);
                     }
                 });
@@ -108,7 +159,7 @@ class EditAd extends React.Component {
     }
 
     render() {
-        let {data, fileList} = this.state;
+        let {data, fileList, options, loading, submitLoading, adLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -125,67 +176,89 @@ class EditAd extends React.Component {
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
-                        <Form onSubmit={this.handleSubmit}>
-                            <Row>
-                                <Col span={12}>
-                                    <FormItem
-                                        label="封面图片"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('adCover', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '广告图片不能为空!'}],
-                                            initialValue: data.adCover
-                                        })(
-                                            <Upload
-                                                accept="image/*"
-                                                action={restUrl.UPLOAD}
-                                                listType={'picture'}
-                                                className='upload-list-inline'
-                                                onChange={this.handleChange}
-                                            >
-                                                {fileList.length >= 1 ? null :
-                                                    <Button><Icon type="upload"/> 上传</Button>}
-                                            </Upload>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
-                                    <FormItem
-                                        label="名称"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('adTitle', {
-                                            rules: [{required: true, message: '名称不能为空!'}],
-                                            initialValue: data.adTitle
-                                        })(
-                                            <Input placeholder=""/>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col span={12}>
-                                    <FormItem
-                                        label="链接"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('adLink', {
-                                            rules: [{required: true, message: '链接不能为空!'}],
-                                            initialValue: data.adLink
-                                        })(
-                                            <Input placeholder=""/>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                            </Row>
-                            <div className='toolbar'>
-                                <div className='pull-right'>
-                                    <Button type="primary" htmlType="submit">确认</Button>
+                        <Spin spinning={loading} size='large'>
+                            <Form onSubmit={this.handleSubmit}>
+                                <Row>
+                                    <Col span={12}>
+                                        <FormItem
+                                            label="封面图片"
+                                            {...formItemLayout}
+                                        >
+                                            {getFieldDecorator('adCover', {
+                                                valuePropName: 'fileList',
+                                                getValueFromEvent: this.normFile,
+                                                rules: [{required: true, message: '广告图片不能为空!'}],
+                                                initialValue: data.adCover
+                                            })(
+                                                <Upload
+                                                    accept="image/*"
+                                                    action={restUrl.UPLOAD}
+                                                    listType={'picture'}
+                                                    className='upload-list-inline'
+                                                    onChange={this.handleChange}
+                                                >
+                                                    {fileList.length >= 1 ? null :
+                                                        <Button><Icon type="upload"/> 上传</Button>}
+                                                </Upload>
+                                            )}
+                                        </FormItem>
+                                    </Col>
+                                    <Col span={12}>
+                                        <FormItem
+                                            label="广告位选择"
+                                            {...formItemLayout}
+                                        >
+                                            <Spin spinning={adLoading} indicator={<Icon type="loading"/>}>
+                                                {getFieldDecorator('adsense', {
+                                                    rules: [{required: true, message: '广告位不能为空!'}],
+                                                    initialValue: data.adsense
+                                                })(
+                                                    <Select>
+                                                        {
+                                                            options.map(item => item)
+                                                        }
+                                                    </Select>
+                                                )}
+                                            </Spin>
+                                        </FormItem>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={12}>
+                                        <FormItem
+                                            label="名称"
+                                            {...formItemLayout}
+                                        >
+                                            {getFieldDecorator('adTitle', {
+                                                rules: [{required: true, message: '名称不能为空!'}],
+                                                initialValue: data.adTitle
+                                            })(
+                                                <Input placeholder=""/>
+                                            )}
+                                        </FormItem>
+                                    </Col>
+                                    <Col span={12}>
+                                        <FormItem
+                                            label="链接"
+                                            {...formItemLayout}
+                                        >
+                                            {getFieldDecorator('adLink', {
+                                                rules: [{required: true, message: '链接不能为空!'}],
+                                                initialValue: data.adLink
+                                            })(
+                                                <Input placeholder=""/>
+                                            )}
+                                        </FormItem>
+                                    </Col>
+                                </Row>
+                                <div className='toolbar'>
+                                    <div className='pull-right'>
+                                        <Button type="primary" size='large' htmlType="submit"
+                                                loading={submitLoading}>保存</Button>
+                                    </div>
                                 </div>
-                            </div>
-                        </Form>
+                            </Form>
+                        </Spin>
                     </div>
                 </div>
             </div>

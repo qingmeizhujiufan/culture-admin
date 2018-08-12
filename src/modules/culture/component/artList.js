@@ -111,7 +111,20 @@ class ArtList extends React.Component {
             width: 120,
             render: (text, record, index) => (
                 <div>
-                    <a onClick={() => this.onReview(record.id, index)}>审核</a>
+                    <Dropdown
+                        overlay={
+                            <Menu>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, 1)}>审核通过</a>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, -1)}>不合格</a>
+                                </Menu.Item>
+                            </Menu>
+                        }
+                    >
+                        <a className="ant-dropdown-link">审核</a>
+                    </Dropdown>
                     <Divider type="vertical"/>
                     <Dropdown
                         overlay={
@@ -198,15 +211,16 @@ class ArtList extends React.Component {
         return `/frame/culture/artList/edit/${id}`
     }
 
-    onReview = (id, index) => {
+    onReview = (record, index, state) => {
         Modal.confirm({
-            title: '提示',
-            content: '确认审核通过吗',
+            title: '审核艺术品',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
                 let param = {};
-                param.id = id;
+                param.id = record.id;
+                param.state = state;
+                param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
                         notification.open({
@@ -214,7 +228,7 @@ class ArtList extends React.Component {
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
                         const dataSource = [...this.state.dataSource];
-                        dataSource[index].state = 1;
+                        dataSource[index].state = state;
 
                         this.setState({
                             dataSource,

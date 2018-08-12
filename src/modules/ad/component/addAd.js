@@ -12,14 +12,16 @@ import {
     notification,
     Message,
     Breadcrumb,
-    Spin
+    Spin, Select
 } from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
 
+const Option = Select.Option;
 const FormItem = Form.Item;
 
+const queryListUrl = restUrl.ADDR + 'ad/queryList';
 const saveUrl = restUrl.ADDR + 'ad/save';
 
 const formItemLayout = {
@@ -27,16 +29,62 @@ const formItemLayout = {
     wrapperCol: {span: 12},
 };
 
+const adList = [
+    {
+        value: 'culture_1',
+        name: '旅游广告位'
+    }, {
+        value: 'taste_1',
+        name: '图片展示广告位一'
+    }, {
+        value: 'taste_2',
+        name: '图片展示广告位二'
+    }
+];
+
 class AddAd extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            fileList: []
+            fileList: [],
+            options: [],
+            submitLoading: false,
+            adLoading: false
         };
     }
 
     componentDidMount = () => {
+        this.queryList();
+    }
+
+    //获取所有广告位
+    queryList = () => {
+        const {options} = this.state;
+        this.setState({adLoading: true});
+        ajax.getJSON(queryListUrl, null, (data) => {
+            if (data.success) {
+                let backData = data.backData;
+                const adsenseList = [];
+                backData.map(item => {
+                    adsenseList.push(item.adsense);
+                });
+                adList.map(item => {
+                    options.push(<Option
+                        key={item.value}
+                        value={item.value}
+                        disabled={adsenseList.findIndex((val => val === item.value)) > -1 ? true : false}
+                    >{item.name}</Option>);
+                })
+                this.setState({
+                    options,
+                });
+            }
+            else {
+
+            }
+            this.setState({adLoading: false});
+        });
     }
 
     normFile = (e) => {
@@ -55,23 +103,25 @@ class AddAd extends React.Component {
                     return item.response.data.id;
                 }).join(',');
                 console.log('handleSubmit  param === ', values);
+                this.setState({submitLoading: true});
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
                             message: '新增广告成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-                        this.context.router.push('/frame/ad/platform');
-                    }else {
+                        return this.context.router.push('/frame/ad/platform');
+                    } else {
                         Message.error(data.backMsg);
                     }
+                    this.setState({submitLoading: false});
                 });
             }
         });
     }
 
     render() {
-        let {fileList, editorState} = this.state;
+        let {options, fileList, submitLoading, adLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -113,6 +163,24 @@ class AddAd extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
+                                <Col span={12}>
+                                    <FormItem
+                                        label="广告位选择"
+                                        {...formItemLayout}
+                                    >
+                                        <Spin spinning={adLoading} indicator={<Icon type="loading"/>}>
+                                            {getFieldDecorator('adsense', {
+                                                rules: [{required: true, message: '广告位不能为空!'}],
+                                            })(
+                                                <Select>
+                                                    {
+                                                        options.map(item => item)
+                                                    }
+                                                </Select>
+                                            )}
+                                        </Spin>
+                                    </FormItem>
+                                </Col>
                             </Row>
                             <Row>
                                 <Col span={12}>
@@ -142,7 +210,8 @@ class AddAd extends React.Component {
                             </Row>
                             <div className='toolbar'>
                                 <div className='pull-right'>
-                                    <Button type="primary" htmlType="submit">提交</Button>
+                                    <Button type="primary" size='large' htmlType="submit"
+                                            loading={submitLoading}>提交</Button>
                                 </div>
                             </div>
                         </Form>

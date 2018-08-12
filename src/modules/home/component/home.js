@@ -105,6 +105,9 @@ class Index extends React.Component {
                     x: '新闻',
                     y: backData.newsTotal
                 }, {
+                    x: '美图',
+                    y: backData.tasteTotal
+                }, {
                     x: '视频',
                     y: backData.videoTotal
                 }];
@@ -192,13 +195,12 @@ class Index extends React.Component {
                                         <Radio.Button value="threeday">最近三天</Radio.Button>
                                         <Radio.Button value="week">最近一周</Radio.Button>
                                         <Radio.Button value="month">最近一个月</Radio.Button>
-                                        <Radio.Button value="halfyear">最近半年</Radio.Button>
                                     </Radio.Group>
                                 )}
                                 loading={userLoading}
-                                style={{height: 496}}
+                                style={{height: 534}}
                             >
-                                <Bar height={380} data={userData} />
+                                <Bar height={418} data={userData} />
                             </ZZCard>
                         </Col>
                         <Col span={6}>

@@ -211,7 +211,7 @@ class Organize extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={32}>
                         <Col span={6}>
-                            <ZZCard loading={loading} title="组织树" extra={<a>More</a>}>
+                            <ZZCard loading={loading} title="组织树">
                                 {this.loadTree(data)}
                             </ZZCard>
                         </Col>

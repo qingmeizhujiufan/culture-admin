@@ -21,6 +21,13 @@ class ZZLeftSide extends React.Component {
     }
 
     componentWillMount = () => {
+        this.selectActiveTab();
+    }
+
+    componentDidMount = () => {
+    }
+
+    selectActiveTab = () => {
         const router = this.context.router;
         const location = router.location;
         const params = router.params;
@@ -56,9 +63,6 @@ class ZZLeftSide extends React.Component {
                 }
             }
         });
-    }
-
-    componentDidMount = () => {
     }
 
     getFlatMenu = menu => {

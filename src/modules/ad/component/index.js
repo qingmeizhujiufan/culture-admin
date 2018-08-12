@@ -38,9 +38,10 @@ class Ad extends React.Component {
         super(props);
 
         this.columns = [{
-            title: '动态标题',
+            title: '广告名称',
             dataIndex: 'adTitle',
             key: 'adTitle',
+            width: 200,
             align: 'center',
             render: (text, record, index) => (
                 <Link to={this.editrouter(record.id)}>{text}</Link>
@@ -48,8 +49,7 @@ class Ad extends React.Component {
         }, {
             title: '链接',
             dataIndex: 'adLink',
-            key: 'adLink',
-            align: 'center',
+            key: 'adLink'
         }, {
             title: '审核状态',
             dataIndex: 'state',
@@ -75,6 +75,7 @@ class Ad extends React.Component {
             title: '创建时间',
             dataIndex: 'create_time',
             key: 'create_time',
+            width: 120,
             align: 'center',
         }, {
             title: <a><Icon type="setting" style={{fontSize: 18}}/></a>,
@@ -84,7 +85,20 @@ class Ad extends React.Component {
             align: 'center',
             render: (text, record, index) => (
                 <div>
-                    <a onClick={() => this.onReview(record.id)}>审核</a>
+                    <Dropdown
+                        overlay={
+                            <Menu>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, 1)}>审核通过</a>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, -1)}>不合格</a>
+                                </Menu.Item>
+                            </Menu>
+                        }
+                    >
+                        <a className="ant-dropdown-link">审核</a>
+                    </Dropdown>
                     <Divider type="vertical"/>
                     <Dropdown
                         overlay={
@@ -114,11 +128,9 @@ class Ad extends React.Component {
         this.queryList();
     }
 
-    //获取失物招领详情
-    queryList = (id) => {
-        let param = {};
-        param.id = id;
-        ajax.getJSON(queryListUrl, param, (data) => {
+    //获取所有广告位
+    queryList = () => {
+        ajax.getJSON(queryListUrl, null, data => {
             if (data.success) {
                 const backData = data.backData;
                 backData.map(item => item.key = item.id);
@@ -141,24 +153,24 @@ class Ad extends React.Component {
         return `/frame/ad/platform/edit/${id}`
     }
 
-    onReview = id => {
+    onReview = (record, index, state) => {
         Modal.confirm({
-            title: '提示',
-            content: '确认审核通过吗',
+            title: '审核广告',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
                 let param = {};
-                param.id = id;
+                param.id = record.id;
+                param.state = state;
+                param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
                         notification.open({
                             message: '审核成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
-
                         const dataSource = [...this.state.dataSource];
-                        dataSource[index].state = 1;
+                        dataSource[index].state = state;
 
                         this.setState({
                             dataSource,
@@ -220,17 +232,12 @@ class Ad extends React.Component {
                 </div>
                 <div className='pageContent'>
                     <Row gutter={24}>
-                        <Col span={18}>
+                        <Col>
                             <ZZCard title='广告列表' loading={loading} extra={<Button type="primary" icon="plus" href="#/frame/ad/platform/add">添加</Button>}>
                                 <ZZTable
-                                    bordered={true}
                                     dataSource={dataSource}
                                     columns={this.columns}
                                 />
-                            </ZZCard>
-                        </Col>
-                        <Col span={6}>
-                            <ZZCard title='点击量'>
                             </ZZCard>
                         </Col>
                     </Row>

@@ -33,7 +33,10 @@ class Login extends React.Component {
                 ajax.postJSON(loginUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         sessionStorage.token = data.token;
+                        sessionStorage.expireDate = data.expireDate;
                         sessionStorage.userId = data.userId;
+                        sessionStorage.type = data.type;
+                        sessionStorage.typeName = data.typeName;
                         return this.context.router.push('/frame/home');
                     } else {
                         message.error(data.backMsg);

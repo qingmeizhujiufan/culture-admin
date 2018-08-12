@@ -15,7 +15,7 @@ import {
     Spin,
     Tabs,
     message,
-    Modal, Radio, Button
+    Modal, Radio, Button, Switch
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import _ from 'lodash';
@@ -28,6 +28,7 @@ const TabPane = Tabs.TabPane;
 const getLiveListUrl = restUrl.ADDR + 'culture/queryListByAdmin';
 const reviewUrl = restUrl.ADDR + 'culture/review';
 const delLiveUrl = restUrl.ADDR + 'culture/delete';
+const settingRecommendUrl = restUrl.ADDR + 'culture/settingRecommend';
 
 class CultureList extends React.Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class CultureList extends React.Component {
         }, {
             title: '描述',
             dataIndex: 'cultureBrief',
-            key: 'cultureBrief',
+            key: 'cultureBrief'
         }, {
             title: '新闻城市',
             width: 120,
@@ -73,6 +74,20 @@ class CultureList extends React.Component {
                 }
             }
         }, {
+            title: '是否推荐',
+            width: 120,
+            align: 'center',
+            dataIndex: 'isRecommend',
+            key: 'isRecommend',
+            render: (text, record, index) => (
+                <Switch
+                    checkedChildren="是"
+                    unCheckedChildren="否"
+                    checked={text === 1 ? true : false}
+                    onChange={checked => this.onRecommendChange(checked, record, index)}
+                />
+            )
+        }, {
             title: '创建人',
             width: 120,
             align: 'center',
@@ -94,7 +109,20 @@ class CultureList extends React.Component {
             width: 120,
             render: (text, record, index) => (
                 <div>
-                    <a onClick={() => this.onReview(record.id, index)}>审核</a>
+                    <Dropdown
+                        overlay={
+                            <Menu>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, 1)}>审核通过</a>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <a onClick={() => this.onReview(record, index, -1)}>不合格</a>
+                                </Menu.Item>
+                            </Menu>
+                        }
+                    >
+                        <a className="ant-dropdown-link">审核</a>
+                    </Dropdown>
                     <Divider type="vertical"/>
                     <Dropdown
                         overlay={
@@ -159,15 +187,16 @@ class CultureList extends React.Component {
         return `/frame/culture/cultureList/edit/${id}`
     }
 
-    onReview = (id, index) => {
+    onReview = (record, index, state) => {
         Modal.confirm({
-            title: '提示',
-            content: '确认审核通过吗',
+            title: '审核文化',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
                 let param = {};
-                param.id = id;
+                param.id = record.id;
+                param.state = state;
+                param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
                         notification.open({
@@ -175,7 +204,7 @@ class CultureList extends React.Component {
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
                         const dataSource = [...this.state.dataSource];
-                        dataSource[index].state = 1;
+                        dataSource[index].state = state;
 
                         this.setState({
                             dataSource,
@@ -186,6 +215,28 @@ class CultureList extends React.Component {
                 });
             }
         });
+    }
+
+    onRecommendChange = (checked, record, index) => {
+        const param = {};
+        param.id = record.id;
+        param.isRecommend = checked ? 1 : 0;
+        ajax.postJSON(settingRecommendUrl, JSON.stringify(param), data => {
+            if (data.success) {
+                notification.open({
+                    message: '推荐设置成功！',
+                    icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                });
+                const dataSource = [...this.state.dataSource];
+                dataSource[index].isRecommend = checked ? 1 : 0;
+
+                this.setState({
+                    dataSource,
+                });
+            } else {
+                message.warning(data.backMsg);
+            }
+        })
     }
 
     onDelete = (key) => {
@@ -220,7 +271,7 @@ class CultureList extends React.Component {
     render() {
         const {loading, dataSource, searchText, state} = this.state;
         let n_dataSource = [...dataSource].filter(item => item.cultureTitle.indexOf(searchText) > -1);
-        if(state !== 999){
+        if (state !== 999) {
             n_dataSource = n_dataSource.filter(item => item.state === state);
         }
 

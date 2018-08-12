@@ -74,24 +74,6 @@ var ajax = {
             this.request({ url: url, query: data, success: success, error: error, complete: complete, cookies: cookies, accept: 'text' });
         }
     }
-    //请求携带Cookies信息
-    ,
-    getTextWithCookies: function getTextWithCookies(url, data, success, error, complete) {
-        if (_.isFunction(data)) {
-            this.getText(url, arguments[1], arguments[2], arguments[3], true);
-        } else {
-            this.getText(url, data, success, error, complete, true);
-        }
-    }
-    //通过post方法请求发送表单数据
-    ,
-    postForm: function postForm(url, data, success, error, complete, cookies) {
-        if (_.isFunction(data)) {
-            this.request({ url: url, success: arguments[1], error: arguments[2], complete: arguments[3], cookies: arguments[4], method: 'POST', type: 'form' });
-        } else {
-            this.request({ url: url, send: data, success: success, error: error, complete: complete, cookies: cookies, method: 'POST', type: 'form' });
-        }
-    }
     //通过post方法请求text数据
     ,
     postText: function postText(url, data, success, error, complete, cookies) {
@@ -99,15 +81,6 @@ var ajax = {
             this.request({ url: url, success: arguments[1], error: arguments[2], complete: arguments[3], cookies: arguments[4], method: 'POST', accept: 'text' });
         } else {
             this.request({ url: url, send: data, success: success, error: error, complete: complete, cookies: cookies, method: 'POST', accept: 'text' });
-        }
-    }
-    //请求携带Cookies信息
-    ,
-    postTextWithCookies: function postTextWithCookies(url, data, success, error, complete) {
-        if (_.isFunction(data)) {
-            this.postText(url, arguments[1], arguments[2], arguments[3], true);
-        } else {
-            this.postText(url, data, success, error, complete, true);
         }
     }
     //设置全局header信息
