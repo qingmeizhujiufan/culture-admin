@@ -89,7 +89,7 @@ const Menu_S_Admin = [
                 key: '5_1',
                 link: '/frame/video/list',
                 label: '在线视频列表'
-            },{
+            }, {
                 key: '5_2',
                 link: '/frame/video/list/add',
                 label: '新增视频'
@@ -192,13 +192,13 @@ const Menu_Admin = [
 ];
 
 let Menu = [];
-if(sessionStorage.type && sessionStorage.type === "1"){
+if (sessionStorage.type && sessionStorage.type === "1") {
     Menu = Menu_S_Admin;
 }
-if(sessionStorage.type && sessionStorage.type === "2"){
+else if (sessionStorage.type && sessionStorage.type === "2") {
     Menu = Menu_Admin;
 }
-if(sessionStorage.type && sessionStorage.type === "3"){
+else if (sessionStorage.type && sessionStorage.type === "3") {
     Menu = Menu_Admin;
 }
 

@@ -198,7 +198,6 @@ class Index extends React.Component {
                                     </Radio.Group>
                                 )}
                                 loading={userLoading}
-                                style={{height: 534}}
                             >
                                 <Bar height={418} data={userData} />
                             </ZZCard>
