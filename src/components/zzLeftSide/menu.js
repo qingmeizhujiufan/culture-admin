@@ -2,7 +2,6 @@ const Menu_S_Admin = [
     {
         key: '1',
         iconType: 'dashboard',
-        link: '/frame/home',
         label: '平台概况',
         children: [
             {
@@ -30,7 +29,6 @@ const Menu_S_Admin = [
     }, {
         key: '2',
         iconType: 'solution',
-        link: '',
         label: '文化展示',
         children: [
             {
@@ -54,7 +52,6 @@ const Menu_S_Admin = [
     }, {
         key: '3',
         iconType: 'table',
-        link: '',
         label: '新闻资讯',
         children: [
             {
@@ -66,7 +63,6 @@ const Menu_S_Admin = [
     }, {
         key: '4',
         iconType: 'line-chart',
-        link: '',
         label: '图片展示',
         children: [
             {
@@ -82,7 +78,6 @@ const Menu_S_Admin = [
     }, {
         key: '5',
         iconType: 'credit-card',
-        link: '',
         label: '在线视频',
         children: [
             {
@@ -98,7 +93,6 @@ const Menu_S_Admin = [
     }, {
         key: '6',
         iconType: 'rocket',
-        link: '',
         label: '用户管理',
         children: [
             {

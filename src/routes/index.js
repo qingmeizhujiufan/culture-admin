@@ -1,10 +1,10 @@
 import React from 'react';
-import {Router, Route, IndexRoute} from 'react-router'
+import {Route, IndexRoute} from 'react-router';
+import s_admin_router from './s_admin_router';
+import admin_router from './admin_router';
 
 import App from '../modules/App';
 import Frame from '../modules/Frame';
-import s_admin_router from './s_admin_router';
-import admin_router from './admin_router';
 
 /* 登录 */
 import Login from '../modules/login/component/login';
@@ -41,8 +41,8 @@ console.log('pageRouter == ', pageRouter);
 module.exports = (
     <Route path="/" component={App}>
         <IndexRoute component={Login}/>
-        <Route path="login" component={Login}/>
-        <Route path="/frame/*" component={Frame} onEnter={requireAuth}>
+        <route path="login" component={Login}/>
+        <Route path="/frame(/*)" component={Frame} onEnter={requireAuth}>
             {pageRouter}
         </Route>
     </Route>
