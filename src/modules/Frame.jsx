@@ -11,13 +11,28 @@ const {Content} = Layout;
 export default class App extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            storageChange: 1
+        };
+    }
+
+    componentDidMount = () => {
+        window.addEventListener('storage', () => {
+            this.setState({storageChange: ++this.state.storageChange});
+        })
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener('storage', () => {
+            this.setState({storageChange: ++this.state.storageChange});
+        })
     }
 
     render() {
         return (
             <LocaleProvider locale={zh_CN}>
                 <Layout>
-                    <ZZLeftSide/>
+                    <ZZLeftSide storageChange={this.state.storageChange}/>
                     <Layout>
                         <ZZHeader/>
                         <Content>

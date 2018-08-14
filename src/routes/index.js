@@ -10,39 +10,38 @@ import Frame from '../modules/Frame';
 import Login from '../modules/login/component/login';
 import Home from "../modules/home/component/home";
 
+let pageRouter = [];
+
 const requireAuth = (nextState, replace) => {
     if (!sessionStorage.expireDate || new Date(sessionStorage.expireDate).getTime() <= new Date().getTime()) {
         replace({pathname: '/'})
     }
+    if(sessionStorage.type && sessionStorage.type === "1"){
+        pageRouter = [
+            <IndexRoute key='0' component={Home}/>,
+            ...s_admin_router
+        ];
+    }
+    if(sessionStorage.type && sessionStorage.type === "2"){
+        pageRouter = [
+            <IndexRoute key='0' component={Home}/>,
+            ...admin_router
+        ];
+    }
+    if(sessionStorage.type && sessionStorage.type === "3"){
+        pageRouter = [
+            <IndexRoute key='0' component={Home}/>,
+            ...s_admin_router
+        ];
+    }
+    console.log('pageRouter == ', pageRouter);
 }
 
-let pageRouter = [];
-
-if(sessionStorage.type && sessionStorage.type === "1"){
-    pageRouter = [
-        <IndexRoute key='0' component={Home}/>,
-        ...s_admin_router
-    ];
-}
-if(sessionStorage.type && sessionStorage.type === "2"){
-    pageRouter = [
-        <IndexRoute key='0' component={Home}/>,
-        ...admin_router
-    ];
-}
-if(sessionStorage.type && sessionStorage.type === "3"){
-    pageRouter = [
-        <IndexRoute key='0' component={Home}/>,
-        ...s_admin_router
-    ];
-}
-
-console.log('pageRouter == ', pageRouter);
 module.exports = (
     <Route path="/" component={App}>
         <IndexRoute component={Login}/>
         <route path="login" component={Login}/>
-        <Route path="/frame(/*)" component={Frame} onEnter={requireAuth}>
+        <Route path="/frame(/:name)" component={Frame} onEnter={requireAuth}>
             {pageRouter}
         </Route>
     </Route>

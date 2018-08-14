@@ -28,49 +28,26 @@ class ZZLeftSide extends React.Component {
     componentDidMount = () => {
     }
 
+    componentWillReceiveProps = nextProps => {
+        if('storageChange' in nextProps && nextProps.storageChange !== this.props.storageChange){
+            this.selectActiveTab();
+        }
+    }
+
     selectActiveTab = () => {
         const router = this.context.router;
         const location = router.location;
         const params = router.params;
         const menu = this.getFlatMenu(menuTree);
         console.log('hashUrl ==== ', location.pathname);
-        for(let i = 0; i < menu.length;i++){
+        for (let i = 0; i < menu.length; i++) {
             const item = menu[i];
 
-            if(window.location.hash.split('#')[1].indexOf(item.link) > -1){
+            if (window.location.hash.split('#')[1].indexOf(item.link) > -1) {
                 console.log('active item ==== ', item);
                 this.setState({defaultSelectedKeys: item.key});
                 return;
             }
-
-            // let regexp;
-            // if (Object.keys(params).length > 0) {
-            //     let pathname = location.pathname.substring(0, location.pathname.lastIndexOf('/'));
-            //     pathname = pathname.substring(0, pathname.lastIndexOf('/'));
-            //     console.log('pathname ==== ', pathname);
-            //     regexp = pathToRegexp(pathname);
-            //
-            //     if (regexp.exec(item.link)) {
-            //         this.setState({defaultSelectedKeys: item.key});
-            //         return;
-            //     }
-            // } else {
-            //     let pathname = location.pathname;
-            //     regexp = pathToRegexp(pathname);
-            //
-            //     if (regexp.exec(item.link)) {
-            //         this.setState({defaultSelectedKeys: item.key});
-            //         return;
-            //     }
-            //
-            //     pathname = pathname.substring(0, pathname.lastIndexOf('/'));
-            //     regexp = pathToRegexp(pathname);
-            //
-            //     if(regexp.exec(item.link)){
-            //         this.setState({defaultSelectedKeys: item.key});
-            //         return;
-            //     }
-            // }
         }
     }
 
