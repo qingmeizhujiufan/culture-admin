@@ -32,11 +32,11 @@ class Login extends React.Component {
                 });
                 ajax.postJSON(loginUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        sessionStorage.token = data.token;
-                        sessionStorage.expireDate = data.expireDate;
-                        sessionStorage.userId = data.userId;
-                        sessionStorage.type = data.type;
-                        sessionStorage.typeName = data.typeName;
+                        sessionStorage.setItem('token', data.token);
+                        sessionStorage.setItem('expireDate', data.expireDate);
+                        sessionStorage.setItem('userId', data.userId);
+                        sessionStorage.setItem('type', data.type);
+                        sessionStorage.setItem('typeName', data.typeName);
                         return this.context.router.push('/frame/home');
                     } else {
                         message.error(data.backMsg);

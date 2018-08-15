@@ -16,18 +16,6 @@ export default class App extends React.Component {
         };
     }
 
-    componentDidMount = () => {
-        window.addEventListener('storage', () => {
-            this.setState({storageChange: ++this.state.storageChange});
-        })
-    }
-
-    componentWillUnmount = () => {
-        window.removeEventListener('storage', () => {
-            this.setState({storageChange: ++this.state.storageChange});
-        })
-    }
-
     render() {
         return (
             <LocaleProvider locale={zh_CN}>
