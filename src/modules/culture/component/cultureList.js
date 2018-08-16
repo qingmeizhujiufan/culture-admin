@@ -36,7 +36,7 @@ class CultureList extends React.Component {
 
         this.columns = [{
             title: '标题',
-            width: 450,
+            width: 250,
             dataIndex: 'cultureTitle',
             key: 'cultureTitle',
             render: (text, record, index) => (
@@ -44,6 +44,7 @@ class CultureList extends React.Component {
             )
         }, {
             title: '描述',
+            width: 300,
             dataIndex: 'cultureBrief',
             key: 'cultureBrief'
         }, {

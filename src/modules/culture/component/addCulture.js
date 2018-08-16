@@ -100,7 +100,7 @@ class AddCulture extends React.Component {
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
 
-                        this.context.router.push('/frame/culture/list');
+                        return this.context.router.push('/frame/culture/list');
                     } else {
                         message.error(data.backMsg);
                     }

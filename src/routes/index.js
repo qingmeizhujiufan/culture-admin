@@ -21,27 +21,16 @@ class PageRouter extends React.Component {
         super(props);
 
         this.state = {
-            routes: (
-                <Router history={hashHistory}>
-                    <Route path="/" component={App}>
-                        <IndexRoute component={Login}/>
-                        <Route path="login" component={Login}/>
-                        <Route path="/frame(/*)" component={Frame} onEnter={requireAuth}>
-                            <IndexRoute component={Home}/>
-                        </Route>
-                    </Route>
-                </Router>
-            )
         };
     }
 
     componentWillMount = () => {
-        this.setPageRouter();
+        // this.setPageRouter();
         // window.addEventListener('storage', this.setPageRouter);
     }
 
     componentDidMount = () => {
-        window.addEventListener('setItemEvent', this.setPageRouter);
+        // window.addEventListener('setItemEvent', this.setPageRouter);
     }
 
     // componentWillUnmount = () => {
@@ -75,19 +64,7 @@ class PageRouter extends React.Component {
                 )
             });
         } else {
-            this.setState({
-                routes: (
-                    <Router history={hashHistory}>
-                        <Route path="/" component={App}>
-                            <IndexRoute component={Login}/>
-                            <Route path="login" component={Login}/>
-                            <Route path="/frame(/*)" component={Frame} onEnter={requireAuth}>
-                                <IndexRoute component={Home}/>
-                            </Route>
-                        </Route>
-                    </Router>
-                )
-            });
+
         }
         console.log('pageRouter == ', pageRouter);
     }
@@ -95,7 +72,16 @@ class PageRouter extends React.Component {
     render() {
         return (
             <div>
-                {this.state.routes}
+                <Router history={hashHistory}>
+                    <Route path="/" component={App}>
+                        <IndexRoute component={Login}/>
+                        <Route path="login" component={Login}/>
+                        <Route path="/frame(/*)" component={Frame} onEnter={requireAuth}>
+                            <IndexRoute component={Home}/>
+                            {s_admin_router}
+                        </Route>
+                    </Route>
+                </Router>
             </div>
         )
     }
