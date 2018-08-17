@@ -38,6 +38,7 @@ class EditCulture extends React.Component {
         super(props);
 
         this.state = {
+            type: sessionStorage.type,
             data: {},
             fileList: [],
             cityList: [],
@@ -157,7 +158,7 @@ class EditCulture extends React.Component {
     }
 
     render() {
-        let {data, fileList, editorState, loading, cityList, cityLoading} = this.state;
+        let {type, data, fileList, editorState, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -211,7 +212,9 @@ class EditCulture extends React.Component {
                                                     rules: [{required: true, message: '城市不能为空!'}],
                                                     initialValue: data.cityId
                                                 })(
-                                                    <Select>
+                                                    <Select
+                                                        disabled={type !== '1'}
+                                                    >
                                                         {
                                                             cityList.map(item => {
                                                                 return (<Option key={item.id} value={item.id}>{item.cityName}</Option>)
@@ -257,7 +260,12 @@ class EditCulture extends React.Component {
                                 </Row>
                                 <div className='toolbar'>
                                     <div className='pull-right'>
-                                        <Button size='large' type="primary" htmlType="submit">保存</Button>
+                                        <Button
+                                            size='large'
+                                            type="primary"
+                                            htmlType="submit"
+                                            disabled={type === '1' ? false : !!data.state}
+                                        >保存</Button>
                                     </div>
                                 </div>
                             </Form>

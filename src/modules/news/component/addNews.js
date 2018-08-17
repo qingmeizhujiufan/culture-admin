@@ -36,6 +36,7 @@ class AddNews extends React.Component {
         super(props);
 
         this.state = {
+            type: sessionStorage.type,
             fileList: [],
             cityList: [],
             editorState: EditorState.createEmpty(),
@@ -114,7 +115,7 @@ class AddNews extends React.Component {
     }
 
     render() {
-        let {fileList, editorState, loading, cityList, cityLoading} = this.state;
+        let {type, fileList, editorState, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -163,11 +164,15 @@ class AddNews extends React.Component {
                                         <Spin spinning={cityLoading} indicator={<Icon type="loading"/>}>
                                             {getFieldDecorator('cityId', {
                                                 rules: [{required: true, message: '城市不能为空!'}],
+                                                initialValue: sessionStorage.cityId === 'null' ? undefined : sessionStorage.cityId
                                             })(
-                                                <Select>
+                                                <Select
+                                                    disabled={type !== '1'}
+                                                >
                                                     {
                                                         cityList.map(item => {
-                                                            return (<Option key={item.id} value={item.id}>{item.cityName}</Option>)
+                                                            return (<Option key={item.id}
+                                                                            value={item.id}>{item.cityName}</Option>)
                                                         })
                                                     }
                                                 </Select>

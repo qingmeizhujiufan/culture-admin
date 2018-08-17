@@ -46,13 +46,25 @@ class CultureList extends React.Component {
             title: '描述',
             width: 300,
             dataIndex: 'cultureBrief',
-            key: 'cultureBrief'
+            key: 'cultureBrief',
+            render: (text, record, index) => (
+                <div className='zui-ellipsis-2'>{text}</div>
+            )
         }, {
-            title: '新闻城市',
-            width: 120,
+            title: '所属城市',
             align: 'center',
             dataIndex: 'cityName',
             key: 'cityName',
+        }, {
+            title: '浏览数',
+            align: 'right',
+            dataIndex: 'readNum',
+            key: 'readNum',
+        }, {
+            title: '收藏数',
+            align: 'right',
+            dataIndex: 'collectNum',
+            key: 'collectNum',
         }, {
             title: '审核状态',
             dataIndex: 'state',
@@ -90,7 +102,6 @@ class CultureList extends React.Component {
             )
         }, {
             title: '创建人',
-            width: 120,
             align: 'center',
             dataIndex: 'creatorName',
             key: 'creatorName',
@@ -99,7 +110,6 @@ class CultureList extends React.Component {
             )
         }, {
             title: '创建时间',
-            width: 120,
             align: 'center',
             dataIndex: 'create_time',
             key: 'create_time',
@@ -166,6 +176,7 @@ class CultureList extends React.Component {
             loading: true
         });
         let param = {};
+        param.userId = sessionStorage.userId;
         ajax.getJSON(getLiveListUrl, param, data => {
             if (data.success) {
                 let backData = data.backData;
@@ -190,7 +201,7 @@ class CultureList extends React.Component {
 
     onReview = (record, index, state) => {
         Modal.confirm({
-            title: '审核文化',
+            title: '审核旅游',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
@@ -283,15 +294,15 @@ class CultureList extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>文化列表</Breadcrumb.Item>
+                            <Breadcrumb.Item>旅游列表</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>文化列表</h1>
+                    <h1 className='title'>旅游列表</h1>
                     <div className='search-area'>
                         <Row type='flex' justify="space-around" align="middle">
                             <Col span={8}>
                                 <Search
-                                    placeholder="搜索文化关键字"
+                                    placeholder="搜索旅游关键字"
                                     enterButton
                                     size="large"
                                     onSearch={searchText => this.setState({searchText})}
@@ -309,12 +320,13 @@ class CultureList extends React.Component {
                             <Radio.Button value={1}>审核通过</Radio.Button>
                             <Radio.Button value={-1}>不合格</Radio.Button>
                         </Radio.Group>}
-                        extra={<Button type="primary" icon='plus' href='#/frame/culture/addCulture'>新增文化</Button>}
+                        extra={<Button type="primary" icon='plus' href='#/frame/culture/cultureList/add'>新增旅游</Button>}
                     >
                         <ZZTable
                             bordered={true}
                             dataSource={n_dataSource}
                             columns={this.columns}
+                            scroll={{x: 1500}}
                         />
                     </ZZCard>
                 </div>

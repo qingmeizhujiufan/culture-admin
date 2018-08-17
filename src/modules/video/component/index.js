@@ -45,13 +45,21 @@ class VideoList extends React.Component {
             )
         }, {
             title: '描述',
+            width: 300,
             dataIndex: 'videoBrief',
             key: 'videoBrief',
+            render: (text, record, index) => (
+                <div className='zui-ellipsis-2'>{text}</div>
+            )
+        }, {
+            title: '浏览数',
+            align: 'right',
+            dataIndex: 'readNum',
+            key: 'readNum'
         }, {
             title: '审核状态',
             dataIndex: 'state',
             key: 'state',
-            width: 120,
             style: {textAlign: 'left'},
             render: (text, record, index) => {
                 if (text === 0) {
@@ -70,7 +78,6 @@ class VideoList extends React.Component {
             }
         }, {
             title: '创建人',
-            width: 120,
             align: 'center',
             dataIndex: 'creatorName',
             key: 'creatorName',
@@ -79,7 +86,6 @@ class VideoList extends React.Component {
             )
         }, {
             title: '创建时间',
-            width: 120,
             align: 'center',
             dataIndex: 'create_time',
             key: 'create_time',
@@ -266,6 +272,7 @@ class VideoList extends React.Component {
                             bordered={true}
                             dataSource={n_dataSource}
                             columns={this.columns}
+                            scroll={{x: 1500}}
                         />
                     </ZZCard>
                 </div>

@@ -34,11 +34,11 @@ const Menu = [
             {
                 key: '2_1',
                 link: '/frame/culture/cultureList',
-                label: '文化列表'
+                label: '旅游列表'
             }, {
                 key: '2_2',
                 link: '/frame/comment/commentCulture',
-                label: '文化评论管理'
+                label: '旅游评论管理'
             }, {
                 key: '2_3',
                 link: '/frame/culture/artList',

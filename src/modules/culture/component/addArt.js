@@ -34,6 +34,7 @@ class AddArt extends React.Component {
         super(props);
 
         this.state = {
+            type: sessionStorage.type,
             fileList: [],
             fileContentList: [],
             cityList: [],
@@ -96,7 +97,7 @@ class AddArt extends React.Component {
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
 
-                        this.context.router.push('/frame/culture/artList');
+                        return this.context.router.push('/frame/culture/artList');
                     } else {
                         message.error(data.backMsg);
                     }
@@ -110,7 +111,7 @@ class AddArt extends React.Component {
     }
 
     render() {
-        let {fileList, fileContentList, loading, cityList, cityLoading} = this.state;
+        let {type, fileList, fileContentList, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -159,8 +160,11 @@ class AddArt extends React.Component {
                                         <Spin spinning={cityLoading} indicator={<Icon type="loading"/>}>
                                             {getFieldDecorator('cityId', {
                                                 rules: [{required: true, message: '城市不能为空!'}],
+                                                initialValue: sessionStorage.cityId === 'null' ? undefined : sessionStorage.cityId
                                             })(
-                                                <Select>
+                                                <Select
+                                                    disabled={type !== '1'}
+                                                >
                                                     {
                                                         cityList.map(item => {
                                                             return (<Option key={item.id}

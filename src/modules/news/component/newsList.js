@@ -45,19 +45,27 @@ class NewsList extends React.Component {
             )
         }, {
             title: '描述',
+            width: 300,
             dataIndex: 'newsBrief',
             key: 'newsBrief',
+            render: (text, record, index) => (
+                <div className='zui-ellipsis-2'>{text}</div>
+            )
         }, {
-            title: '新闻城市',
-            width: 120,
+            title: '所属城市',
             align: 'center',
             dataIndex: 'cityName',
             key: 'cityName',
         }, {
+            title: '浏览数',
+            align: 'right',
+            dataIndex: 'readNum',
+            key: 'readNum',
+        }, {
             title: '审核状态',
+            width: 120,
             dataIndex: 'state',
             key: 'state',
-            width: 120,
             style: {textAlign: 'left'},
             render: (text, record, index) => {
                 if (text === 0) {
@@ -76,7 +84,6 @@ class NewsList extends React.Component {
             }
         }, {
             title: '创建人',
-            width: 120,
             align: 'center',
             dataIndex: 'creatorName',
             key: 'creatorName',
@@ -85,7 +92,6 @@ class NewsList extends React.Component {
             )
         }, {
             title: '创建时间',
-            width: 120,
             align: 'center',
             dataIndex: 'create_time',
             key: 'create_time',
@@ -271,11 +277,12 @@ class NewsList extends React.Component {
                             <Radio.Button value={1}>审核通过</Radio.Button>
                             <Radio.Button value={-1}>不合格</Radio.Button>
                         </Radio.Group>}
-                        extra={<Button type="primary" icon='plus' href='#/frame/news/addNews'>新增新闻</Button>}
+                        extra={<Button type="primary" icon='plus' href='#/frame/news/newsList/add'>新增新闻</Button>}
                     >
                         <ZZTable
                             dataSource={n_dataSource}
                             columns={this.columns}
+                            scroll={{x: 1500}}
                         />
                     </ZZCard>
                 </div>

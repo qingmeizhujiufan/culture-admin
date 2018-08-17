@@ -46,19 +46,32 @@ class ArtList extends React.Component {
             )
         }, {
             title: '描述',
+            wdith: 300,
             dataIndex: 'artBrief',
             key: 'artBrief',
+            render: (text, record, index) => (
+                <div className='zui-ellipsis-2'>{text}</div>
+            )
         }, {
-            title: '新闻城市',
-            width: 120,
+            title: '所属城市',
             align: 'center',
             dataIndex: 'cityName',
             key: 'cityName',
         }, {
+            title: '浏览数',
+            align: 'right',
+            dataIndex: 'readNum',
+            key: 'readNum',
+        }, {
+            title: '收藏数',
+            align: 'right',
+            dataIndex: 'collectNum',
+            key: 'collectNum',
+        }, {
             title: '审核状态',
+            width: 120,
             dataIndex: 'state',
             key: 'state',
-            width: 120,
             style: {textAlign: 'left'},
             render: (text, record, index) => {
                 if (text === 0) {
@@ -91,7 +104,6 @@ class ArtList extends React.Component {
             )
         }, {
             title: '创建人',
-            width: 120,
             align: 'center',
             dataIndex: 'creatorName',
             key: 'creatorName',
@@ -100,7 +112,6 @@ class ArtList extends React.Component {
             )
         }, {
             title: '创建时间',
-            width: 120,
             align: 'center',
             dataIndex: 'create_time',
             key: 'create_time',
@@ -167,6 +178,7 @@ class ArtList extends React.Component {
             loading: true
         });
         let param = {};
+        param.userId = sessionStorage.userId;
         ajax.getJSON(queryListUrl, param, data => {
             if (data.success) {
                 let backData = data.backData;
@@ -310,12 +322,13 @@ class ArtList extends React.Component {
                             <Radio.Button value={1}>审核通过</Radio.Button>
                             <Radio.Button value={-1}>不合格</Radio.Button>
                         </Radio.Group>}
-                        extra={<Button type="primary" icon='plus' href='#/frame/culture/addArt'>新增艺术品</Button>}
+                        extra={<Button type="primary" icon='plus' href='#/frame/culture/artList/add'>新增艺术品</Button>}
                     >
                         <ZZTable
                             bordered={true}
                             dataSource={n_dataSource}
                             columns={this.columns}
+                            scroll={{x: 1500}}
                         />
                     </ZZCard>
                 </div>

@@ -36,6 +36,7 @@ class AddCulture extends React.Component {
         super(props);
 
         this.state = {
+            type: sessionStorage.type,
             fileList: [],
             cityList: [],
             editorState: EditorState.createEmpty(),
@@ -96,11 +97,11 @@ class AddCulture extends React.Component {
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
-                            message: '新增文化成功！',
+                            message: '新增旅游成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
 
-                        return this.context.router.push('/frame/culture/list');
+                        return this.context.router.push('/frame/culture/cultureList');
                     } else {
                         message.error(data.backMsg);
                     }
@@ -114,7 +115,7 @@ class AddCulture extends React.Component {
     }
 
     render() {
-        let {fileList, editorState, loading, cityList, cityLoading} = this.state;
+        let {type, fileList, editorState, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -124,10 +125,10 @@ class AddCulture extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>新增文化</Breadcrumb.Item>
+                            <Breadcrumb.Item>新增旅游</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>新增文化</h1>
+                    <h1 className='title'>新增旅游</h1>
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
@@ -163,8 +164,11 @@ class AddCulture extends React.Component {
                                         <Spin spinning={cityLoading} indicator={<Icon type="loading"/>}>
                                             {getFieldDecorator('cityId', {
                                                 rules: [{required: true, message: '城市不能为空!'}],
+                                                initialValue: sessionStorage.cityId === 'null' ? undefined : sessionStorage.cityId
                                             })(
-                                                <Select>
+                                                <Select
+                                                    disabled={type !== '1'}
+                                                >
                                                     {
                                                         cityList.map(item => {
                                                             return (<Option key={item.id} value={item.id}>{item.cityName}</Option>)

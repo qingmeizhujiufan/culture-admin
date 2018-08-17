@@ -12,6 +12,9 @@ const admin = [{
 const operator = [{
     key: '1',
     children: ['1_1']
+}, {
+    key: '3',
+    children: ['3_1']
 }];
 
 module.exports = {

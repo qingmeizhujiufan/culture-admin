@@ -35,6 +35,7 @@ class Login extends React.Component {
                         sessionStorage.setItem('token', data.token);
                         sessionStorage.setItem('expireDate', data.expireDate);
                         sessionStorage.setItem('userId', data.userId);
+                        sessionStorage.setItem('cityId', data.cityId);
                         sessionStorage.setItem('type', data.type);
                         sessionStorage.setItem('typeName', data.typeName);
                         return this.context.router.push('/frame/home');

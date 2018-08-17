@@ -139,7 +139,7 @@ class CommentCulture extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>文化列表</Breadcrumb.Item>
+                            <Breadcrumb.Item>旅游列表</Breadcrumb.Item>
                             <Breadcrumb.Item>评论列表</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>

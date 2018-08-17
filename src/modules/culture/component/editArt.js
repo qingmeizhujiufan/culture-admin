@@ -37,6 +37,7 @@ class EditArt extends React.Component {
         super(props);
 
         this.state = {
+            type: sessionStorage.type,
             data: {},
             fileList: [],
             cityList: [],
@@ -154,7 +155,7 @@ class EditArt extends React.Component {
     }
 
     render() {
-        let {data, fileList, loading, cityList, cityLoading} = this.state;
+        let {type, data, fileList, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -206,7 +207,9 @@ class EditArt extends React.Component {
                                                 rules: [{required: true, message: '城市不能为空!'}],
                                                 initialValue: data.cityId
                                             })(
-                                                <Select>
+                                                <Select
+                                                    disabled={type !== '1'}
+                                                >
                                                     {
                                                         cityList.map(item => {
                                                             return (<Option key={item.id}
@@ -307,7 +310,13 @@ class EditArt extends React.Component {
                             </Row>
                             <div className='toolbar'>
                                 <div className='pull-right'>
-                                    <Button size="large" type="primary" htmlType="submit" loading={loading}>提交</Button>
+                                    <Button
+                                        size="large"
+                                        type="primary"
+                                        htmlType="submit"
+                                        loading={loading}
+                                        disabled={type === '1' ? false : !!data.state}
+                                    >提交</Button>
                                 </div>
                             </div>
                         </Form>
