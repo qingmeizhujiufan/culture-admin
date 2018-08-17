@@ -149,6 +149,7 @@ class NewsList extends React.Component {
             loading: true
         });
         let param = {};
+        param.userId = sessionStorage.userId;
         ajax.getJSON(getLiveListUrl, param, data => {
             if (data.success) {
                 let backData = data.backData;
