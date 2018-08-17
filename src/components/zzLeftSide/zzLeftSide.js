@@ -5,6 +5,7 @@ import {Layout, Icon, Menu} from 'antd';
 import {Scrollbars} from 'react-custom-scrollbars';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
+import {admin, operator} from './authority';
 import menuTree from './menu';
 import './zzLeftSide.less';
 
@@ -16,35 +17,66 @@ class ZZLeftSide extends React.Component {
         super(props);
 
         this.state = {
-            defaultSelectedKeys: '1'
+            defaultSelectedKeys: '',
+            menuTree: []
         };
     }
 
     componentWillMount = () => {
-        console.log('menuTree === ', menuTree);
-        this.selectActiveTab();
+        this.authorityMenu();
     }
 
     componentDidMount = () => {
+        this.selectActiveTab();
     }
 
     componentWillReceiveProps = nextProps => {
-        if('storageChange' in nextProps && nextProps.storageChange !== this.props.storageChange){
+        if ('storageChange' in nextProps && nextProps.storageChange !== this.props.storageChange) {
             this.selectActiveTab();
         }
     }
 
+    authorityMenu = () => {
+        if (sessionStorage.type !== undefined && sessionStorage.type !== null) {
+            if (sessionStorage.type === "1") {
+                this.setState({menuTree});
+            }
+            else {
+                let authority_menu = [];
+                if (sessionStorage.type === "2") {
+                    authority_menu = admin;
+                }
+                else if (sessionStorage.type === "3") {
+                    authority_menu = operator;
+                }
+                let _menu = [];
+                menuTree.map(item => {
+                    const _item = {};
+                    for (let i = 0; i < authority_menu.length; i++) {
+                        if (item.key === authority_menu[i].key) {
+                            _item.key = item.key;
+                            _item.iconType = item.iconType;
+                            _item.label = item.label;
+                            _item.children = [];
+                            authority_menu[i].children.map(sub_key => {
+                                _item.children.push(_.find(item.children, {key: sub_key}));
+                            });
+                            _menu.push(_item);
+                        }
+                    }
+                });
+                this.setState({menuTree: _menu});
+            }
+        }
+    }
+
     selectActiveTab = () => {
-        const router = this.context.router;
-        const location = router.location;
-        const params = router.params;
-        const menu = this.getFlatMenu(menuTree);
-        console.log('hashUrl ==== ', location.pathname);
+        const menu = this.getFlatMenu(this.state.menuTree);
+
         for (let i = 0; i < menu.length; i++) {
             const item = menu[i];
 
             if (window.location.hash.split('#')[1].indexOf(item.link) > -1) {
-                console.log('active item ==== ', item);
                 this.setState({defaultSelectedKeys: item.key});
                 return;
             }
@@ -62,7 +94,9 @@ class ZZLeftSide extends React.Component {
     }
 
     buildMenu = () => {
-        return menuTree.map(function (item, index) {
+        const {defaultSelectedKeys, menuTree} = this.state;
+        if (defaultSelectedKeys === '') return;
+        const menu = menuTree.map(function (item, index) {
             if (item.children) {
                 return (
                     <SubMenu
@@ -91,11 +125,24 @@ class ZZLeftSide extends React.Component {
                 )
             }
         });
+
+        return (
+            <Menu
+                theme="dark"
+                mode="inline"
+                defaultSelectedKeys={[defaultSelectedKeys]}
+                defaultOpenKeys={['1', '2', '3', '4', '5', '6']}
+            >
+                {menu}
+            </Menu>
+        );
     }
 
     render() {
-        const {defaultSelectedKeys} = this.state;
+        const {menuTree} = this.state;
         const {collapsed} = this.props;
+        const menu = menuTree.length > 0 ? this.buildMenu() : null;
+
         return (
             <Sider
                 trigger={null}
@@ -110,21 +157,15 @@ class ZZLeftSide extends React.Component {
                     </Link>
                 </div>
                 <Scrollbars style={{height: 'calc(100vh - 64px)'}}>
-                    <Menu
-                        theme="dark"
-                        mode="inline"
-                        defaultSelectedKeys={[defaultSelectedKeys]}
-                        defaultOpenKeys={['1', '2', '3', '4', '5', '6', '7']}
-                    >
-                        {this.buildMenu()}
-                    </Menu>
+                    {menu}
                 </Scrollbars>
             </Sider>
         );
     }
 }
 
-ZZLeftSide.contextTypes = {
+ZZLeftSide
+    .contextTypes = {
     router: PropTypes.object
 }
 

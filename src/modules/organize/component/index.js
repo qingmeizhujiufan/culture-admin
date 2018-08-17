@@ -26,11 +26,13 @@ import {Modal} from "antd/lib/index";
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
+const Option = Select.Option;
 const TabPane = Tabs.TabPane;
 
 const getAllOrganizeInfoUrl = restUrl.ADDR + 'organize/getAllOrganizeInfo';
 const saveUrl = restUrl.ADDR + 'organize/save';
 const delAdminUrl = restUrl.ADDR + 'organize/delete';
+const queryListUrl = restUrl.ADDR + 'city/queryList';
 
 const formItemLayout = {
     labelCol: {span: 6},
@@ -42,7 +44,7 @@ class Organize extends React.Component {
         super(props);
 
         this.columns = [{
-            title: '名称',
+            title: '用户名',
             dataIndex: 'userName',
             key: 'userName',
             align: 'left'
@@ -50,6 +52,16 @@ class Organize extends React.Component {
             title: '类型',
             dataIndex: 'typeName',
             key: 'typeName',
+            align: 'center'
+        }, {
+            title: '姓名',
+            dataIndex: 'realName',
+            key: 'realName',
+            align: 'center'
+        }, {
+            title: '所属城市',
+            dataIndex: 'cityName',
+            key: 'cityName',
             align: 'center'
         }, {
             width: 180,
@@ -64,28 +76,39 @@ class Organize extends React.Component {
             align: 'center',
             render: (text, record, index) => (
                 <div>
-                    <a onClick={() => this.onDelete(record.id)}>删除</a>
+                    {
+                        (record.type !== 1 && record.id !== sessionStorage.userId) ? (
+                            <a onClick={() => this.onDelete(record.id)}>删除</a>
+                        ) : null
+                    }
                 </div>
             )
         }];
 
         this.state = {
+            confirmDirty: false,
+            type: sessionStorage.type,
             data: [],
             loading: true,
-            submitLoading: false
+            submitLoading: false,
+            cityList: [],
+            cityLoading: false
         };
     }
 
     componentDidMount = () => {
         this.getAllOrganizeInfo();
+        this.getCityList();
     }
 
     //获取组织信息
     getAllOrganizeInfo = () => {
+        const param = {};
+        param.userId = sessionStorage.userId;
         this.setState({
             loading: true
         });
-        ajax.getJSON(getAllOrganizeInfoUrl, null, (data) => {
+        ajax.getJSON(getAllOrganizeInfoUrl, param, (data) => {
             if (data.success) {
                 let backData = data.backData;
                 backData.map(item => item.key = item.id);
@@ -98,8 +121,26 @@ class Organize extends React.Component {
         });
     }
 
+    getCityList = () => {
+        this.setState({
+            cityLoading: true
+        });
+        let param = {};
+        ajax.getJSON(queryListUrl, param, data => {
+            if (data.success) {
+                let backData = data.backData;
+                this.setState({
+                    cityList: backData,
+                    cityLoading: false
+                });
+            }
+        });
+    }
+
     loadTree = list => {
         let tree = util.listToTree(list);
+        console.log('list === ', list);
+        console.log('tree === ', tree);
         if (tree) {
             return (
                 <Tree
@@ -134,6 +175,28 @@ class Organize extends React.Component {
         });
     }
 
+    handleConfirmBlur = (e) => {
+        const value = e.target.value;
+        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    }
+
+    compareToFirstPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('pwd')) {
+            callback('密码不一致，请重新输入!');
+        } else {
+            callback();
+        }
+    }
+
+    validateToNextPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && this.state.confirmDirty) {
+            form.validateFields(['userPwd'], { force: true });
+        }
+        callback();
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -146,7 +209,7 @@ class Organize extends React.Component {
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
-                            message: '新增管理员成功！',
+                            message: this.state.type === '1' ? '新增管理员成功！' : '新增运营人员成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
 
@@ -191,11 +254,16 @@ class Organize extends React.Component {
 
     render() {
         let {
+            type,
             data,
             loading,
-            submitLoading
+            submitLoading,
+            cityList,
+            cityLoading
         } = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
+        const userInfo = _.find(data, {id: sessionStorage.userId});
+
         return (
             <div className="zui-content">
                 <div className='pageHeader'>
@@ -210,45 +278,97 @@ class Organize extends React.Component {
                 </div>
                 <div className='pageContent'>
                     <Row gutter={32}>
-                        <Col span={6}>
-                            <ZZCard loading={loading} title="组织树">
-                                {this.loadTree(data)}
-                            </ZZCard>
-                        </Col>
-                        <Col span={18}>
-                            <ZZCard loading={loading} title="管理员管理">
+                        {
+                            type === '1' ? (
+                                <Col span={6}>
+                                    <ZZCard loading={loading} title="组织树">
+                                        {this.loadTree(data)}
+                                    </ZZCard>
+                                </Col>
+                            ) : null
+                        }
+                        <Col span={type === '1' ? 18 : 24}>
+                            <ZZCard loading={loading} title={type === '1' ? "管理员管理" : '运营人员管理'}>
                                 <Tabs defaultActiveKey="1">
-                                    <TabPane tab={<span><Icon type="bars"/>管理员列表</span>} key="1">
+                                    <TabPane tab={<span><Icon type="bars"/>组织人员列表</span>} key="1">
                                         <ZZTable
-                                            dataSource={util.listToTree(data)}
+                                            dataSource={type === '1' ? util.listToTree(data) : data}
                                             columns={this.columns}
                                             bordered={true}
                                         />
                                     </TabPane>
-                                    <TabPane tab={<span><Icon type="plus-square"/>新增管理员</span>} key="2">
+                                    <TabPane tab={<span><Icon
+                                        type="plus-square"/>{sessionStorage.type === '1' ? '新增管理员' : '新增运营人员'}</span>}
+                                             key="2">
                                         <Form onSubmit={this.handleSubmit}>
                                             <Row>
                                                 <Col span={12}>
                                                     <FormItem
-                                                        label="用户名"
+                                                        label="登录名"
                                                         {...formItemLayout}
                                                     >
                                                         {getFieldDecorator('userName', {
-                                                            rules: [{required: true, message: '用户名不能为空!'}],
+                                                            rules: [{required: true, message: '登录名不能为空!'}],
                                                         })(
-                                                            <Input placeholder="用户名"/>
+                                                            <Input placeholder="登录名"/>
                                                         )}
                                                     </FormItem>
                                                 </Col>
+                                                <Col span={12}>
+                                                    <FormItem
+                                                        label="城市选择"
+                                                        {...formItemLayout}
+                                                    >
+                                                        <Spin spinning={cityLoading} indicator={<Icon type="loading"/>}>
+                                                            {getFieldDecorator('cityId', {
+                                                                rules: [{required: true, message: '城市不能为空!'}],
+                                                                initialValue: userInfo ? userInfo.cityId : null
+                                                            })(
+                                                                <Select
+                                                                    disabled={type !== '1'}
+                                                                >
+                                                                    {
+                                                                        cityList.map(item => {
+                                                                            return (<Option key={item.id}
+                                                                                            value={item.id}>{item.cityName}</Option>)
+                                                                        })
+                                                                    }
+                                                                </Select>
+                                                            )}
+                                                        </Spin>
+                                                    </FormItem>
+                                                </Col>
+                                            </Row>
+                                            <Row>
                                                 <Col span={12}>
                                                     <FormItem
                                                         label="密码"
                                                         {...formItemLayout}
                                                     >
                                                         {getFieldDecorator('pwd', {
-                                                            rules: [{required: true, message: '密码不能为空!'}],
+                                                            rules: [{
+                                                                required: true, message: '密码不能为空!'
+                                                            }, {
+                                                                validator: this.validateToNextPassword,
+                                                            }],
                                                         })(
                                                             <Input type='password' placeholder="密码"/>
+                                                        )}
+                                                    </FormItem>
+                                                </Col>
+                                                <Col span={12}>
+                                                    <FormItem
+                                                        label="重复密码"
+                                                        {...formItemLayout}
+                                                    >
+                                                        {getFieldDecorator('userPwd', {
+                                                            rules: [{
+                                                                required: true, message: '重复密码不能为空!'
+                                                            }, {
+                                                                validator: this.compareToFirstPassword,
+                                                            }],
+                                                        })(
+                                                            <Input type='password' placeholder="重复密码"  onBlur={this.handleConfirmBlur}/>
                                                         )}
                                                     </FormItem>
                                                 </Col>
@@ -256,13 +376,13 @@ class Organize extends React.Component {
                                             <Row>
                                                 <Col span={12}>
                                                     <FormItem
-                                                        label="重复密码"
+                                                        label="用户名"
                                                         {...formItemLayout}
                                                     >
-                                                        {getFieldDecorator('userPwd', {
-                                                            rules: [{required: true, message: '重复密码不能为空!'}],
+                                                        {getFieldDecorator('realName', {
+                                                            rules: [{required: true, message: '用户名不能为空!'}],
                                                         })(
-                                                            <Input type='password' placeholder="重复密码"/>
+                                                            <Input placeholder="用户名"/>
                                                         )}
                                                     </FormItem>
                                                 </Col>
@@ -272,7 +392,7 @@ class Organize extends React.Component {
                                                         {...formItemLayout}
                                                     >
                                                         {getFieldDecorator('typeName', {
-                                                            initialValue: '管理员'
+                                                            initialValue: type === '1' ? '管理员' : '运营人员'
                                                         })(
                                                             <Input disabled/>
                                                         )}
@@ -283,7 +403,7 @@ class Organize extends React.Component {
                                             <Row>
                                                 <Col offset={3}>
                                                     <Button type="primary" htmlType="submit" loading={submitLoading}>
-                                                        新增管理员
+                                                        {type === '1' ? '新增管理员' : '新增运营人员'}
                                                     </Button>
                                                 </Col>
                                             </Row>
