@@ -69,6 +69,12 @@ class CommentCulture extends React.Component {
         this.getList();
     }
 
+    componentWillReceiveProps = nextProps => {
+        if(this.props.params && this.props.params.id === undefined){
+            this.getList();
+        }
+    }
+
     getList = () => {
         this.setState({
             loading: true
@@ -80,6 +86,7 @@ class CommentCulture extends React.Component {
             param.cultureId = this.props.params.id;
         }else {
             url = queryAdminCommentListUrl;
+            param.userId = sessionStorage.userId;
         }
         ajax.getJSON(url, param, data => {
             if (data.success) {

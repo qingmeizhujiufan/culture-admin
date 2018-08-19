@@ -14,7 +14,8 @@ import {
     Tree,
     Spin,
     Tabs,
-    message
+    message,
+    Alert
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
@@ -33,6 +34,7 @@ const getAllOrganizeInfoUrl = restUrl.ADDR + 'organize/getAllOrganizeInfo';
 const saveUrl = restUrl.ADDR + 'organize/save';
 const delAdminUrl = restUrl.ADDR + 'organize/delete';
 const queryListUrl = restUrl.ADDR + 'city/queryList';
+const queryUserNamesUrl = restUrl.ADDR + 'server/queryUserNames';
 
 const formItemLayout = {
     labelCol: {span: 6},
@@ -89,6 +91,9 @@ class Organize extends React.Component {
             confirmDirty: false,
             type: sessionStorage.type,
             data: [],
+            userNames: [],
+            namesLoading: false,
+            loadUserNamesStatus: false,
             loading: true,
             submitLoading: false,
             cityList: [],
@@ -99,6 +104,7 @@ class Organize extends React.Component {
     componentDidMount = () => {
         this.getAllOrganizeInfo();
         this.getCityList();
+        this.queryUserNames();
     }
 
     //获取组织信息
@@ -137,10 +143,22 @@ class Organize extends React.Component {
         });
     }
 
+    queryUserNames = () => {
+        ajax.getJSON(queryUserNamesUrl, null, data => {
+           if(data.success){
+               this.setState({
+                   userNames: data.backData,
+                   loadUserNamesStatus: true
+               });
+           }
+            this.setState({
+                namesLoading: true
+            });
+        });
+    }
+
     loadTree = list => {
         let tree = util.listToTree(list);
-        console.log('list === ', list);
-        console.log('tree === ', tree);
         if (tree) {
             return (
                 <Tree
@@ -175,9 +193,19 @@ class Organize extends React.Component {
         });
     }
 
+    validateUserName = (rule, value, callback) => {
+        const userNames = this.state.userNames;
+        userNames.map(item => {
+            if(item === value){
+                callback('用户名已存在，请重新输入!');
+            }
+        });
+        callback();
+    }
+
     handleConfirmBlur = (e) => {
         const value = e.target.value;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+        this.setState({confirmDirty: this.state.confirmDirty || !!value});
     }
 
     compareToFirstPassword = (rule, value, callback) => {
@@ -192,7 +220,7 @@ class Organize extends React.Component {
     validateToNextPassword = (rule, value, callback) => {
         const form = this.props.form;
         if (value && this.state.confirmDirty) {
-            form.validateFields(['userPwd'], { force: true });
+            form.validateFields(['userPwd'], {force: true});
         }
         callback();
     }
@@ -256,6 +284,8 @@ class Organize extends React.Component {
         let {
             type,
             data,
+            namesLoading,
+            loadUserNamesStatus,
             loading,
             submitLoading,
             cityList,
@@ -300,6 +330,11 @@ class Organize extends React.Component {
                                     <TabPane tab={<span><Icon
                                         type="plus-square"/>{sessionStorage.type === '1' ? '新增管理员' : '新增运营人员'}</span>}
                                              key="2">
+                                        {
+                                            (namesLoading && !loadUserNamesStatus) ? (
+                                                <Alert message="用户名获取失败，不允许新增！" banner closable />
+                                            ) : null
+                                        }
                                         <Form onSubmit={this.handleSubmit}>
                                             <Row>
                                                 <Col span={12}>
@@ -308,7 +343,9 @@ class Organize extends React.Component {
                                                         {...formItemLayout}
                                                     >
                                                         {getFieldDecorator('userName', {
-                                                            rules: [{required: true, message: '登录名不能为空!'}],
+                                                            rules: [{required: true, message: '登录名不能为空!'},{
+                                                                validator: this.validateUserName,
+                                                            }],
                                                         })(
                                                             <Input placeholder="登录名"/>
                                                         )}
@@ -368,7 +405,8 @@ class Organize extends React.Component {
                                                                 validator: this.compareToFirstPassword,
                                                             }],
                                                         })(
-                                                            <Input type='password' placeholder="重复密码"  onBlur={this.handleConfirmBlur}/>
+                                                            <Input type='password' placeholder="重复密码"
+                                                                   onBlur={this.handleConfirmBlur}/>
                                                         )}
                                                     </FormItem>
                                                 </Col>
@@ -402,7 +440,12 @@ class Organize extends React.Component {
                                             <Divider/>
                                             <Row>
                                                 <Col offset={3}>
-                                                    <Button type="primary" htmlType="submit" loading={submitLoading}>
+                                                    <Button
+                                                        type="primary"
+                                                        htmlType="submit"
+                                                        loading={submitLoading}
+                                                        disabled={!loadUserNamesStatus}
+                                                    >
                                                         {type === '1' ? '新增管理员' : '新增运营人员'}
                                                     </Button>
                                                 </Col>

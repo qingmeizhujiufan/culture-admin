@@ -52,7 +52,7 @@ module.exports = ([
     <Route key='12' path="culture/artList" component={ArtList} />,
     <Route key='13' path="culture/artList/add" component={AddArt} />,
     <Route key='14' path="culture/artList/edit/:id" component={EditArt} />,
-    <Route key='15' path="comment/commentArt" component={CommentArt} />,
+    <Route key='15' path="comment/commentArt(/:id)" component={CommentArt} />,
     <Route key='16' path="news/newsList" component={NewsList} />,
     <Route key='17' path="news/newsList/edit/:id" component={EditNews} />,
     <Route key='18' path="news/newsList/add" component={AddNews} />,
