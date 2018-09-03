@@ -97,6 +97,7 @@ class CultureList extends React.Component {
                     checkedChildren="是"
                     unCheckedChildren="否"
                     checked={text === 1 ? true : false}
+                    disabled={sessionStorage.type === "3"}
                     onChange={checked => this.onRecommendChange(checked, record, index)}
                 />
             )
@@ -118,23 +119,30 @@ class CultureList extends React.Component {
             key: 'operation',
             fixed: 'right',
             width: 120,
+            align: 'center',
             render: (text, record, index) => (
                 <div>
-                    <Dropdown
-                        overlay={
-                            <Menu>
-                                <Menu.Item>
-                                    <a onClick={() => this.onReview(record, index, 1)}>审核通过</a>
-                                </Menu.Item>
-                                <Menu.Item>
-                                    <a onClick={() => this.onReview(record, index, -1)}>不合格</a>
-                                </Menu.Item>
-                            </Menu>
-                        }
-                    >
-                        <a className="ant-dropdown-link">审核</a>
-                    </Dropdown>
-                    <Divider type="vertical"/>
+                    {
+                        sessionStorage.type !== "3" ? (
+                            <div>
+                                <Dropdown
+                                    overlay={
+                                        <Menu>
+                                            <Menu.Item>
+                                                <a onClick={() => this.onReview(record, index, 1)}>审核通过</a>
+                                            </Menu.Item>
+                                            <Menu.Item>
+                                                <a onClick={() => this.onReview(record, index, -1)}>不合格</a>
+                                            </Menu.Item>
+                                        </Menu>
+                                    }
+                                >
+                                    <a className="ant-dropdown-link">审核</a>
+                                </Dropdown>
+                                <Divider type="vertical"/>
+                            </div>
+                        ) : null
+                    }
                     <Dropdown
                         overlay={
                             <Menu>
@@ -157,6 +165,7 @@ class CultureList extends React.Component {
         }];
 
         this.state = {
+            type: sessionStorage.type,
             loading: false,
             dataSource: [],
             searchText: '',
