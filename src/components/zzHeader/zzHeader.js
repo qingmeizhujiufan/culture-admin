@@ -1,12 +1,17 @@
 import React from 'react';
-import {Link} from 'react-router';
 import PropTypes from 'prop-types';
-import {Layout, Row, Col, Affix, Icon, Input, Dropdown, Menu, Avatar, Tooltip, notification} from 'antd';
+import {Layout, Row, Col, Modal, Icon, Input, Dropdown, Menu, Avatar, Tooltip, notification, Button, Form} from 'antd';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
 import './zzHeader.less';
 
 const {Header} = Layout;
+const FormItem = Form.Item;
+
+const formItemLayout = {
+    labelCol: {span: 8},
+    wrapperCol: {span: 10},
+};
 
 const logoutUrl = restUrl.ADDR + 'server/LoginOut';
 
@@ -14,8 +19,17 @@ class ZZHeader extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            loading: false,
+            visible: false,
+        };
+
         this.menu = (
             <Menu>
+                <Menu.Item>
+                    <span onClick={this.showModifyModal}>修改密码</span>
+                </Menu.Item>
+                <Menu.Divider/>
                 <Menu.Item>
                     <span onClick={this.logout}>退出登录</span>
                 </Menu.Item>
@@ -23,16 +37,17 @@ class ZZHeader extends React.Component {
         );
     }
 
+    showModifyModal = () => {
+        this.setState({
+            visible: true
+        });
+    }
+
     logout = () => {
         let param = {};
         param.userId = sessionStorage.userId;
         ajax.postJSON(logoutUrl, JSON.stringify(param), (data) => {
             if (data.success) {
-                // sessionStorage.removeItem('token');
-                // sessionStorage.removeItem('expireDate');
-                // sessionStorage.removeItem('userId');
-                // sessionStorage.removeItem('type');
-                // sessionStorage.removeItem('typeName');
                 sessionStorage.clear();
                 notification.open({
                     message: '已安全退出！',
@@ -47,8 +62,16 @@ class ZZHeader extends React.Component {
         });
     }
 
+    handleCancel = () => {
+        this.setState({
+            visible: false
+        });
+    }
+
     render() {
+        const {visible, loading} = this.state;
         const {collapsed, onToggleClick} = this.props;
+        const {getFieldDecorator} = this.props.form;
 
         return (
             <Header className="zui-header">
@@ -65,13 +88,6 @@ class ZZHeader extends React.Component {
                     <Col span={10}>
                     </Col>
                     <Col span={12} style={{textAlign: 'right'}}>
-                        {/*<Input*/}
-                            {/*className="input-search"*/}
-                            {/*placeholder="别说话，搜我..."*/}
-                            {/*prefix={<Icon type="search"*/}
-                                          {/*style={{color: 'rgba(0,0,0,1)', fontSize: 16, fontWeight: 600}}/>}*/}
-                            {/*style={{width: 200}}*/}
-                        {/*/>*/}
                         <Dropdown overlay={this.menu}>
                             <a className="ant-dropdown-link">
                                 <Avatar style={{verticalAlign: '-6px', backgroundColor: '#fc5a59'}} size="small"
@@ -80,6 +96,47 @@ class ZZHeader extends React.Component {
                         </Dropdown>
                     </Col>
                 </Row>
+                <Modal
+                    visible={visible}
+                    title="修改密码"
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    footer={[
+                        <Button key="back" onClick={this.handleCancel}>取消</Button>,
+                        <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>确认</Button>,
+                    ]}
+                >
+                    <FormItem {...formItemLayout} label="原密码">
+                        {getFieldDecorator('pwd', {
+                            rules: [{
+                                required: true,
+                                message: '原密码不能为空',
+                            }],
+                        })(
+                            <Input placeholder="请输入原密码"/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label="新密码">
+                        {getFieldDecorator('newPwd', {
+                            rules: [{
+                                required: true,
+                                message: '新密码不能为空',
+                            }],
+                        })(
+                            <Input placeholder="请输入新密码"/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label="重复新密码">
+                        {getFieldDecorator('newPwd', {
+                            rules: [{
+                                required: true,
+                                message: '新密码不能为空',
+                            }],
+                        })(
+                            <Input placeholder="请输入新密码"/>
+                        )}
+                    </FormItem>
+                </Modal>
             </Header>
         );
     }
@@ -89,4 +146,6 @@ ZZHeader.contextTypes = {
     router: PropTypes.object
 }
 
-export default ZZHeader;
+const WrappedZZHeader = Form.create()(ZZHeader);
+
+export default WrappedZZHeader;

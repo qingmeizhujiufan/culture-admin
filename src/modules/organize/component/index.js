@@ -322,9 +322,9 @@ class Organize extends React.Component {
                                 <Tabs defaultActiveKey="1">
                                     <TabPane tab={<span><Icon type="bars"/>组织人员列表</span>} key="1">
                                         <ZZTable
+                                            defaultExpandAllRows
                                             dataSource={type === '1' ? util.listToTree(data) : data}
                                             columns={this.columns}
-                                            bordered={true}
                                         />
                                     </TabPane>
                                     <TabPane tab={<span><Icon
