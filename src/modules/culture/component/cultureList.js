@@ -260,7 +260,7 @@ class CultureList extends React.Component {
         })
     }
 
-    onDelete = (key) => {
+    onDelete = id => {
         Modal.confirm({
             title: '提示',
             content: '确认要删除吗？',
@@ -268,7 +268,7 @@ class CultureList extends React.Component {
             cancelText: '取消',
             onOk: () => {
                 let param = {};
-                param.id = key;
+                param.id = id;
                 ajax.postJSON(delLiveUrl, JSON.stringify(param), data => {
                     if (data.success) {
                         notification.open({
@@ -332,7 +332,6 @@ class CultureList extends React.Component {
                         extra={<Button type="primary" icon='plus' href='#/frame/culture/cultureList/add'>新增旅游</Button>}
                     >
                         <ZZTable
-                            bordered={true}
                             dataSource={n_dataSource}
                             columns={this.columns}
                             scroll={{x: 1500}}
