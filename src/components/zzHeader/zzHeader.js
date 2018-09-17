@@ -1,6 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Layout, Row, Col, Modal, Icon, Input, Dropdown, Menu, Avatar, Tooltip, notification, Button, Form} from 'antd';
+import {
+    Layout,
+    Row,
+    Col,
+    Modal,
+    Icon,
+    Input,
+    Dropdown,
+    Menu,
+    Avatar,
+    Tooltip,
+    Notification,
+    Button,
+    Form,
+    Message
+} from 'antd';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
 import './zzHeader.less';
@@ -14,12 +29,14 @@ const formItemLayout = {
 };
 
 const logoutUrl = restUrl.ADDR + 'server/LoginOut';
+const udpatePwdUrl = restUrl.ADDR + 'server/updatePwd';
 
 class ZZHeader extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            confirmDirty: false,
             loading: false,
             visible: false,
         };
@@ -46,18 +63,16 @@ class ZZHeader extends React.Component {
     logout = () => {
         let param = {};
         param.userId = sessionStorage.userId;
-        ajax.postJSON(logoutUrl, JSON.stringify(param), (data) => {
+        ajax.postJSON(logoutUrl, JSON.stringify(param), data => {
             if (data.success) {
                 sessionStorage.clear();
-                notification.open({
+                Notification.open({
                     message: '已安全退出！',
                     icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                 });
                 this.context.router.push('/login');
             } else {
-                notification.warning({
-                    message: data.backMsg
-                });
+                Message.error(data.backMsg);
             }
         });
     }
@@ -68,10 +83,64 @@ class ZZHeader extends React.Component {
         });
     }
 
+    handleConfirmBlur = (e) => {
+        const value = e.target.value;
+        this.setState({confirmDirty: this.state.confirmDirty || !!value});
+    }
+
+    compareToFirstPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('newPwd')) {
+            callback('密码不一致，请重新输入!');
+        } else {
+            callback();
+        }
+    }
+
+    validateToNextPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && this.state.confirmDirty) {
+            form.validateFields(['comfirmNewPwd'], {force: true});
+        }
+        callback();
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                values.id = sessionStorage.userId;
+                values.userPwd = values.comfirmNewPwd;
+                console.log('handleSubmit  param === ', values);
+                this.setState({
+                    submitLoading: true
+                });
+                ajax.postJSON(udpatePwdUrl, JSON.stringify(values), (data) => {
+                    if (data.success) {
+                        Notification.open({
+                            message: '修改成功！',
+                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        });
+
+                        this.setState({
+                            visible: false
+                        });
+                    } else {
+                        Message.error(data.backMsg);
+                    }
+
+                    this.setState({
+                        submitLoading: false
+                    });
+                });
+            }
+        });
+    }
+
     render() {
         const {visible, loading} = this.state;
         const {collapsed, onToggleClick} = this.props;
-        const {getFieldDecorator} = this.props.form;
+        const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
             <Header className="zui-header">
@@ -99,43 +168,52 @@ class ZZHeader extends React.Component {
                 <Modal
                     visible={visible}
                     title="修改密码"
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    footer={[
-                        <Button key="back" onClick={this.handleCancel}>取消</Button>,
-                        <Button key="submit" type="primary" loading={loading} onClick={this.handleOk}>确认</Button>,
-                    ]}
+                    footer={null}
                 >
-                    <FormItem {...formItemLayout} label="原密码">
-                        {getFieldDecorator('pwd', {
-                            rules: [{
-                                required: true,
-                                message: '原密码不能为空',
-                            }],
-                        })(
-                            <Input placeholder="请输入原密码"/>
-                        )}
-                    </FormItem>
-                    <FormItem {...formItemLayout} label="新密码">
-                        {getFieldDecorator('newPwd', {
-                            rules: [{
-                                required: true,
-                                message: '新密码不能为空',
-                            }],
-                        })(
-                            <Input placeholder="请输入新密码"/>
-                        )}
-                    </FormItem>
-                    <FormItem {...formItemLayout} label="重复新密码">
-                        {getFieldDecorator('newPwd', {
-                            rules: [{
-                                required: true,
-                                message: '新密码不能为空',
-                            }],
-                        })(
-                            <Input placeholder="请输入新密码"/>
-                        )}
-                    </FormItem>
+                    <Form onSubmit={this.handleSubmit}>
+                        <FormItem {...formItemLayout} label="原密码">
+                            {getFieldDecorator('oldPwd', {
+                                rules: [{
+                                    required: true, message: '密码不能为空!'
+                                }],
+                            })(
+                                <Input type='password' placeholder="请输入原密码"/>
+                            )}
+                        </FormItem>
+                        <FormItem {...formItemLayout} label="新密码">
+                            {getFieldDecorator('newPwd', {
+                                rules: [{
+                                    required: true, message: '密码不能为空!'
+                                }, {
+                                    validator: this.validateToNextPassword,
+                                }],
+                            })(
+                                <Input type='password' placeholder="请输入新密码"/>
+                            )}
+                        </FormItem>
+                        <FormItem {...formItemLayout} label="重复新密码">
+                            {getFieldDecorator('comfirmNewPwd', {
+                                rules: [{
+                                    required: true, message: '重复新密码不能为空!'
+                                }, {
+                                    validator: this.compareToFirstPassword,
+                                }],
+                            })(
+                                <Input type='password' placeholder="请重复新密码"
+                                       onBlur={this.handleConfirmBlur}/>
+                            )}
+                        </FormItem>
+                        <FormItem wrapperCol={{span: 10, offset: 8}}>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                loading={loading}
+                                onClick={this.handleOk}
+                                style={{marginRight: 15}}
+                            >确认</Button>
+                            <Button onClick={this.handleCancel}>取消</Button>
+                        </FormItem>
+                    </Form>
                 </Modal>
             </Header>
         );

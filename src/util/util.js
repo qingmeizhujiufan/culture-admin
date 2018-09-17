@@ -76,7 +76,7 @@ export default {
 
     //list 转 tree
     listToTree: (list) => {
-        if(list.length === 0) return;
+        if (list.length === 0) return;
         const _list = [];
         list.map(item => _list.push(_.assign({}, item)));
         let arr = [];

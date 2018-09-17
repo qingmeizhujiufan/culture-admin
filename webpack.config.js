@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');//html模板
 const autoprefixer = require('autoprefixer');
 const pxtorem = require('postcss-pxtorem');
@@ -99,8 +100,17 @@ module.exports = {
             filename: 'shared.[chunkhash:5].js'
         }),
         new ExtractTextPlugin({filename: '[name].[contenthash:5].css', allChunks: true}),
-        new HtmlWebpackPlugin({template: './index.html'}),
-        //...otherPlugins
-
+        new HtmlWebpackPlugin({
+            template: './index.html',
+            favicon: './public/favicon.ico', // 添加小图标
+        }),
+        new CleanWebpackPlugin(
+            ['build/*'],　 //匹配删除的文件
+            {
+                root: __dirname,       　　　　　　　　　　//根目录
+                verbose: true,        　　　　　　　　　　//开启在控制台输出信息
+                dry: false        　　　　　　　　　　//启用删除文件
+            }
+        )
     ]
 }
