@@ -1,6 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Upload, Icon, Modal, Row, Col, Breadcrumb, Form, Button, notification, message, Divider, Spin} from 'antd';
+import {
+    Upload,
+    Icon,
+    Modal,
+    Row,
+    Col,
+    Breadcrumb,
+    Form,
+    Button,
+    message,
+    Divider,
+    Spin,
+    Notification
+} from 'antd';
 import {ZZCard} from 'Comps/zz-antD';
 import '../home.less';
 import ajax from 'Utils/ajax';
@@ -157,9 +170,9 @@ class SliderSetting extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '保存成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '保存成功！'
                         });
                     } else {
                         message.error(data.backMsg);
@@ -484,9 +497,9 @@ class MusicSetting extends React.Component {
                 });
                 ajax.postJSON(saveMusicUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '背景音乐保存成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '背景音乐保存成功！'
                         });
                     } else {
                         message.error(data.backMsg);

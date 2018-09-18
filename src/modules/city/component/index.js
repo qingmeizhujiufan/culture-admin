@@ -12,11 +12,11 @@ import {
     Breadcrumb,
     Dropdown,
     Divider,
-    notification,
     Spin,
     Tabs,
     message,
-    Modal
+    Modal,
+    Notification
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import _ from 'lodash';
@@ -126,9 +126,9 @@ class CityList extends React.Component {
                 param.id = key;
                 ajax.postJSON(delLiveUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        notification.open({
-                            message: '删除成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '删除成功！'
                         });
 
                         const dataSource = [...this.state.dataSource].filter(item => item.id !== key);
@@ -146,12 +146,12 @@ class CityList extends React.Component {
 
     addCity = value => {
         const {dataSource} = this.state;
-        if(value === ''){
+        if (value === '') {
             message.error('城市名不能为空！');
             return;
         }
-        for(let i = 0; i < dataSource.length;i++){
-            if(dataSource[i].cityName.indexOf(value) > -1){
+        for (let i = 0; i < dataSource.length; i++) {
+            if (dataSource[i].cityName.indexOf(value) > -1) {
                 message.error('城市名不能重复！');
                 return;
             }
@@ -160,13 +160,14 @@ class CityList extends React.Component {
         param.cityName = value;
 
         ajax.postJSON(saveUrl, JSON.stringify(param), data => {
-            if(data.success){
-                notification.open({
-                    message: '开通城市成功！',
-                    icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+            if (data.success) {
+                Notification.success({
+                    message: '提示',
+                    description: '开通城市成功！'
                 });
+
                 this.getList();
-            }else {
+            } else {
                 message.error(data.backMsg);
             }
         });

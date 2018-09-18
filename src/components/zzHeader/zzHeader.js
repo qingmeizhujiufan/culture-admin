@@ -44,11 +44,11 @@ class ZZHeader extends React.Component {
         this.menu = (
             <Menu>
                 <Menu.Item>
-                    <span onClick={this.showModifyModal}>修改密码</span>
+                    <span onClick={this.showModifyModal}><Icon type="key" theme="outlined" /> 修改密码</span>
                 </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item>
-                    <span onClick={this.logout}>退出登录</span>
+                    <span onClick={this.logout}><Icon type="poweroff" theme="outlined" /> 退出登录</span>
                 </Menu.Item>
             </Menu>
         );
@@ -66,10 +66,11 @@ class ZZHeader extends React.Component {
         ajax.postJSON(logoutUrl, JSON.stringify(param), data => {
             if (data.success) {
                 sessionStorage.clear();
-                Notification.open({
-                    message: '已安全退出！',
-                    icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                Notification.success({
+                    message: '提示',
+                    description: '已安全退出！'
                 });
+
                 this.context.router.push('/login');
             } else {
                 Message.error(data.backMsg);
@@ -117,9 +118,9 @@ class ZZHeader extends React.Component {
                 });
                 ajax.postJSON(udpatePwdUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.open({
-                            message: '修改成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '修改成功！'
                         });
 
                         this.setState({

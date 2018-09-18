@@ -1,5 +1,5 @@
 {
-  "name": "admin-templet",
+  "name": "culture-admin",
   "version": "1.0.0",
   "main": "lib/index",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@antv/data-set": "^0.8.9",
-    "antd": "^3.7.3",
+    "antd": "^3.9.2",
     "babel-runtime": "^6.11.6",
     "bizcharts": "^3.1.10",
     "draft-js": "^0.10.5",
