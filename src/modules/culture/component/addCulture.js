@@ -96,9 +96,9 @@ class AddCulture extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '新增旅游成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '新增旅游成功！'
                         });
 
                         return this.context.router.push('/frame/culture/cultureList');
@@ -125,10 +125,10 @@ class AddCulture extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>新增旅游</Breadcrumb.Item>
+                            <Breadcrumb.Item>新增风土人情</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>新增旅游</h1>
+                    <h1 className='title'>新增风土人情</h1>
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">

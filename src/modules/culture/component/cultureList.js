@@ -210,7 +210,7 @@ class CultureList extends React.Component {
 
     onReview = (record, index, state) => {
         Modal.confirm({
-            title: '审核旅游',
+            title: '审核风土人情',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
@@ -303,15 +303,15 @@ class CultureList extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>旅游列表</Breadcrumb.Item>
+                            <Breadcrumb.Item>风土人情列表</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>旅游列表</h1>
+                    <h1 className='title'>风土人情列表</h1>
                     <div className='search-area'>
                         <Row type='flex' justify="space-around" align="middle">
                             <Col span={8}>
                                 <Search
-                                    placeholder="搜索旅游关键字"
+                                    placeholder="搜索风土人情关键字"
                                     enterButton
                                     size="large"
                                     onSearch={searchText => this.setState({searchText})}
@@ -329,7 +329,7 @@ class CultureList extends React.Component {
                             <Radio.Button value={1}>审核通过</Radio.Button>
                             <Radio.Button value={-1}>不合格</Radio.Button>
                         </Radio.Group>}
-                        extra={<Button type="primary" icon='plus' href='#/frame/culture/cultureList/add'>新增旅游</Button>}
+                        extra={<Button type="primary" icon='plus' href='#/frame/culture/cultureList/add'>新增风土人情</Button>}
                     >
                         <ZZTable
                             dataSource={n_dataSource}

@@ -34,19 +34,19 @@ const Menu = [
             {
                 key: '2_1',
                 link: '/frame/culture/cultureList',
-                label: '旅游列表'
+                label: '风土人情列表'
             }, {
                 key: '2_2',
                 link: '/frame/comment/commentCulture',
-                label: '旅游评论管理'
+                label: '风土人情评论管理'
             }, {
                 key: '2_3',
                 link: '/frame/culture/artList',
-                label: '艺术品列表'
+                label: '美食特产列表'
             }, {
                 key: '2_4',
                 link: '/frame/comment/commentArt',
-                label: '艺术品评论管理'
+                label: '美食特产评论管理'
             }
         ]
     }, {
