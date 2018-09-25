@@ -10,8 +10,8 @@ import {
     Button,
     Upload,
     Select,
-    notification,
-    Spin
+    Spin,
+    Notification
 } from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
@@ -147,9 +147,9 @@ class EditNews extends React.Component {
 
                 ajax.postJSON(saveLiveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '修改新闻信息成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '修改新闻信息成功！'
                         });
                     }
                 });
@@ -217,7 +217,8 @@ class EditNews extends React.Component {
                                                     >
                                                         {
                                                             cityList.map(item => {
-                                                                return (<Option key={item.id} value={item.id}>{item.cityName}</Option>)
+                                                                return (<Option key={item.id}
+                                                                                value={item.id}>{item.cityName}</Option>)
                                                             })
                                                         }
                                                     </Select>
@@ -259,7 +260,7 @@ class EditNews extends React.Component {
                                     </Col>
                                 </Row>
                                 <div className='toolbar'>
-                                    <div className='pull-right'>
+                                    <div className='zui-pull-left'>
                                         <Button
                                             type="primary"
                                             size={'large'}

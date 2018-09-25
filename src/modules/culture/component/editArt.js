@@ -139,7 +139,7 @@ class EditArt extends React.Component {
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
-                            message: '修改艺术品信息成功！',
+                            message: '修改美食特产信息成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
                     } else {
@@ -165,10 +165,10 @@ class EditArt extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>新增艺术品</Breadcrumb.Item>
+                            <Breadcrumb.Item>修改美食特产</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>新增艺术品</h1>
+                    <h1 className='title'>修改美食特产信息</h1>
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
@@ -249,8 +249,8 @@ class EditArt extends React.Component {
                                                 min={0}
                                                 precision={2}
                                                 step={1}
-                                                formatter={value => value ? `${value} 元` : ''}
-                                                parser={value => value.replace('元', '')}
+                                                // formatter={value => value ? `${value} 元` : ''}
+                                                // parser={value => value.replace('元', '')}
                                                 style={{width: '100%'}}
                                             />
                                         )}
@@ -309,7 +309,7 @@ class EditArt extends React.Component {
                                 </Col>
                             </Row>
                             <div className='toolbar'>
-                                <div className='pull-right'>
+                                <div className='zui-pull-left'>
                                     <Button
                                         size="large"
                                         type="primary"

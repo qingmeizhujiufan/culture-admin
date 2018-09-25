@@ -36,7 +36,7 @@ class ArtList extends React.Component {
         super(props);
 
         this.columns = [{
-            title: '艺术品名称',
+            title: '美食特产名称',
             width: 250,
             align: 'center',
             dataIndex: 'artTitle',
@@ -126,7 +126,7 @@ class ArtList extends React.Component {
                 <div>
                     {
                         sessionStorage.type !== "3" ? (
-                            <div>
+                            <div className='zui-inline-block'>
                                 <Dropdown
                                     overlay={
                                         <Menu>
@@ -233,7 +233,7 @@ class ArtList extends React.Component {
 
     onReview = (record, index, state) => {
         Modal.confirm({
-            title: '审核艺术品',
+            title: '审核美食特产',
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
@@ -304,15 +304,15 @@ class ArtList extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>艺术品列表</Breadcrumb.Item>
+                            <Breadcrumb.Item>美食特产列表</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>艺术品列表</h1>
+                    <h1 className='title'>美食特产列表</h1>
                     <div className='search-area'>
                         <Row type='flex' justify="space-around" align="middle">
                             <Col span={8}>
                                 <Search
-                                    placeholder="搜索艺术品关键字"
+                                    placeholder="搜索美食特产关键字"
                                     enterButton
                                     size="large"
                                     onSearch={searchText => this.setState({searchText})}
@@ -330,7 +330,7 @@ class ArtList extends React.Component {
                             <Radio.Button value={1}>审核通过</Radio.Button>
                             <Radio.Button value={-1}>不合格</Radio.Button>
                         </Radio.Group>}
-                        extra={<Button type="primary" icon='plus' href='#/frame/culture/artList/add'>新增艺术品</Button>}
+                        extra={<Button type="primary" icon='plus' href='#/frame/culture/artList/add'>新增美食特产</Button>}
                     >
                         <ZZTable
                             bordered={true}

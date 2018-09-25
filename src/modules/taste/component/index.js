@@ -284,8 +284,7 @@ class Taste extends React.Component {
                                                 dataSource={data_1}
                                                 renderItem={item => (
                                                     <List.Item
-                                                        actions={[<IconText type="star-o" text={item.likeNum}/>,
-                                                            <IconText type="message" text={item.commentNum}/>]}
+                                                        actions={[<IconText type="star-o" text={item.likeNum}/>]}
                                                         extra={<img
                                                             style={{
                                                                 width: 100,
@@ -295,7 +294,7 @@ class Taste extends React.Component {
                                                     >
                                                         <List.Item.Meta
                                                             title={<a>{item.tasteTitle}</a>}
-                                                            description={item.tasteBrief}
+                                                            description={<div className='zui-ellipsis-2'>{item.tasteBrief}</div>}
                                                         />
                                                     </List.Item>
                                                 )}
@@ -309,8 +308,7 @@ class Taste extends React.Component {
                                                 dataSource={data_2}
                                                 renderItem={item => (
                                                     <List.Item
-                                                        actions={[<IconText type="star-o" text={item.likeNum}/>,
-                                                            <IconText type="message" text={item.commentNum}/>]}
+                                                        actions={[<IconText type="message" text={item.commentNum}/>]}
                                                         extra={<img
                                                             style={{
                                                                 width: 100,
@@ -320,7 +318,7 @@ class Taste extends React.Component {
                                                     >
                                                         <List.Item.Meta
                                                             title={<a>{item.tasteTitle}</a>}
-                                                            description={item.tasteBrief}
+                                                            description={<div className='zui-ellipsis-2'>{item.tasteBrief}</div>}
                                                         />
                                                     </List.Item>
                                                 )}

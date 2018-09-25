@@ -146,7 +146,7 @@ class CommentArt extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>文化列表</Breadcrumb.Item>
+                            <Breadcrumb.Item>美食特产列表</Breadcrumb.Item>
                             <Breadcrumb.Item>评论列表</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>

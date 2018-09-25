@@ -210,7 +210,7 @@ class AddCulture extends React.Component {
                                 </Col>
                             </Row>
                             <div className='toolbar'>
-                                <div className='pull-right'>
+                                <div className='zui-pull-left'>
                                     <Button size='large' type="primary" htmlType="submit" loading={loading}>提交</Button>
                                 </div>
                             </div>

@@ -118,13 +118,13 @@ class CultureList extends React.Component {
             title: <a><Icon type="setting" style={{fontSize: 18}}/></a>,
             key: 'operation',
             fixed: 'right',
-            width: 120,
+            width: 152,
             align: 'center',
             render: (text, record, index) => (
                 <div>
                     {
                         sessionStorage.type !== "3" ? (
-                            <div>
+                            <div className='zui-inline-block'>
                                 <Dropdown
                                     overlay={
                                         <Menu>
@@ -220,10 +220,11 @@ class CultureList extends React.Component {
                 param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        notification.open({
-                            message: '审核成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '审核成功！'
                         });
+
                         const dataSource = [...this.state.dataSource];
                         dataSource[index].state = state;
 
@@ -244,10 +245,11 @@ class CultureList extends React.Component {
         param.isRecommend = checked ? 1 : 0;
         ajax.postJSON(settingRecommendUrl, JSON.stringify(param), data => {
             if (data.success) {
-                notification.open({
-                    message: '推荐设置成功！',
-                    icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                Notification.success({
+                    message: '提示',
+                    description: '推荐设置成功！'
                 });
+
                 const dataSource = [...this.state.dataSource];
                 dataSource[index].isRecommend = checked ? 1 : 0;
 
@@ -271,9 +273,9 @@ class CultureList extends React.Component {
                 param.id = id;
                 ajax.postJSON(delLiveUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        notification.open({
-                            message: '删除成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '删除成功！'
                         });
 
                         const dataSource = [...this.state.dataSource].filter(item => item.key !== id);

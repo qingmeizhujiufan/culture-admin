@@ -148,7 +148,7 @@ class EditCulture extends React.Component {
                 ajax.postJSON(saveLiveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
                         notification.open({
-                            message: '修改文化信息成功！',
+                            message: '修改风土人情信息成功！',
                             icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
                         });
                     }
@@ -168,11 +168,11 @@ class EditCulture extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>文化列表</Breadcrumb.Item>
-                            <Breadcrumb.Item>更新文化</Breadcrumb.Item>
+                            <Breadcrumb.Item>风土人情列表</Breadcrumb.Item>
+                            <Breadcrumb.Item>更新风土人情</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>修改文化信息</h1>
+                    <h1 className='title'>修改风土人情信息</h1>
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
@@ -259,7 +259,7 @@ class EditCulture extends React.Component {
                                     </Col>
                                 </Row>
                                 <div className='toolbar'>
-                                    <div className='pull-right'>
+                                    <div className='zui-pull-left'>
                                         <Button
                                             size='large'
                                             type="primary"

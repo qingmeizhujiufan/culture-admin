@@ -9,7 +9,7 @@ import {
     Divider,
     Button,
     Upload,
-    notification,
+    Notification,
     Message,
     Breadcrumb,
     Spin, Select
@@ -106,10 +106,11 @@ class AddAd extends React.Component {
                 this.setState({submitLoading: true});
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '新增广告成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '新增广告成功！'
                         });
+
                         return this.context.router.push('/frame/ad/platform');
                     } else {
                         Message.error(data.backMsg);
@@ -209,7 +210,7 @@ class AddAd extends React.Component {
                                 </Col>
                             </Row>
                             <div className='toolbar'>
-                                <div className='pull-right'>
+                                <div className='zui-pull-left'>
                                     <Button type="primary" size='large' htmlType="submit"
                                             loading={submitLoading}>提交</Button>
                                 </div>

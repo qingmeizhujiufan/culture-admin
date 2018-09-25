@@ -7,10 +7,10 @@ import {
     Icon,
     Input,
     InputNumber,
-    message,
+    Message,
     Button,
     Upload,
-    notification,
+    Notification,
     Breadcrumb,
     Select,
     Spin
@@ -92,9 +92,9 @@ class AddArt extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '新增艺术品成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '新增美食特产成功！'
                         });
 
                         return this.context.router.push('/frame/culture/artList');
@@ -121,10 +121,10 @@ class AddArt extends React.Component {
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>文化展示</Breadcrumb.Item>
-                            <Breadcrumb.Item>新增艺术品</Breadcrumb.Item>
+                            <Breadcrumb.Item>新增美食特产</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
-                    <h1 className='title'>新增艺术品</h1>
+                    <h1 className='title'>新增美食特产</h1>
                 </div>
                 <div className='pageContent'>
                     <div className="ibox-content">
@@ -202,8 +202,8 @@ class AddArt extends React.Component {
                                                 min={0}
                                                 precision={2}
                                                 step={1}
-                                                formatter={value => value ? `${value} 元` : ''}
-                                                parser={value => value.replace('元', '')}
+                                                // formatter={value => value ? `${value} 元` : ''}
+                                                // parser={value => value.replace('元', '')}
                                                 style={{width: '100%'}}
                                             />
                                         )}
@@ -258,7 +258,7 @@ class AddArt extends React.Component {
                                 </Col>
                             </Row>
                             <div className='toolbar'>
-                                <div className='pull-right'>
+                                <div className='zui-pull-left'>
                                     <Button size="large" type="primary" htmlType="submit" loading={loading}>提交</Button>
                                 </div>
                             </div>

@@ -44,11 +44,11 @@ class ZZHeader extends React.Component {
         this.menu = (
             <Menu>
                 <Menu.Item>
-                    <span onClick={this.showModifyModal}><Icon type="key" theme="outlined" /> 修改密码</span>
+                    <span onClick={this.showModifyModal}><Icon type="key" theme="outlined"/> 修改密码</span>
                 </Menu.Item>
                 <Menu.Divider/>
                 <Menu.Item>
-                    <span onClick={this.logout}><Icon type="poweroff" theme="outlined" /> 退出登录</span>
+                    <span onClick={this.logout}><Icon type="poweroff" theme="outlined"/> 退出登录</span>
                 </Menu.Item>
             </Menu>
         );
@@ -158,7 +158,7 @@ class ZZHeader extends React.Component {
                     <Col span={10}>
                     </Col>
                     <Col span={12} style={{textAlign: 'right'}}>
-                        <Dropdown overlay={this.menu}>
+                        <Dropdown overlay={this.menu} placement="bottomRight">
                             <a className="ant-dropdown-link">
                                 <Avatar style={{verticalAlign: '-6px', backgroundColor: '#fc5a59'}} size="small"
                                         icon="user"/> 管理员<Icon type="down"/>

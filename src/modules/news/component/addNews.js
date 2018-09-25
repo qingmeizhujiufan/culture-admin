@@ -9,10 +9,10 @@ import {
     message,
     Button,
     Upload,
-    notification,
     Breadcrumb,
     Select,
-    Spin
+    Spin,
+    Notification
 } from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
@@ -96,9 +96,9 @@ class AddNews extends React.Component {
                 });
                 ajax.postJSON(saveNewsUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '新增新闻成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '新增新闻成功！'
                         });
 
                         return this.context.router.push('/frame/news/newsList');
@@ -211,7 +211,7 @@ class AddNews extends React.Component {
                                 </Col>
                             </Row>
                             <div className='toolbar'>
-                                <div className='pull-right'>
+                                <div className='zui-pull-left'>
                                     <Button type="primary" size='large' htmlType="submit" loading={loading}>提交</Button>
                                 </div>
                             </div>
