@@ -13,13 +13,15 @@ import {
     notification,
     Breadcrumb,
     Select,
-    Spin
+    Spin, Notification
 } from 'antd';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
+import ZZEditor from "Comps/zzEditor/zzEditor";
+import {ContentState, convertToRaw, EditorState} from "draft-js";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -41,6 +43,7 @@ class EditArt extends React.Component {
             data: {},
             fileList: [],
             cityList: [],
+            editorState: EditorState.createEmpty(),
             loading: false,
             cityLoading: false
         };
@@ -88,17 +91,16 @@ class EditArt extends React.Component {
                     };
                 });
 
-                backData.artContent.map((item, index) => {
-                    item.uid = item.id;
-                    item.name = item.fileName;
-                    item.status = 'done';
-                    item.url = restUrl.BASE_HOST + item.filePath;
-                    item.response = {
-                        data: {
-                            id: item.id
-                        }
-                    };
-                });
+                if (backData.artContent && backData.artContent !== '') {
+                    backData.artContent = draftToHtml(JSON.parse(backData.artContent));
+                    const contentBlock = htmlToDraft(backData.artContent);
+                    const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                    const editorState = EditorState.createWithContent(contentState);
+
+                    this.setState({
+                        editorState
+                    });
+                }
 
                 this.setState({
                     data: backData,
@@ -120,6 +122,12 @@ class EditArt extends React.Component {
         return e && e.fileList;
     }
 
+    saveEditorState = (editorState) => {
+        this.setState({
+            editorState
+        });
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -128,9 +136,7 @@ class EditArt extends React.Component {
                 values.artCover = values.artCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
-                values.artContent = values.artContent.map(item => {
-                    return item.response.data.id;
-                }).join(',');
+                values.artContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 values.creator = sessionStorage.userId;
                 console.log('handleSubmit  param === ', values);
                 this.setState({
@@ -138,10 +144,12 @@ class EditArt extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '修改美食特产信息成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '修改美食特产信息成功！'
                         });
+
+                        return this.context.router.push('/frame/culture/artList');
                     } else {
                         message.error(data.backMsg);
                     }
@@ -155,7 +163,7 @@ class EditArt extends React.Component {
     }
 
     render() {
-        let {type, data, fileList, loading, cityList, cityLoading} = this.state;
+        let {type, data, fileList,editorState, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -285,31 +293,11 @@ class EditArt extends React.Component {
                             </Row>
                             <Row>
                                 <Col>
-                                    <FormItem
-                                        label="详情图片"
-                                        labelCol={{span: 3}}
-                                        wrapperCol={{span: 21}}
-                                    >
-                                        {getFieldDecorator('artContent', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '详情图片不能为空!'}],
-                                            initialValue: data.artContent
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                multiple
-                                                listType={'picture'}
-                                                className='upload-list-inline'
-                                            >
-                                                <Button><Icon type="upload"/> 上传</Button>
-                                            </Upload>
-                                        )}
-                                    </FormItem>
+                                    <ZZEditor editorState={editorState} saveEditorState={this.saveEditorState}/>
                                 </Col>
                             </Row>
                             <div className='toolbar'>
-                                <div className='zui-pull-left'>
+                                <div className='pull-right'>
                                     <Button
                                         size="large"
                                         type="primary"

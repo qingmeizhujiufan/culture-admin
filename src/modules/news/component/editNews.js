@@ -260,7 +260,7 @@ class EditNews extends React.Component {
                                     </Col>
                                 </Row>
                                 <div className='toolbar'>
-                                    <div className='zui-pull-left'>
+                                    <div className='pull-right'>
                                         <Button
                                             type="primary"
                                             size={'large'}

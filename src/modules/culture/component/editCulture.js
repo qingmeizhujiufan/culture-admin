@@ -147,10 +147,12 @@ class EditCulture extends React.Component {
 
                 ajax.postJSON(saveLiveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '修改风土人情信息成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '修改风土人情信息成功！'
                         });
+
+                        return this.context.router.push('/frame/culture/cultureList');
                     }
                 });
             }
@@ -259,7 +261,7 @@ class EditCulture extends React.Component {
                                     </Col>
                                 </Row>
                                 <div className='toolbar'>
-                                    <div className='zui-pull-left'>
+                                    <div className='pull-right'>
                                         <Button
                                             size='large'
                                             type="primary"

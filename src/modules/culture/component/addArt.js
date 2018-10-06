@@ -18,6 +18,8 @@ import {
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../index.less';
+import ZZEditor from "Comps/zzEditor/zzEditor";
+import {convertToRaw, EditorState} from "draft-js";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -36,7 +38,7 @@ class AddArt extends React.Component {
         this.state = {
             type: sessionStorage.type,
             fileList: [],
-            fileContentList: [],
+            editorState: EditorState.createEmpty(),
             cityList: [],
             loading: false,
             cityLoading: false
@@ -75,6 +77,12 @@ class AddArt extends React.Component {
         return e && e.fileList;
     }
 
+    saveEditorState = (editorState) => {
+        this.setState({
+            editorState
+        });
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -82,9 +90,7 @@ class AddArt extends React.Component {
                 values.artCover = values.artCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
-                values.artContent = values.artContent.map(item => {
-                    return item.response.data.id;
-                }).join(',');
+                values.artContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 values.creator = sessionStorage.userId;
                 console.log('handleSubmit  param === ', values);
                 this.setState({
@@ -111,7 +117,7 @@ class AddArt extends React.Component {
     }
 
     render() {
-        let {type, fileList, fileContentList, loading, cityList, cityLoading} = this.state;
+        let {type, fileList, editorState, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -234,31 +240,11 @@ class AddArt extends React.Component {
                             </Row>
                             <Row>
                                 <Col>
-                                    <FormItem
-                                        label="详情图片"
-                                        labelCol={{span: 3}}
-                                        wrapperCol={{span: 21}}
-                                    >
-                                        {getFieldDecorator('artContent', {
-                                            valuePropName: 'fileList',
-                                            getValueFromEvent: this.normFile,
-                                            rules: [{required: true, message: '详情图片不能为空!'}],
-                                        })(
-                                            <Upload
-                                                action={restUrl.UPLOAD}
-                                                multiple
-                                                listType={'picture'}
-                                                className='upload-list-inline'
-                                                onChange={this.handleContentChange}
-                                            >
-                                                <Button><Icon type="upload"/> 上传</Button>
-                                            </Upload>
-                                        )}
-                                    </FormItem>
+                                    <ZZEditor editorState={editorState} saveEditorState={this.saveEditorState}/>
                                 </Col>
                             </Row>
                             <div className='toolbar'>
-                                <div className='zui-pull-left'>
+                                <div className='pull-right'>
                                     <Button size="large" type="primary" htmlType="submit" loading={loading}>提交</Button>
                                 </div>
                             </div>
