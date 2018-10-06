@@ -100,6 +100,7 @@ class NewsList extends React.Component {
             key: 'operation',
             fixed: 'right',
             width: 120,
+            align: 'center',
             render: (text, record, index) => (
                 <div>
                     <Dropdown

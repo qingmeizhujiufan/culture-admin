@@ -54,16 +54,19 @@ class ArtList extends React.Component {
             )
         }, {
             title: '所属城市',
+            width: 120,
             align: 'center',
             dataIndex: 'cityName',
             key: 'cityName',
         }, {
             title: '浏览数',
+            width: 100,
             align: 'right',
             dataIndex: 'readNum',
             key: 'readNum',
         }, {
             title: '收藏数',
+            width: 100,
             align: 'right',
             dataIndex: 'collectNum',
             key: 'collectNum',
@@ -105,6 +108,7 @@ class ArtList extends React.Component {
             )
         }, {
             title: '创建人',
+            width: 150,
             align: 'center',
             dataIndex: 'creatorName',
             key: 'creatorName',
@@ -113,6 +117,7 @@ class ArtList extends React.Component {
             )
         }, {
             title: '创建时间',
+            width: 200,
             align: 'center',
             dataIndex: 'create_time',
             key: 'create_time',
@@ -336,7 +341,7 @@ class ArtList extends React.Component {
                             bordered={true}
                             dataSource={n_dataSource}
                             columns={this.columns}
-                            scroll={{x: 1500}}
+                            scroll={{x: 1800}}
                         />
                     </ZZCard>
                 </div>

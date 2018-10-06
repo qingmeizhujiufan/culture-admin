@@ -9,7 +9,7 @@ import productReducer from './product';
  * 将所有State组织成一个状态树来进行维护
  */
 export default combineReducers({
-    routing: routerReducer,
+    routerReducer,
     toggleMenuReducer,
     productReducer,
 });

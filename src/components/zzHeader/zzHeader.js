@@ -14,7 +14,9 @@ import {
     Notification,
     Button,
     Form,
-    Message
+    Message,
+    Badge,
+    Divider
 } from 'antd';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
@@ -147,21 +149,29 @@ class ZZHeader extends React.Component {
             <Header className="zui-header">
                 <Row type="flex" justify="space-between" align="middle" style={{height: '100%'}}>
                     <Col span={2}>
-                        <Tooltip placement="right" title={collapsed ? '点击张开左侧菜单栏' : '点击收缩左侧菜单栏'}>
-                            <Icon
-                                className="trigger"
-                                type={collapsed ? 'menu-unfold' : 'menu-fold'}
-                                onClick={onToggleClick}
-                            />
-                        </Tooltip>
+                        <Icon
+                            className="trigger"
+                            type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                            onClick={onToggleClick}
+                        />
                     </Col>
                     <Col span={10}>
                     </Col>
                     <Col span={12} style={{textAlign: 'right'}}>
+                        <Badge count={0} title='个人消息' style={{backgroundColor: '#FFC32D'}}>
+                            <span>
+                            <Icon type="bell" theme="outlined"
+                                  style={{fontSize: 20, color: '#fff', verticalAlign: 'text-bottom'}}/>
+                          </span>
+                        </Badge>
+                        <Divider type="vertical" style={{margin: '0 30px'}}/>
                         <Dropdown overlay={this.menu} placement="bottomRight">
-                            <a className="ant-dropdown-link">
-                                <Avatar style={{verticalAlign: '-6px', backgroundColor: '#fc5a59'}} size="small"
-                                        icon="user"/> 管理员<Icon type="down"/>
+                            <a className="ant-dropdown-link" style={{color: '#fff'}}>
+                                <Avatar
+                                    className='zui-avatar'
+                                    size="small"
+                                    icon="user"
+                                /> 管理员 <Icon type="down"/>
                             </a>
                         </Dropdown>
                     </Col>

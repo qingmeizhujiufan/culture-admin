@@ -9,4 +9,11 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(ZZLeftSide)
+//将动作写入属性
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onToggleClick: collapsed => dispatch(actions.toggle(collapsed))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ZZLeftSide)

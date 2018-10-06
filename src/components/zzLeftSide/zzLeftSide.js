@@ -18,66 +18,74 @@ class ZZLeftSide extends React.Component {
 
         this.state = {
             defaultSelectedKeys: '',
-            menuTree: []
+            authMenu: [],
+            subMenuList: null
         };
     }
 
     componentWillMount = () => {
-        this.authorityMenu();
     }
 
     componentDidMount = () => {
-        this.selectActiveTab();
+        this.setAuthMenu(this.selectActiveTab);
+
+        window.addEventListener('hashchange', () => {
+            this.selectActiveTab();
+        });
     }
 
     componentWillReceiveProps = nextProps => {
-        if ('storageChange' in nextProps && nextProps.storageChange !== this.props.storageChange) {
-            this.selectActiveTab();
-        }
+        console.log('nextProps ===', nextProps)
     }
 
-    authorityMenu = () => {
+    componentWillUnmount = () => {
+        window.removeEventListener('hashchange', () => {
+            this.selectActiveTab();
+        });
+    }
+
+    setAuthMenu = callback => {
         if (sessionStorage.type !== undefined && sessionStorage.type !== null) {
-            if (sessionStorage.type === "1") {
-                this.setState({menuTree});
+            const type = sessionStorage.type;
+            let authority_menu = [];
+            if (type === "1")
+                authority_menu = admin;
+            else if (type === "2") {
+                authority_menu = subAdmin;
             }
-            else {
-                let authority_menu = [];
-                if (sessionStorage.type === "2") {
-                    authority_menu = admin;
-                }
-                else if (sessionStorage.type === "3") {
-                    authority_menu = operator;
-                }
-                let _menu = [];
-                menuTree.map(item => {
-                    const _item = {};
-                    for (let i = 0; i < authority_menu.length; i++) {
-                        if (item.key === authority_menu[i].key) {
-                            _item.key = item.key;
-                            _item.iconType = item.iconType;
-                            _item.label = item.label;
-                            _item.children = [];
-                            authority_menu[i].children.map(sub_key => {
-                                _item.children.push(_.find(item.children, {key: sub_key}));
-                            });
-                            _menu.push(_item);
-                        }
+            else if (type === "3") {
+                authority_menu = operator;
+            }
+            let _menu = [];
+            menuTree.map(item => {
+                const _item = {};
+                for (let i = 0; i < authority_menu.length; i++) {
+                    if (item.key === authority_menu[i].key) {
+                        _item.key = item.key;
+                        _item.iconType = item.iconType;
+                        _item.label = item.label;
+                        _item.children = [];
+                        authority_menu[i].children.map(sub_key => {
+                            _item.children.push(_.find(item.children, {key: sub_key}));
+                        });
+                        _menu.push(_item);
                     }
-                });
-                this.setState({menuTree: _menu});
-            }
+                }
+            });
+
+            this.setState({authMenu: _menu}, () => {
+                if (typeof callback === 'function') callback();
+            });
         }
     }
 
     selectActiveTab = () => {
-        const menu = this.getFlatMenu(this.state.menuTree);
-
+        const menu = this.getFlatMenu(this.state.authMenu);
+        const hashUrl = location.hash.split('#')[1];
         for (let i = 0; i < menu.length; i++) {
             const item = menu[i];
-
-            if (window.location.hash.split('#')[1].indexOf(item.link) > -1) {
-                this.setState({defaultSelectedKeys: item.key});
+            if (hashUrl.indexOf(item.link) > -1) {
+                this.setState({selectedKeys: item.key});
                 return;
             }
         }
@@ -93,10 +101,9 @@ class ZZLeftSide extends React.Component {
         }, []);
     }
 
-    buildMenu = () => {
-        const {defaultSelectedKeys, menuTree} = this.state;
-        if (defaultSelectedKeys === '') return;
-        const menu = menuTree.map(function (item, index) {
+    setMenuChildren = () => {
+        const {selectedKeys, authMenu} = this.state;
+        const subMenuList = authMenu.map(item => {
             if (item.children) {
                 return (
                     <SubMenu
@@ -104,7 +111,7 @@ class ZZLeftSide extends React.Component {
                         title={<span><Icon type={item.iconType}/><span>{item.label}</span></span>}
                     >
                         {
-                            item.children.map(function (subItem, subIndex) {
+                            item.children.map(subItem => {
                                 return (
                                     <Menu.Item key={subItem.key}>
                                         <Link to={subItem.link}>{subItem.label}</Link>
@@ -130,21 +137,32 @@ class ZZLeftSide extends React.Component {
             <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={[defaultSelectedKeys]}
+                selectedKeys={[selectedKeys]}
+                defaultSelectedKeys={['1_1']}
                 defaultOpenKeys={['1', '2', '3', '4', '5', '6']}
-            >
-                {menu}
-            </Menu>
+            >{subMenuList}</Menu>
         );
     }
 
+    onClick = e => {
+        this.setState({
+            selectedKeys: e.key
+        });
+    }
+
+    onBreakpoint = broken => {
+        console.log('broken ===', broken)
+        this.props.onToggleClick(broken ? false : true);
+    }
+
     render() {
-        const {menuTree} = this.state;
-        const {collapsed} = this.props;
-        const menu = menuTree.length > 0 ? this.buildMenu() : null;
+        const {selectedKeys, subMenuList} = this.state;
+        const {collapsed, onToggleClick} = this.props;
 
         return (
             <Sider
+                breakpoint="lg"
+                onBreakpoint={this.onBreakpoint}
                 trigger={null}
                 collapsible
                 collapsed={collapsed}
@@ -152,12 +170,12 @@ class ZZLeftSide extends React.Component {
                 className="left-side"
             >
                 <div className="logo">
-                    <Link to="/">
+                    <Link to="/frame/home">
                         <h1>ADMIN</h1>
                     </Link>
                 </div>
-                <Scrollbars style={{height: 'calc(100vh - 64px)'}}>
-                    {menu}
+                <Scrollbars className='zui-menu'>
+                    {this.setMenuChildren()}
                 </Scrollbars>
             </Sider>
         );

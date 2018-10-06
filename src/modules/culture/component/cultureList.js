@@ -11,7 +11,7 @@ import {
     Breadcrumb,
     Dropdown,
     Divider,
-    notification,
+    Notification,
     Spin,
     Tabs,
     message,
@@ -111,6 +111,7 @@ class CultureList extends React.Component {
             )
         }, {
             title: '创建时间',
+            width: 200,
             align: 'center',
             dataIndex: 'create_time',
             key: 'create_time',
@@ -118,7 +119,7 @@ class CultureList extends React.Component {
             title: <a><Icon type="setting" style={{fontSize: 18}}/></a>,
             key: 'operation',
             fixed: 'right',
-            width: 152,
+            width: 155,
             align: 'center',
             render: (text, record, index) => (
                 <div>
@@ -331,12 +332,13 @@ class CultureList extends React.Component {
                             <Radio.Button value={1}>审核通过</Radio.Button>
                             <Radio.Button value={-1}>不合格</Radio.Button>
                         </Radio.Group>}
-                        extra={<Button type="primary" icon='plus' href='#/frame/culture/cultureList/add'>新增风土人情</Button>}
+                        extra={<Button type="primary" icon='plus'
+                                       href='#/frame/culture/cultureList/add'>新增风土人情</Button>}
                     >
                         <ZZTable
                             dataSource={n_dataSource}
                             columns={this.columns}
-                            scroll={{x: 1500}}
+                            scroll={{x: 1800}}
                         />
                     </ZZCard>
                 </div>

@@ -55,14 +55,14 @@ class Index extends React.Component {
     getWebTotal = () => {
         this.setState({totalLoading: true});
         ajax.getJSON(getWebTotalUrl, null, data => {
-           if(data.success){
-               this.setState({
-                   webTotal: data.backData,
-                   totalLoading: false
-               });
-           } else {
+            if (data.success) {
+                this.setState({
+                    webTotal: data.backData,
+                    totalLoading: false
+                });
+            } else {
 
-           }
+            }
         });
     }
 
@@ -71,7 +71,7 @@ class Index extends React.Component {
         param.type = this.state.type;
         this.setState({userLoading: true});
         ajax.getJSON(getNewlyUrl, param, data => {
-            if(data.success){
+            if (data.success) {
                 data = data.backData;
                 const chartData = [];
                 data.map(item => {
@@ -83,7 +83,7 @@ class Index extends React.Component {
                 this.setState({
                     userData: chartData
                 });
-            }else {
+            } else {
                 message.error(data.backMsg);
             }
             this.setState({userLoading: false});
@@ -93,7 +93,7 @@ class Index extends React.Component {
     countCAN = () => {
         this.setState({canLoading: true});
         ajax.getJSON(countCANUrl, null, data => {
-            if(data.success){
+            if (data.success) {
                 const backData = data.backData;
                 const canTotal = [{
                     x: '文化',
@@ -123,7 +123,7 @@ class Index extends React.Component {
 
     changeType = e => {
         console.log('e === ', e.target);
-        if(this.state.type === e.target.value) return;
+        if (this.state.type === e.target.value) return;
         this.setState({type: e.target.value}, () => {
             this.getNewlyData();
         });
@@ -187,11 +187,13 @@ class Index extends React.Component {
                         </Col>
                     </Row>
                     <Row gutter={24}>
-                        <Col span={18}>
+                        <Col {...{xs: 24, sm: 24, md: 24, lg: 24, xl: 18, xxl: 18}}>
                             <ZZCard
+                                className='marginBttom-24'
                                 title="最近注册用户统计"
                                 extra={(
-                                    <Radio.Group defaultValue="week" buttonStyle="solid" onChange={e => this.changeType(e)}>
+                                    <Radio.Group defaultValue="week" buttonStyle="solid"
+                                                 onChange={e => this.changeType(e)}>
                                         <Radio.Button value="threeday">最近三天</Radio.Button>
                                         <Radio.Button value="week">最近一周</Radio.Button>
                                         <Radio.Button value="month">最近一个月</Radio.Button>
@@ -199,11 +201,12 @@ class Index extends React.Component {
                                 )}
                                 loading={userLoading}
                             >
-                                <Bar height={418} data={userData} />
+                                <Bar height={418} data={userData}/>
                             </ZZCard>
                         </Col>
-                        <Col span={6}>
+                        <Col {...{xs: 24, sm: 24, md: 24, lg: 24, xl: 6, xxl: 6}}>
                             <ZZCard
+                                className='marginBttom-24'
                                 title={'浏览占比'}
                                 loading={canLoading}
                             >
@@ -218,17 +221,6 @@ class Index extends React.Component {
                             </ZZCard>
                         </Col>
                     </Row>
-                    {/*<Row style={{marginTop: 24}}>*/}
-                        {/*<Col>*/}
-                            {/*<ZZCard*/}
-                                {/*tabList={tabList}*/}
-                                {/*activeTabKey={'culture'}*/}
-                                {/*onTabChange={(key) => { this.onTabChange(key, 'noTitleKey'); }}*/}
-                            {/*>*/}
-                                {/*<h1>fafads</h1>*/}
-                            {/*</ZZCard>*/}
-                        {/*</Col>*/}
-                    {/*</Row>*/}
                 </div>
             </div>
         );
