@@ -16,6 +16,7 @@ import {
     Select
 } from 'antd';
 import ajax from 'Utils/ajax';
+import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
 import restUrl from 'RestUrl';
 import '../index.less';
 
@@ -25,11 +26,6 @@ const FormItem = Form.Item;
 const queryDetailUrl = restUrl.ADDR + 'ad/queryDetail';
 const queryListUrl = restUrl.ADDR + 'ad/queryList';
 const saveUrl = restUrl.ADDR + 'ad/save';
-
-const formItemLayout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 12},
-};
 
 const adList = [
     {
@@ -179,7 +175,7 @@ class EditAd extends React.Component {
                         <Spin spinning={loading} size='large'>
                             <Form onSubmit={this.handleSubmit}>
                                 <Row>
-                                    <Col span={12}>
+                                    <Col {...itemGrid}>
                                         <FormItem
                                             label="封面图片"
                                             {...formItemLayout}
@@ -203,7 +199,7 @@ class EditAd extends React.Component {
                                             )}
                                         </FormItem>
                                     </Col>
-                                    <Col span={12}>
+                                    <Col {...itemGrid}>
                                         <FormItem
                                             label="广告位选择"
                                             {...formItemLayout}
@@ -222,9 +218,7 @@ class EditAd extends React.Component {
                                             </Spin>
                                         </FormItem>
                                     </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={12}>
+                                    <Col {...itemGrid}>
                                         <FormItem
                                             label="名称"
                                             {...formItemLayout}
@@ -237,7 +231,7 @@ class EditAd extends React.Component {
                                             )}
                                         </FormItem>
                                     </Col>
-                                    <Col span={12}>
+                                    <Col {...itemGrid}>
                                         <FormItem
                                             label="链接"
                                             {...formItemLayout}
@@ -252,7 +246,7 @@ class EditAd extends React.Component {
                                     </Col>
                                 </Row>
                                 <div className='toolbar'>
-                                    <div className='zui-pull-left'>
+                                    <div className='pull-right'>
                                         <Button type="primary" size='large' htmlType="submit"
                                                 loading={submitLoading}>保存</Button>
                                     </div>

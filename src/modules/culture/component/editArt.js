@@ -7,15 +7,16 @@ import {
     Icon,
     Input,
     InputNumber,
-    message,
+    Message,
     Button,
     Upload,
-    notification,
     Breadcrumb,
     Select,
-    Spin, Notification
+    Spin,
+    Notification
 } from 'antd';
 import ajax from 'Utils/ajax';
+import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
 import restUrl from 'RestUrl';
 import '../index.less';
 import draftToHtml from "draftjs-to-html";
@@ -28,11 +29,6 @@ const Option = Select.Option;
 const queryListUrl = restUrl.ADDR + 'city/queryList';
 const queryDetailUrl = restUrl.ADDR + 'art/queryDetail';
 const saveUrl = restUrl.ADDR + 'art/save';
-
-const formItemLayout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 12},
-};
 
 class EditArt extends React.Component {
     constructor(props) {
@@ -151,7 +147,7 @@ class EditArt extends React.Component {
 
                         return this.context.router.push('/frame/culture/artList');
                     } else {
-                        message.error(data.backMsg);
+                        Message.error(data.backMsg);
                     }
 
                     this.setState({
@@ -163,7 +159,7 @@ class EditArt extends React.Component {
     }
 
     render() {
-        let {type, data, fileList,editorState, loading, cityList, cityLoading} = this.state;
+        let {type, data, fileList, editorState, loading, cityList, cityLoading} = this.state;
         const {getFieldDecorator, setFieldsValue} = this.props.form;
 
         return (
@@ -182,7 +178,7 @@ class EditArt extends React.Component {
                     <div className="ibox-content">
                         <Form onSubmit={this.handleSubmit}>
                             <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="封面图片"
                                         {...formItemLayout}
@@ -205,7 +201,7 @@ class EditArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="城市选择"
                                         {...formItemLayout}
@@ -229,9 +225,7 @@ class EditArt extends React.Component {
                                         </Spin>
                                     </FormItem>
                                 </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="名称"
                                         {...formItemLayout}
@@ -244,7 +238,7 @@ class EditArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="金额"
                                         {...formItemLayout}
@@ -264,9 +258,7 @@ class EditArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="购买链接"
                                         {...formItemLayout}
@@ -278,10 +270,15 @@ class EditArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                            </Row>
+                            <Row>
+                                <Col>
                                     <FormItem
                                         label="简介"
-                                        {...formItemLayout}
+                                        {...{
+                                            labelCol: {span: 2},
+                                            wrapperCol: {span: 20},
+                                        }}
                                     >
                                         {getFieldDecorator('artBrief', {
                                             initialValue: data.artBrief
@@ -304,7 +301,7 @@ class EditArt extends React.Component {
                                         htmlType="submit"
                                         loading={loading}
                                         disabled={type === '1' ? false : !!data.state}
-                                    >提交</Button>
+                                    >保存</Button>
                                 </div>
                             </div>
                         </Form>

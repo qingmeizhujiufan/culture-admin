@@ -12,7 +12,7 @@ const admin = [{
     children: ['4_1', '4_2']
 }, {
     key: '5',
-    children: ['5_1', '5_2']
+    children: ['5_1']
 }, {
     key: '6',
     children: ['6_1', '6_2']

@@ -14,7 +14,7 @@ import {
     Notification,
     Spin,
     Tabs,
-    message,
+    Message,
     Modal, Radio, Button, Switch
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';

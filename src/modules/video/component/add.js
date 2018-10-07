@@ -6,24 +6,20 @@ import {
     Col,
     Icon,
     Input,
-    message,
+    Message,
     Button,
     Upload,
-    notification,
+    Notification,
     Breadcrumb,
     Spin
 } from 'antd';
 import ajax from 'Utils/ajax';
+import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
 import restUrl from 'RestUrl';
 import '../index.less';
 
 const FormItem = Form.Item;
 const saveUrl = restUrl.ADDR + 'video/save';
-
-const formItemLayout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 12},
-};
 
 class AddVideo extends React.Component {
     constructor(props) {
@@ -70,14 +66,14 @@ class AddVideo extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '新增视频成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '新增视频成功！'
                         });
 
                         this.context.router.push('/frame/video/list');
                     } else {
-                        message.error(data.backMsg);
+                        Message.error(data.backMsg);
                     }
 
                     this.setState({
@@ -108,7 +104,7 @@ class AddVideo extends React.Component {
                     <div className="ibox-content">
                         <Form onSubmit={this.handleSubmit}>
                             <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="封面图片"
                                         {...formItemLayout}
@@ -130,7 +126,7 @@ class AddVideo extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="视频上传"
                                         {...formItemLayout}
@@ -150,9 +146,7 @@ class AddVideo extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="名称"
                                         {...formItemLayout}
@@ -164,10 +158,15 @@ class AddVideo extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                            </Row>
+                            <Row>
+                                <Col>
                                     <FormItem
                                         label="简介"
-                                        {...formItemLayout}
+                                        {...{
+                                            labelCol: {span: 2},
+                                            wrapperCol: {span: 20},
+                                        }}
                                     >
                                         {getFieldDecorator('videoBrief', {})(
                                             <Input.TextArea autosize={{minRows: 4, maxRows: 6}}/>

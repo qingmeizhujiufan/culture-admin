@@ -6,28 +6,21 @@ import {
     Col,
     Icon,
     Input,
-    message,
+    Message,
     Button,
     Upload,
-    notification,
+    Notification,
     Breadcrumb,
     Spin
 } from 'antd';
 import ajax from 'Utils/ajax';
+import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
 import restUrl from 'RestUrl';
 import '../index.less';
-import draftToHtml from "draftjs-to-html";
-import htmlToDraft from "html-to-draftjs";
-import {ContentState, EditorState} from "draft-js";
 
 const FormItem = Form.Item;
 const saveUrl = restUrl.ADDR + 'video/save';
 const queryDetailUrl = restUrl.ADDR + 'video/queryDetail';
-
-const formItemLayout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 12},
-};
 
 class EditVideo extends React.Component {
     constructor(props) {
@@ -127,12 +120,14 @@ class EditVideo extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        notification.open({
-                            message: '修改视频信息成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '修改视频信息成功！'
                         });
+
+                        this.context.router.push('/frame/video/list');
                     } else {
-                        message.error(data.backMsg);
+                        Message.error(data.backMsg);
                     }
 
                     this.setState({
@@ -163,7 +158,7 @@ class EditVideo extends React.Component {
                     <div className="ibox-content">
                         <Form onSubmit={this.handleSubmit}>
                             <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="封面图片"
                                         {...formItemLayout}
@@ -186,7 +181,7 @@ class EditVideo extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="视频上传"
                                         {...formItemLayout}
@@ -207,9 +202,7 @@ class EditVideo extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="名称"
                                         {...formItemLayout}
@@ -222,10 +215,15 @@ class EditVideo extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                            </Row>
+                            <Row>
+                                <Col>
                                     <FormItem
                                         label="简介"
-                                        {...formItemLayout}
+                                        {...{
+                                            labelCol: {span: 2},
+                                            wrapperCol: {span: 20},
+                                        }}
                                     >
                                         {getFieldDecorator('videoBrief', {
                                             initialValue: data.videoBrief
@@ -237,7 +235,8 @@ class EditVideo extends React.Component {
                             </Row>
                             <div className='toolbar'>
                                 <div className='pull-right'>
-                                    <Button size="large" type="primary" htmlType="submit" loading={submitLoading}>保存</Button>
+                                    <Button size="large" type="primary" htmlType="submit"
+                                            loading={submitLoading}>保存</Button>
                                 </div>
                             </div>
                         </Form>

@@ -10,10 +10,12 @@ import {
     Button,
     Upload,
     Select,
-    notification,
+    Notification,
+    Message,
     Spin
 } from 'antd';
 import ajax from 'Utils/ajax';
+import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
 import restUrl from 'RestUrl';
 import '../index.less';
 import ZZEditor from '../../../components/zzEditor/zzEditor';
@@ -27,11 +29,6 @@ const Option = Select.Option;
 const queryListUrl = restUrl.ADDR + 'city/queryList';
 const queryDetailUrl = restUrl.ADDR + 'culture/queryDetail';
 const saveLiveUrl = restUrl.ADDR + 'culture/save';
-
-const formItemLayout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 12},
-};
 
 class EditCulture extends React.Component {
     constructor(props) {
@@ -181,7 +178,7 @@ class EditCulture extends React.Component {
                         <Spin spinning={loading} size="large">
                             <Form onSubmit={this.handleSubmit}>
                                 <Row>
-                                    <Col span={12}>
+                                    <Col {...itemGrid}>
                                         <FormItem
                                             label="封面图片"
                                             {...formItemLayout}
@@ -204,7 +201,7 @@ class EditCulture extends React.Component {
                                             )}
                                         </FormItem>
                                     </Col>
-                                    <Col span={12}>
+                                    <Col {...itemGrid}>
                                         <FormItem
                                             label="城市选择"
                                             {...formItemLayout}
@@ -219,7 +216,8 @@ class EditCulture extends React.Component {
                                                     >
                                                         {
                                                             cityList.map(item => {
-                                                                return (<Option key={item.id} value={item.id}>{item.cityName}</Option>)
+                                                                return (<Option key={item.id}
+                                                                                value={item.id}>{item.cityName}</Option>)
                                                             })
                                                         }
                                                     </Select>
@@ -227,9 +225,7 @@ class EditCulture extends React.Component {
                                             </Spin>
                                         </FormItem>
                                     </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={12}>
+                                    <Col {...itemGrid}>
                                         <FormItem
                                             label="名称"
                                             {...formItemLayout}
@@ -242,10 +238,15 @@ class EditCulture extends React.Component {
                                             )}
                                         </FormItem>
                                     </Col>
-                                    <Col span={12}>
+                                </Row>
+                                <Row>
+                                    <Col>
                                         <FormItem
                                             label="说明"
-                                            {...formItemLayout}
+                                            {...{
+                                                labelCol: {span: 2},
+                                                wrapperCol: {span: 20},
+                                            }}
                                         >
                                             {getFieldDecorator('cultureBrief', {
                                                 initialValue: data.cultureBrief

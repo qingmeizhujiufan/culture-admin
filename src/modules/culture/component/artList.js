@@ -11,10 +11,10 @@ import {
     Breadcrumb,
     Dropdown,
     Divider,
-    notification,
+    Notification,
     Spin,
     Tabs,
-    message,
+    Message,
     Modal,
     Switch, Radio, Button
 } from 'antd';
@@ -212,9 +212,9 @@ class ArtList extends React.Component {
         param.isRecommend = checked ? 1 : 0;
         ajax.postJSON(settingRecommendUrl, JSON.stringify(param), data => {
             if (data.success) {
-                notification.open({
-                    message: '推荐设置成功！',
-                    icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                Notification.success({
+                    message: '提示',
+                    description: '推荐设置成功！'
                 });
                 const dataSource = [...this.state.dataSource];
                 dataSource[index].isRecommend = checked ? 1 : 0;
@@ -223,7 +223,7 @@ class ArtList extends React.Component {
                     dataSource,
                 });
             } else {
-                message.warning(data.backMsg);
+                Message.warning(data.backMsg);
             }
         })
     }
@@ -248,9 +248,9 @@ class ArtList extends React.Component {
                 param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        notification.open({
-                            message: '审核成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '审核成功！'
                         });
                         const dataSource = [...this.state.dataSource];
                         dataSource[index].state = state;
@@ -277,9 +277,9 @@ class ArtList extends React.Component {
                 param.id = key;
                 ajax.postJSON(delLiveUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        notification.open({
-                            message: '删除成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '删除成功！'
                         });
 
                         const dataSource = [...this.state.dataSource].filter(item => item.key !== id);

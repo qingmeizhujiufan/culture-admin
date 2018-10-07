@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const Merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CommonConfig = require('./webpack.common.js');
+const CommonConfig = require('./webpack.config.common');
 
 module.exports = Merge(CommonConfig, {
   plugins: [

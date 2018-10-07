@@ -75,7 +75,7 @@ class Ad extends React.Component {
             title: '创建时间',
             dataIndex: 'create_time',
             key: 'create_time',
-            width: 120,
+            width: 200,
             align: 'center',
         }, {
             title: <a><Icon type="setting" style={{fontSize: 18}}/></a>,

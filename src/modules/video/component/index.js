@@ -266,7 +266,7 @@ class VideoList extends React.Component {
                             <Radio.Button value={1}>审核通过</Radio.Button>
                             <Radio.Button value={-1}>不合格</Radio.Button>
                         </Radio.Group>}
-                        extra={<Button type="primary" icon='plus' href='#/frame/video/addVideo'>新增视频</Button>}
+                        extra={<Button type="primary" icon='plus' href='#/frame/video/list/add'>新增视频</Button>}
                     >
                         <ZZTable
                             bordered={true}

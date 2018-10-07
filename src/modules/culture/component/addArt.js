@@ -16,6 +16,7 @@ import {
     Spin
 } from 'antd';
 import ajax from 'Utils/ajax';
+import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
 import restUrl from 'RestUrl';
 import '../index.less';
 import ZZEditor from "Comps/zzEditor/zzEditor";
@@ -25,11 +26,6 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const queryListUrl = restUrl.ADDR + 'city/queryList';
 const saveUrl = restUrl.ADDR + 'art/save';
-
-const formItemLayout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 12},
-};
 
 class AddArt extends React.Component {
     constructor(props) {
@@ -136,7 +132,7 @@ class AddArt extends React.Component {
                     <div className="ibox-content">
                         <Form onSubmit={this.handleSubmit}>
                             <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="封面图片"
                                         {...formItemLayout}
@@ -158,7 +154,7 @@ class AddArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="城市选择"
                                         {...formItemLayout}
@@ -182,9 +178,7 @@ class AddArt extends React.Component {
                                         </Spin>
                                     </FormItem>
                                 </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="名称"
                                         {...formItemLayout}
@@ -196,7 +190,7 @@ class AddArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="金额"
                                         {...formItemLayout}
@@ -215,9 +209,7 @@ class AddArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
+                                <Col {...itemGrid}>
                                     <FormItem
                                         label="购买链接"
                                         {...formItemLayout}
@@ -227,10 +219,16 @@ class AddArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col span={12}>
+
+                            </Row>
+                            <Row>
+                                <Col>
                                     <FormItem
                                         label="简介"
-                                        {...formItemLayout}
+                                        {...{
+                                            labelCol: {span: 2},
+                                            wrapperCol: {span: 20},
+                                        }}
                                     >
                                         {getFieldDecorator('artBrief', {})(
                                             <Input.TextArea autosize={{minRows: 4, maxRows: 6}}/>
