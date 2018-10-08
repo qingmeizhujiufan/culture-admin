@@ -132,6 +132,7 @@ class EditArt extends React.Component {
                 values.artCover = values.artCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
+                values.artMoney = 0;
                 values.artContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 values.creator = sessionStorage.userId;
                 console.log('handleSubmit  param === ', values);
@@ -233,38 +234,6 @@ class EditArt extends React.Component {
                                         {getFieldDecorator('artTitle', {
                                             rules: [{required: true, message: '名称不能为空!'}],
                                             initialValue: data.artTitle
-                                        })(
-                                            <Input placeholder=""/>
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col {...itemGrid}>
-                                    <FormItem
-                                        label="金额"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('artMoney', {
-                                            rules: [{required: true, message: '金额不能为空!'}],
-                                            initialValue: data.artMoney
-                                        })(
-                                            <InputNumber
-                                                min={0}
-                                                precision={2}
-                                                step={1}
-                                                // formatter={value => value ? `${value} 元` : ''}
-                                                // parser={value => value.replace('元', '')}
-                                                style={{width: '100%'}}
-                                            />
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col {...itemGrid}>
-                                    <FormItem
-                                        label="购买链接"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('buyUrl', {
-                                            initialValue: data.buyUrl
                                         })(
                                             <Input placeholder=""/>
                                         )}

@@ -11,7 +11,8 @@ import {
     Upload,
     Select,
     Spin,
-    Notification
+    Notification,
+    Message
 } from 'antd';
 import ajax from 'Utils/ajax';
 import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
@@ -147,6 +148,10 @@ class EditNews extends React.Component {
                             message: '提示',
                             description: '修改新闻信息成功！'
                         });
+
+                        return this.context.router.push('/frame/news/newsList');
+                    }else {
+                        Message.error(data.backMsg);
                     }
                 });
             }

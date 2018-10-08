@@ -86,6 +86,7 @@ class AddArt extends React.Component {
                 values.artCover = values.artCover.map(item => {
                     return item.response.data.id;
                 }).join(',');
+                values.artMoney = 0;
                 values.artContent = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
                 values.creator = sessionStorage.userId;
                 console.log('handleSubmit  param === ', values);
@@ -101,7 +102,7 @@ class AddArt extends React.Component {
 
                         return this.context.router.push('/frame/culture/artList');
                     } else {
-                        message.error(data.backMsg);
+                        Message.error(data.backMsg);
                     }
 
                     this.setState({
@@ -190,36 +191,6 @@ class AddArt extends React.Component {
                                         )}
                                     </FormItem>
                                 </Col>
-                                <Col {...itemGrid}>
-                                    <FormItem
-                                        label="金额"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('artMoney', {
-                                            rules: [{required: true, message: '金额不能为空!'}],
-                                        })(
-                                            <InputNumber
-                                                min={0}
-                                                precision={2}
-                                                step={1}
-                                                // formatter={value => value ? `${value} 元` : ''}
-                                                // parser={value => value.replace('元', '')}
-                                                style={{width: '100%'}}
-                                            />
-                                        )}
-                                    </FormItem>
-                                </Col>
-                                <Col {...itemGrid}>
-                                    <FormItem
-                                        label="购买链接"
-                                        {...formItemLayout}
-                                    >
-                                        {getFieldDecorator('buyUrl', {})(
-                                            <Input placeholder=""/>
-                                        )}
-                                    </FormItem>
-                                </Col>
-
                             </Row>
                             <Row>
                                 <Col>
