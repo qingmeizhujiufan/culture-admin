@@ -1,32 +1,18 @@
 import React from 'react';
-import {Link} from 'react-router';
 import PropTypes from 'prop-types';
 import {
-    Row,
-    Col,
-    Input,
     Icon,
-    Badge,
-    Menu,
     Breadcrumb,
-    Dropdown,
-    Divider,
     notification,
-    Spin,
-    Tabs,
     message,
-    Modal,
-    Switch, Radio, Button, Alert
+    Button, Alert
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
-import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
 import util from 'Utils/util';
 import '../index.less';
 
-const Search = Input.Search;
-const TabPane = Tabs.TabPane;
 const queryListUrl = restUrl.ADDR + 'culture/queryCommentList';
 const queryAdminCommentListUrl = restUrl.ADDR + 'culture/queryAdminCommentList';
 const delUrl = restUrl.ADDR + 'culture/deleteComment';
@@ -70,7 +56,7 @@ class CommentCulture extends React.Component {
     }
 
     componentWillReceiveProps = nextProps => {
-        if(this.props.params && this.props.params.id === undefined){
+        if (this.props.params && this.props.params.id === undefined) {
             this.getList();
         }
     }
@@ -81,10 +67,10 @@ class CommentCulture extends React.Component {
         });
         let param = {};
         let url;
-        if(this.props.params && this.props.params.id){
+        if (this.props.params && this.props.params.id) {
             url = queryListUrl;
             param.cultureId = this.props.params.id;
-        }else {
+        } else {
             url = queryAdminCommentListUrl;
             param.userId = sessionStorage.userId;
         }

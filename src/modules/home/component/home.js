@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Menu, Icon, Row, Col, Steps, Carousel, Progress, Timeline, Card, Radio, Spin} from 'antd';
+import {Icon, Row, Col, Radio} from 'antd';
 import {ZZCard} from 'Comps/zz-antD';
 import {
     Bar,
@@ -8,20 +8,6 @@ import {
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import '../home.less';
-
-const Step = Steps.Step;
-const {Meta} = Card;
-
-const tabList = [{
-    key: 'culture',
-    tab: '文化',
-}, {
-    key: 'art',
-    tab: '艺术品',
-}, {
-    key: 'news',
-    tab: '新闻',
-}];
 
 const getWebTotalUrl = restUrl.ADDR + 'Server/getWebTotal';
 const getNewlyUrl = restUrl.ADDR + 'user/getNewlyRegisterUserData';
@@ -226,9 +212,5 @@ class Index extends React.Component {
         );
     }
 }
-
-// Index.contextTypes = {
-//     router: React.PropTypes.object
-// }
 
 export default Index;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Form, Icon, Row, Col, Input, Button, Checkbox, message} from 'antd';
+import {Form, Icon, Row, Col, Input, Button, message} from 'antd';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
 import '../login.less';

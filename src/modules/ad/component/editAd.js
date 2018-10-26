@@ -6,7 +6,6 @@ import {
     Col,
     Icon,
     Input,
-    Divider,
     Button,
     Upload,
     Notification,

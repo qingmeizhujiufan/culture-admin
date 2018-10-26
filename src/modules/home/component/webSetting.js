@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
     Upload,
     Icon,
-    Modal,
     Row,
     Col,
     Breadcrumb,

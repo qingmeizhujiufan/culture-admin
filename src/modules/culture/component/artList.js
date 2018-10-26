@@ -12,20 +12,18 @@ import {
     Dropdown,
     Divider,
     Notification,
-    Spin,
-    Tabs,
     Message,
     Modal,
-    Switch, Radio, Button
+    Switch,
+    Radio,
+    Button
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
-import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
 import '../index.less';
 
 const Search = Input.Search;
-const TabPane = Tabs.TabPane;
 const queryListUrl = restUrl.ADDR + 'art/queryListByAdmin';
 const reviewUrl = restUrl.ADDR + 'art/review';
 const delLiveUrl = restUrl.ADDR + 'art/delete';

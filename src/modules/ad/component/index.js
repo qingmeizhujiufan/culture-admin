@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router';
 import PropTypes from 'prop-types';
 import {
-    Form,
     Row,
     Col,
     Breadcrumb,
@@ -12,9 +11,7 @@ import {
     Badge,
     Dropdown,
     Menu,
-    notification,
-    Collapse,
-    Spin
+    Notification
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
@@ -22,16 +19,9 @@ import restUrl from 'RestUrl';
 import '../index.less';
 import {message, Modal} from "antd/lib/index";
 
-const Panel = Collapse.Panel;
-
 const queryListUrl = restUrl.ADDR + 'ad/queryList';
 const reviewUrl = restUrl.ADDR + 'ad/review';
 const deleteUrl = restUrl.ADDR + 'ad/delete';
-
-const formItemLayout = {
-    labelCol: {span: 6},
-    wrapperCol: {span: 12},
-};
 
 class Ad extends React.Component {
     constructor(props) {
@@ -165,10 +155,11 @@ class Ad extends React.Component {
                 param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        notification.open({
-                            message: '审核成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '新增用户成功！'
                         });
+
                         const dataSource = [...this.state.dataSource];
                         dataSource[index].state = state;
 
@@ -194,9 +185,9 @@ class Ad extends React.Component {
                 param.id = key;
                 ajax.postJSON(deleteUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        notification.open({
-                            message: '删除成功！',
-                            icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                        Notification.success({
+                            message: '提示',
+                            description: '删除成功！'
                         });
 
                         const dataSource = [...this.state.dataSource].filter(item => item.id !== key);
@@ -233,7 +224,11 @@ class Ad extends React.Component {
                 <div className='pageContent'>
                     <Row gutter={24}>
                         <Col>
-                            <ZZCard title='广告列表' loading={loading} extra={<Button type="primary" icon="plus" href="#/frame/ad/platform/add">添加</Button>}>
+                            <ZZCard
+                                title='广告列表'
+                                loading={loading}
+                                extra={<Button type="primary" icon="plus"
+                                               href="#/frame/ad/platform/add">添加</Button>}>
                                 <ZZTable
                                     dataSource={dataSource}
                                     columns={this.columns}

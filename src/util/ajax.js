@@ -1,6 +1,8 @@
 // 'use strict';
-import _ from 'lodash';
+import assign from 'lodash/assign';
+import isFunction from 'lodash/isFunction';
 import sa from 'superagent';
+
 //封装ajax的相关方法
 var ajax = {
     /**
@@ -13,17 +15,23 @@ var ajax = {
      * @param cookies 请求是否携带cookies
      */
     getJSON: function getJSON(url, data, success, error, complete, cookies) {
-        if (_.isFunction(data)) {
+        if (isFunction(data)) {
             //此时的data实际是success函数
-            this.request({ url: url, success: arguments[1], error: arguments[2], complete: arguments[3], cookies: arguments[4] });
+            this.request({
+                url: url,
+                success: arguments[1],
+                error: arguments[2],
+                complete: arguments[3],
+                cookies: arguments[4]
+            });
         } else {
-            this.request({ url: url, query: data, success: success, error: error, complete: complete, cookies: cookies });
+            this.request({url: url, query: data, success: success, error: error, complete: complete, cookies: cookies});
         }
     }
     //请求携带Cookies信息
     ,
     getJSONWithCookies: function getJSONWithCookies(url, data, success, error, complete) {
-        if (_.isFunction(data)) {
+        if (isFunction(data)) {
             this.getJSON(url, arguments[1], arguments[2], arguments[3], true);
         } else {
             this.getJSON(url, data, success, error, complete, true);
@@ -32,55 +40,75 @@ var ajax = {
     //通过post方法请求json数据
     ,
     postJSON: function postJSON(url, data, success, error, complete, cookies) {
-        if (_.isFunction(data)) {
-            this.request({ url: url, success: arguments[1], error: arguments[2], complete: arguments[3], cookies: arguments[4], method: 'POST' });
+        if (isFunction(data)) {
+            this.request({
+                url: url,
+                success: arguments[1],
+                error: arguments[2],
+                complete: arguments[3],
+                cookies: arguments[4],
+                method: 'POST'
+            });
         } else {
-            this.request({ url: url, send: data, success: success, error: error, complete: complete, cookies: cookies, method: 'POST' });
-        }
-    }
-    //请求携带Cookies信息
-    ,
-    postJSONWithCookies: function postJSONWithCookies(url, data, success, error, complete) {
-        if (_.isFunction(data)) {
-            this.postJSON(url, arguments[1], arguments[2], arguments[3], true);
-        } else {
-            this.postJSON(url, data, success, error, complete, true);
-        }
-    }
-    //通过delete方法请求json数据
-    ,
-    delJSON: function delJSON(url, data, success, error, complete, cookies) {
-        if (_.isFunction(data)) {
-            this.request({ url: url, success: arguments[1], error: arguments[2], complete: arguments[3], cookies: arguments[4], method: 'DELETE' });
-        } else {
-            this.request({ url: url, send: data, success: success, error: success, complete: complete, cookies: cookies, method: 'DELETE' });
-        }
-    }
-    //请求携带Cookies信息
-    ,
-    delJSONWithCookies: function delJSONWithCookies(url, data, success, error, complete) {
-        if (_.isFunction(data)) {
-            this.delJSON(url, arguments[1], arguments[2], arguments[3], true);
-        } else {
-            this.delJSON(url, data, success, error, complete, true);
+            this.request({
+                url: url,
+                send: data,
+                success: success,
+                error: error,
+                complete: complete,
+                cookies: cookies,
+                method: 'POST'
+            });
         }
     }
     //通过get方法请求text数据
     ,
     getText: function getText(url, data, success, error, complete, cookies) {
-        if (_.isFunction(data)) {
-            this.request({ url: url, success: arguments[1], error: arguments[2], complete: arguments[3], cookies: arguments[4], accept: 'text' });
+        if (isFunction(data)) {
+            this.request({
+                url: url,
+                success: arguments[1],
+                error: arguments[2],
+                complete: arguments[3],
+                cookies: arguments[4],
+                accept: 'text'
+            });
         } else {
-            this.request({ url: url, query: data, success: success, error: error, complete: complete, cookies: cookies, accept: 'text' });
+            this.request({
+                url: url,
+                query: data,
+                success: success,
+                error: error,
+                complete: complete,
+                cookies: cookies,
+                accept: 'text'
+            });
         }
     }
     //通过post方法请求text数据
     ,
     postText: function postText(url, data, success, error, complete, cookies) {
-        if (_.isFunction(data)) {
-            this.request({ url: url, success: arguments[1], error: arguments[2], complete: arguments[3], cookies: arguments[4], method: 'POST', accept: 'text' });
+        if (isFunction(data)) {
+            this.request({
+                url: url,
+                success: arguments[1],
+                error: arguments[2],
+                complete: arguments[3],
+                cookies: arguments[4],
+                method: 'POST',
+                accept: 'text'
+            });
         } else {
-            this.request({ url: url, send: data, success: success, error: error, complete: complete, cookies: cookies, method: 'POST', accept: 'text' });
+            this.request({
+                url: url,
+                send: data,
+                success: success,
+                error: error,
+                complete: complete,
+                cookies: cookies,
+                method: 'POST',
+                accept: 'text'
+            });
         }
     }
     //设置全局header信息
@@ -118,7 +146,7 @@ var ajax = {
             error: null, // 请求失败的回调函数，包括http客户端错误、服务端错误、以及接口调用成功但存在业务错误
             complete: null // 请求完成的回调函数(不管成功还是失败)
         };
-        _.assign(_defaults, options);
+        assign(_defaults, options);
         // 禁用token
         if (options.query && options.query.noToken !== undefined) {
             _defaults.noToken = options.query.noToken;
@@ -145,9 +173,9 @@ var ajax = {
         }
         //存在token则携带全局token到header里面
         var token = sessionStorage.token;
-        if(token){
+        if (token) {
             req.set('Token', token);
-        }else {
+        } else {
             window.location.hash = '/login';
         }
         req.query(_defaults.query).send(_defaults.send).end(function (err, res) {

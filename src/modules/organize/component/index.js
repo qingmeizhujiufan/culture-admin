@@ -22,7 +22,6 @@ import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
 import util from 'Utils/util';
 import '../index.less';
-import {convertToRaw} from "draft-js";
 import {Modal} from "antd/lib/index";
 
 const TreeNode = Tree.TreeNode;

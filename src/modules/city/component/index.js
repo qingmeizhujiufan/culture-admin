@@ -1,31 +1,21 @@
 import React from 'react';
-import {Link} from 'react-router';
 import PropTypes from 'prop-types';
 import {
-    Row,
-    Col,
     Input,
-    Button,
     Icon,
-    Badge,
     Menu,
     Breadcrumb,
     Dropdown,
-    Divider,
-    Spin,
-    Tabs,
     message,
     Modal,
     Notification
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
-import _ from 'lodash';
 import restUrl from 'RestUrl';
 import ajax from 'Utils/ajax';
 import '../index.less';
 
 const Search = Input.Search;
-const TabPane = Tabs.TabPane;
 const queryListUrl = restUrl.ADDR + 'city/queryList';
 const saveUrl = restUrl.ADDR + 'city/save';
 const delLiveUrl = restUrl.ADDR + 'city/delete';

@@ -6,13 +6,13 @@ import {
     Col,
     Icon,
     Input,
-    Divider,
     Button,
     Upload,
     Notification,
     Message,
     Breadcrumb,
-    Spin, Select
+    Spin,
+    Select
 } from 'antd';
 import ajax from 'Utils/ajax';
 import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
@@ -119,7 +119,7 @@ class AddAd extends React.Component {
 
     render() {
         let {options, fileList, submitLoading, adLoading} = this.state;
-        const {getFieldDecorator, setFieldsValue} = this.props.form;
+        const {getFieldDecorator} = this.props.form;
 
         return (
             <div className="zui-content">
