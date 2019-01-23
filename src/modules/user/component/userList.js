@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Icon, Divider, Breadcrumb, Spin, Button, message, Alert } from 'antd';
+import {Icon, Divider, Breadcrumb, Spin, Button, message, Alert} from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
 import restUrl from 'RestUrl';
@@ -10,17 +10,32 @@ const queryListUrl = restUrl.ADDR + 'user/queryList';
 const delUrl = restUrl.ADDR + 'user/delete';
 
 const columns = [{
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
+    title: '头像',
+    dataIndex: 'headimgurl',
+    key: 'headimgurl',
+    align: 'center',
+    render: text => (
+        <img src={text} style={{
+            width: 25,
+            height: 25
+        }}/>
+    )
 }, {
-    title: '性别',
-    dataIndex: 'sex',
-    key: 'sex',
+    title: '昵称',
+    dataIndex: 'nickname',
+    key: 'nickname',
 }, {
-    title: '电话',
-    dataIndex: 'telephone',
-    key: 'telephone',
+    title: '国籍',
+    dataIndex: 'country',
+    key: 'country',
+}, {
+    title: '省份',
+    dataIndex: 'province',
+    key: 'province',
+}, {
+    title: '城市',
+    dataIndex: 'city',
+    key: 'city',
 }];
 
 class Index extends React.Component {
@@ -44,7 +59,7 @@ class Index extends React.Component {
 
     getList = () => {
         ajax.getJSON(queryListUrl, null, data => {
-            if(data.success){
+            if (data.success) {
                 data = data.backData;
                 data.map(function (item, index) {
                     item.key = index;
@@ -53,7 +68,7 @@ class Index extends React.Component {
                     dataSource: data,
                     loading: false
                 });
-            }else {
+            } else {
                 message.error(data.backMsg);
             }
         });
@@ -61,7 +76,7 @@ class Index extends React.Component {
 
     onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
-        this.setState({ selectedRowKeys });
+        this.setState({selectedRowKeys});
     }
 
     batchDel = () => {
@@ -72,13 +87,13 @@ class Index extends React.Component {
             delLoading: true
         });
         ajax.postJSON(delUrl, JSON.stringify(param), data => {
-            if(data.success){
+            if (data.success) {
                 const dataSource = [...this.state.dataSource].filter(item => item.id.indexOf(param.ids) <= -1);
                 this.setState({
                     dataSource,
                     selectedRowKeys: []
                 });
-            }else {
+            } else {
                 message.error(data.backMsg);
             }
             this.setState({
@@ -110,8 +125,11 @@ class Index extends React.Component {
                     <ZZCard
                         title="用户列表"
                     >
-                        <Button type='primary' icon='close' loading={delLoading} style={{marginBottom: 15}} onClick={() => this.batchDel()}>批量删除</Button>
-                        <Alert style={{marginBottom: 15}} message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a style={{marginLeft: 20}}>清空</a></span>} type="info" showIcon />
+                        <Button type='primary' icon='close' loading={delLoading} style={{marginBottom: 15}}
+                                onClick={() => this.batchDel()}>批量删除</Button>
+                        <Alert style={{marginBottom: 15}}
+                               message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a
+                                   style={{marginLeft: 20}}>清空</a></span>} type="info" showIcon/>
                         <Spin spinning={loading}>
                             <ZZTable
                                 dataSource={dataSource}

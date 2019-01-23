@@ -30,8 +30,8 @@ class CommentCulture extends React.Component {
             title: '评论人',
             width: 120,
             align: 'center',
-            dataIndex: 'userName',
-            key: 'userName'
+            dataIndex: 'nickname',
+            key: 'nickname'
         }, {
             title: '创建时间',
             width: 120,
@@ -104,9 +104,9 @@ class CommentCulture extends React.Component {
             if (data.success) {
                 this.getList();
 
-                notification.open({
-                    message: '批量删除评论成功！',
-                    icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                notification.success({
+                    message: '提示',
+                    description: '批量删除评论成功!'
                 });
             } else {
                 message.error(data.backMsg);
