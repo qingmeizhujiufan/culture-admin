@@ -129,11 +129,11 @@ class Index extends React.Component {
                     <ZZCard
                         title="用户列表"
                     >
-                        <Button type='primary' icon='close' loading={delLoading} style={{marginBottom: 15}}
-                                onClick={() => this.batchDel()}>批量删除</Button>
-                        <Alert style={{marginBottom: 15}}
-                               message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a
-                                   style={{marginLeft: 20}}>清空</a></span>} type="info" showIcon/>
+                        {/*<Button type='primary' icon='close' loading={delLoading} style={{marginBottom: 15}}*/}
+                                {/*onClick={() => this.batchDel()}>批量删除</Button>*/}
+                        {/*<Alert style={{marginBottom: 15}}*/}
+                               {/*message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a*/}
+                                   {/*style={{marginLeft: 20}}>清空</a></span>} type="info" showIcon/>*/}
                         <Spin spinning={loading}>
                             <ZZTable
                                 dataSource={dataSource}

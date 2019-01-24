@@ -161,6 +161,6 @@ module.exports = {
         }),//最小化一切
         new webpack.optimize.AggressiveMergingPlugin(),//合并块
         /* 分析包的大小分布 */
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(),
     ]
 };
