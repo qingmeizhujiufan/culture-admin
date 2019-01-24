@@ -36,6 +36,10 @@ const columns = [{
     title: '城市',
     dataIndex: 'city',
     key: 'city',
+}, {
+    title: '初次登录时间',
+    dataIndex: 'create_time',
+    key: 'create_time',
 }];
 
 class Index extends React.Component {
@@ -134,8 +138,6 @@ class Index extends React.Component {
                             <ZZTable
                                 dataSource={dataSource}
                                 columns={columns}
-                                rowKey={record => record.id}
-                                rowSelection={rowSelection}
                             />
                         </Spin>
                     </ZZCard>
