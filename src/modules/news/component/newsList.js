@@ -37,7 +37,12 @@ class NewsList extends React.Component {
             width: 250,
             key: 'newsTitle',
             render: (text, record, index) => (
-                <Link to={this.editrouter(record.id)}>{text}</Link>
+                <div
+                    className='zui-ellipsis'
+                    style={{width: 250}}
+                >
+                    <Link to={this.editrouter(record.id)}>{text}</Link>
+                </div>
             )
         }, {
             title: '描述',
@@ -45,7 +50,10 @@ class NewsList extends React.Component {
             dataIndex: 'newsBrief',
             key: 'newsBrief',
             render: (text, record, index) => (
-                <div className='zui-ellipsis-2'>{text}</div>
+                <div
+                    className='zui-ellipsis'
+                    style={{width: 300}}
+                >{text}</div>
             )
         }, {
             title: '所属城市',

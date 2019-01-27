@@ -70,7 +70,7 @@ class Login extends React.Component {
                                 />
                             </div>
                             <div
-                                style={{paddingTop: 30, textAlign: 'center', fontSize: 20, color: '#fff'}}>湖北民俗文化创新与推广平台
+                                style={{paddingTop: 30, textAlign: 'center', fontSize: 20, color: '#fff'}}>湖北民俗文化推广平台
                             </div>
                         </Col>
                         <Col span={11} style={{height: '400px', padding: '20px 35px', backgroundColor: '#fff'}}>
