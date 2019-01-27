@@ -117,7 +117,6 @@ class Index extends React.Component {
 
     render() {
         const {data, webTotal, totalLoading, type, userData, userLoading, canTotal, canLoading} = this.state;
-        // const pieTotal = canTotal.length === 4 ? (canTotal[0].y + canTotal[1].y + canTotal[2].y + canTotal[3].y) : null;
 
         return (
             <div className="zui-content home">

@@ -34,7 +34,7 @@ class Index extends React.Component {
         param.type = this.state.type;
         this.setState({loading: true});
         ajax.getJSON(getNewlyUrl, param, data => {
-            if(data.success){
+            if (data.success) {
                 data = data.backData;
                 const chartData = [];
                 data.map(item => {
@@ -46,7 +46,7 @@ class Index extends React.Component {
                 this.setState({
                     data: chartData
                 });
-            }else {
+            } else {
                 message.error(data.backMsg);
             }
             this.setState({loading: false});
@@ -55,7 +55,7 @@ class Index extends React.Component {
 
     changeType = e => {
         console.log('e === ', e.target);
-        if(this.state.type === e.target.value) return;
+        if (this.state.type === e.target.value) return;
         this.setState({type: e.target.value}, () => {
             this.getNewlyData();
         });
@@ -78,7 +78,7 @@ class Index extends React.Component {
                 </div>
                 <div className='pageContent'>
                     <ZZCard
-                        title="最近注册用户统计"
+                        title="最近一周注册用户统计"
                         extra={(
                             <Radio.Group defaultValue="week" buttonStyle="solid" onChange={e => this.changeType(e)}>
                                 <Radio.Button value="threeday">最近三天</Radio.Button>
@@ -88,7 +88,7 @@ class Index extends React.Component {
                         )}
                     >
                         <Spin spinning={loading} size='large'>
-                            <Bar height={400} title="最近一周注册用户统计" data={data} />
+                            <Bar height={400} data={data}/>
                         </Spin>
                     </ZZCard>
                 </div>

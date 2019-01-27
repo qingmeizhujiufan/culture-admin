@@ -11,7 +11,7 @@ import {
     message,
     Divider,
     Spin,
-    Notification
+    notification
 } from 'antd';
 import {ZZCard} from 'Comps/zz-antD';
 import '../home.less';
@@ -169,7 +169,7 @@ class SliderSetting extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '保存成功！'
                         });
@@ -496,7 +496,7 @@ class MusicSetting extends React.Component {
                 });
                 ajax.postJSON(saveMusicUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '背景音乐保存成功！'
                         });

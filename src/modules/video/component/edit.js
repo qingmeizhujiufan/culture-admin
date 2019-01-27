@@ -6,10 +6,10 @@ import {
     Col,
     Icon,
     Input,
-    Message,
+    message,
     Button,
     Upload,
-    Notification,
+    notification,
     Breadcrumb,
     Spin
 } from 'antd';
@@ -120,14 +120,14 @@ class EditVideo extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '修改视频信息成功！'
                         });
 
                         this.context.router.push('/frame/video/list');
                     } else {
-                        Message.error(data.backMsg);
+                        message.error(data.backMsg);
                     }
 
                     this.setState({

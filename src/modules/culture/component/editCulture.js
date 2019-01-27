@@ -10,8 +10,8 @@ import {
     Button,
     Upload,
     Select,
-    Notification,
-    Message,
+    notification,
+    message,
     Spin
 } from 'antd';
 import ajax from 'Utils/ajax';
@@ -144,7 +144,7 @@ class EditCulture extends React.Component {
 
                 ajax.postJSON(saveLiveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '修改风土人情信息成功！'
                         });

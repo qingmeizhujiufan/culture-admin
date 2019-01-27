@@ -135,7 +135,7 @@ class ZZLeftSide extends React.Component {
 
         return (
             <Menu
-                theme="dark"
+                theme="light"
                 mode="inline"
                 selectedKeys={[selectedKeys]}
                 defaultSelectedKeys={['1_1']}
@@ -166,12 +166,12 @@ class ZZLeftSide extends React.Component {
                 trigger={null}
                 collapsible
                 collapsed={collapsed}
-                width={256}
+                width={220}
                 className="left-side"
             >
                 <div className="logo">
                     <Link to="/frame/home">
-                        <h1>ADMIN</h1>
+                        <h1><i className='iconfont icon-hubeiminsu'/></h1>
                     </Link>
                 </div>
                 <Scrollbars className='zui-menu'>

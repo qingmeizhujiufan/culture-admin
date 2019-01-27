@@ -6,10 +6,10 @@ import {
     Col,
     Icon,
     Input,
-    Message,
+    message,
     Button,
     Upload,
-    Notification,
+    notification,
     Breadcrumb,
     Select,
     Spin
@@ -92,14 +92,14 @@ class AddCulture extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '新增旅游成功！'
                         });
 
                         return this.context.router.push('/frame/culture/cultureList');
                     } else {
-                        Message.error(data.backMsg);
+                        message.error(data.backMsg);
                     }
 
                     this.setState({

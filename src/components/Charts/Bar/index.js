@@ -60,7 +60,7 @@ class Bar extends Component {
             title,
             forceFit = true,
             data,
-            color = 'rgba(24, 144, 255, 0.85)',
+            color = '#B47B4D',
             padding,
         } = this.props;
 

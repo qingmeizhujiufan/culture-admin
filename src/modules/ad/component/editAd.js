@@ -8,8 +8,8 @@ import {
     Input,
     Button,
     Upload,
-    Notification,
-    Message,
+    notification,
+    message,
     Breadcrumb,
     Spin,
     Select
@@ -87,7 +87,7 @@ class EditAd extends React.Component {
                     fileList: photoList
                 });
             } else {
-                Message.error(data.backMsg);
+                message.error(data.backMsg);
             }
             this.setState({loading: false});
         });
@@ -141,12 +141,12 @@ class EditAd extends React.Component {
                 console.log('handleSubmit  param === ', values);
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '更新广告信息成功！'
                         });
                     } else {
-                        Message.error(data.backMsg);
+                        message.error(data.backMsg);
                     }
                 });
             }

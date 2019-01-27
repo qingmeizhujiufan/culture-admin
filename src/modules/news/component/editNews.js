@@ -11,8 +11,8 @@ import {
     Upload,
     Select,
     Spin,
-    Notification,
-    Message
+    notification,
+    message
 } from 'antd';
 import ajax from 'Utils/ajax';
 import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
@@ -144,14 +144,14 @@ class EditNews extends React.Component {
 
                 ajax.postJSON(saveLiveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '修改新闻信息成功！'
                         });
 
                         return this.context.router.push('/frame/news/newsList');
                     }else {
-                        Message.error(data.backMsg);
+                        message.error(data.backMsg);
                     }
                 });
             }

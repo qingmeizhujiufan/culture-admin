@@ -11,8 +11,8 @@ import {
     Breadcrumb,
     Dropdown,
     Divider,
-    Notification,
-    Message,
+    notification,
+    message,
     Modal,
     Switch,
     Radio,
@@ -40,7 +40,12 @@ class ArtList extends React.Component {
             dataIndex: 'artTitle',
             key: 'artTitle',
             render: (text, record, index) => (
-                <Link to={this.editrouter(record.id)}>{text}</Link>
+                <div
+                    className='zui-ellipsis'
+                    style={{width: 250}}
+                >
+                    <Link to={this.editrouter(record.id)}>{text}</Link>
+                </div>
             )
         }, {
             title: '描述',
@@ -48,7 +53,10 @@ class ArtList extends React.Component {
             dataIndex: 'artBrief',
             key: 'artBrief',
             render: (text, record, index) => (
-                <div className='zui-ellipsis-2'>{text}</div>
+                <div
+                    className='zui-ellipsis'
+                    style={{width: 300}}
+                >{text}</div>
             )
         }, {
             title: '所属城市',
@@ -210,7 +218,7 @@ class ArtList extends React.Component {
         param.isRecommend = checked ? 1 : 0;
         ajax.postJSON(settingRecommendUrl, JSON.stringify(param), data => {
             if (data.success) {
-                Notification.success({
+                notification.success({
                     message: '提示',
                     description: '推荐设置成功！'
                 });
@@ -221,7 +229,7 @@ class ArtList extends React.Component {
                     dataSource,
                 });
             } else {
-                Message.warning(data.backMsg);
+                message.warning(data.backMsg);
             }
         })
     }
@@ -246,7 +254,7 @@ class ArtList extends React.Component {
                 param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '审核成功！'
                         });
@@ -275,7 +283,7 @@ class ArtList extends React.Component {
                 param.id = id;
                 ajax.postJSON(delLiveUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '删除成功！'
                         });
@@ -339,7 +347,7 @@ class ArtList extends React.Component {
                             bordered={true}
                             dataSource={n_dataSource}
                             columns={this.columns}
-                            scroll={{x: 1800}}
+                            scroll={{x: 1645}}
                         />
                     </ZZCard>
                 </div>

@@ -8,8 +8,8 @@ import {
     Input,
     Button,
     Upload,
-    Notification,
-    Message,
+    notification,
+    message,
     Breadcrumb,
     Spin,
     Select
@@ -102,14 +102,14 @@ class AddAd extends React.Component {
                 this.setState({submitLoading: true});
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '新增广告成功！'
                         });
 
                         return this.context.router.push('/frame/ad/platform');
                     } else {
-                        Message.error(data.backMsg);
+                        message.error(data.backMsg);
                     }
                     this.setState({submitLoading: false});
                 });

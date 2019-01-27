@@ -59,9 +59,15 @@ class Login extends React.Component {
                 <div className="backup"></div>
                 <div className="login-box">
                     <Row>
-                        <Col span={13} style={{height: '400px', backgroundColor: 'rgba(85, 120, 220, .65)'}}>
+                        <Col span={13} style={{height: '400px', backgroundColor: 'rgba(194, 153, 114, .75)'}}>
                             <div style={{margin: '85px 0 40px', textAlign: 'center'}}>
-                                <Icon type="windows" theme='filled' style={{fontSize: 90, color: '#fff'}}/>
+                                <i
+                                    className='iconfont icon-hubeiminsu'
+                                    style={{
+                                        fontSize: 50,
+                                        color: '#fff'
+                                    }}
+                                />
                             </div>
                             <div
                                 style={{paddingTop: 30, textAlign: 'center', fontSize: 20, color: '#fff'}}>湖北民俗文化创新与推广平台

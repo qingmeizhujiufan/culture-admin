@@ -11,8 +11,8 @@ import {
     Breadcrumb,
     Dropdown,
     Divider,
-    Notification,
-    Message,
+    notification,
+    message,
     Modal,
     Radio,
     Button,
@@ -39,36 +39,47 @@ class CultureList extends React.Component {
             dataIndex: 'cultureTitle',
             key: 'cultureTitle',
             render: (text, record, index) => (
-                <Link to={this.editrouter(record.id)}>{text}</Link>
+                <div
+                    className='zui-ellipsis'
+                    style={{width: 250}}
+                >
+                    <Link to={this.editrouter(record.id)}>{text}</Link>
+                </div>
             )
         }, {
             title: '描述',
             width: 300,
             dataIndex: 'cultureBrief',
             key: 'cultureBrief',
-            render: (text, record, index) => (
-                <div className='zui-ellipsis-2'>{text}</div>
+            render: text => (
+                <div
+                    className='zui-ellipsis'
+                    style={{width: 300}}
+                >{text}</div>
             )
         }, {
             title: '所属城市',
+            width: 100,
             align: 'center',
             dataIndex: 'cityName',
             key: 'cityName',
         }, {
             title: '浏览数',
+            width: 100,
             align: 'right',
             dataIndex: 'readNum',
             key: 'readNum',
         }, {
             title: '收藏数',
+            width: 100,
             align: 'right',
             dataIndex: 'collectNum',
             key: 'collectNum',
         }, {
             title: '审核状态',
+            width: 120,
             dataIndex: 'state',
             key: 'state',
-            width: 120,
             style: {textAlign: 'left'},
             render: (text, record, index) => {
                 if (text === 0) {
@@ -102,6 +113,7 @@ class CultureList extends React.Component {
             )
         }, {
             title: '创建人',
+            width: 200,
             align: 'center',
             dataIndex: 'creatorName',
             key: 'creatorName',
@@ -220,7 +232,7 @@ class CultureList extends React.Component {
                 param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '审核成功！'
                         });
@@ -245,7 +257,7 @@ class CultureList extends React.Component {
         param.isRecommend = checked ? 1 : 0;
         ajax.postJSON(settingRecommendUrl, JSON.stringify(param), data => {
             if (data.success) {
-                Notification.success({
+                notification.success({
                     message: '提示',
                     description: '推荐设置成功！'
                 });
@@ -273,7 +285,7 @@ class CultureList extends React.Component {
                 param.id = id;
                 ajax.postJSON(delLiveUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '删除成功！'
                         });
@@ -337,7 +349,7 @@ class CultureList extends React.Component {
                         <ZZTable
                             dataSource={n_dataSource}
                             columns={this.columns}
-                            scroll={{x: 1800}}
+                            scroll={{x: 1645}}
                         />
                     </ZZCard>
                 </div>

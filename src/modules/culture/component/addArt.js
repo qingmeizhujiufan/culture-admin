@@ -6,10 +6,10 @@ import {
     Col,
     Icon,
     Input,
-    Message,
+    message,
     Button,
     Upload,
-    Notification,
+    notification,
     Breadcrumb,
     Select,
     Spin
@@ -94,14 +94,14 @@ class AddArt extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '新增美食特产成功！'
                         });
 
                         return this.context.router.push('/frame/culture/artList');
                     } else {
-                        Message.error(data.backMsg);
+                        message.error(data.backMsg);
                     }
 
                     this.setState({

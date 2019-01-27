@@ -11,7 +11,7 @@ import {
     Badge,
     Dropdown,
     Menu,
-    Notification
+    notification
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import ajax from 'Utils/ajax';
@@ -155,7 +155,7 @@ class Ad extends React.Component {
                 param.creator = record.creator;
                 ajax.postJSON(reviewUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '新增用户成功！'
                         });
@@ -185,7 +185,7 @@ class Ad extends React.Component {
                 param.id = key;
                 ajax.postJSON(deleteUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '删除成功！'
                         });

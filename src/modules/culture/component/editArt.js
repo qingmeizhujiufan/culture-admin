@@ -6,13 +6,13 @@ import {
     Col,
     Icon,
     Input,
-    Message,
+    message,
     Button,
     Upload,
     Breadcrumb,
     Select,
     Spin,
-    Notification
+    notification
 } from 'antd';
 import ajax from 'Utils/ajax';
 import {formItemLayout, itemGrid} from 'Utils/formItemGrid';
@@ -140,14 +140,14 @@ class EditArt extends React.Component {
                 });
                 ajax.postJSON(saveUrl, JSON.stringify(values), (data) => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '修改美食特产信息成功！'
                         });
 
                         return this.context.router.push('/frame/culture/artList');
                     } else {
-                        Message.error(data.backMsg);
+                        message.error(data.backMsg);
                     }
 
                     this.setState({

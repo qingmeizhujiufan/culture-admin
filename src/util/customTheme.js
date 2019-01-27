@@ -2,18 +2,18 @@
 const options = {
     modifyVars: {
         // 主题颜色
-        '@primary-color': '#5578DC',
+        '@primary-color': '#B47B4D',
         // 链接颜色
-        '@link-color': '#5578DC',
+        '@link-color': '#B47B4D',
         // 圆角
         '@border-radius-base': '2px',
         // 布局
         '@layout-header-height': '50px',
-        '@layout-header-background': '#5578DC',
-        '@layout-sider-background': '#303A5E',
+        '@layout-header-background': '#B47B4D',
+        '@layout-sider-background': '#fff',
         // 菜单
-        '@menu-dark-bg': '#303A5E',
-        '@menu-dark-submenu-bg': '#303A5E',
+        '@menu-dark-bg': '#262626',
+        '@menu-dark-submenu-bg': '#262626',
         // 表格
         '@table-padding-vertical': '10px',
         '@table-padding-horizontal': '10px',

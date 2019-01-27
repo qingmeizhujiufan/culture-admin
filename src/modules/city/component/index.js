@@ -8,7 +8,7 @@ import {
     Dropdown,
     message,
     Modal,
-    Notification
+    notification
 } from 'antd';
 import {ZZCard, ZZTable} from 'Comps/zz-antD';
 import restUrl from 'RestUrl';
@@ -116,7 +116,7 @@ class CityList extends React.Component {
                 param.id = key;
                 ajax.postJSON(delLiveUrl, JSON.stringify(param), data => {
                     if (data.success) {
-                        Notification.success({
+                        notification.success({
                             message: '提示',
                             description: '删除成功！'
                         });
@@ -151,7 +151,7 @@ class CityList extends React.Component {
 
         ajax.postJSON(saveUrl, JSON.stringify(param), data => {
             if (data.success) {
-                Notification.success({
+                notification.success({
                     message: '提示',
                     description: '开通城市成功！'
                 });
