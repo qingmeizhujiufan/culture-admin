@@ -180,6 +180,7 @@ class ZZHeader extends React.Component {
                     visible={visible}
                     title="修改密码"
                     footer={null}
+                    onCancel={this.handleCancel}
                 >
                     <Form onSubmit={this.handleSubmit}>
                         <FormItem {...formItemLayout} label="原密码">

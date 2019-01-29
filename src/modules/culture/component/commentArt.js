@@ -104,10 +104,11 @@ class CommentArt extends React.Component {
         ajax.postJSON(delUrl, JSON.stringify(param), data => {
             if (data.success) {
                 this.getList();
+                this.setState({selectedRowKeys: []});
 
-                notification.open({
-                    message: '批量删除评论成功！',
-                    icon: <Icon type="smile-circle" style={{color: '#108ee9'}}/>,
+                notification.success({
+                    message: '提示',
+                    description: '批量删除评论成功！'
                 });
             } else {
                 message.error(data.backMsg);
@@ -142,22 +143,21 @@ class CommentArt extends React.Component {
                 <div className='pageContent'>
                     <ZZCard
                         loading={loading}
-                        title={(<div>
-                                <Button
-                                    type='primary'
-                                    icon='close'
-                                    disabled={loading}
-                                    loading={delLoading}
-                                    style={{marginBottom: 15}}
-                                    onClick={() => this.batchDel()
-                                    }>批量删除</Button>
-                                <Alert style={{marginBottom: 15}}
-                                       message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a
-                                           style={{marginLeft: 20}}
-                                           onClick={() => this.setState({selectedRowKeys: []})}>清空</a></span>}
-                                       type="info" showIcon/>
-                            </div>
-                        )}
+                        title={<Button
+                            type="danger"
+                            icon='delete'
+                            disabled={loading}
+                            loading={delLoading}
+                            onClick={() => this.batchDel()
+                            }>删除</Button>
+                        }
+                        extra={<Alert
+                            message={<span>已选择 <a>{rowSelection.selectedRowKeys.length}</a> 项<a
+                                style={{marginLeft: 20}}
+                                onClick={() => this.setState({selectedRowKeys: []})}>清空</a></span>}
+                            type="warning"
+                            showIcon/>
+                        }
                     >
                         <ZZTable
                             dataSource={dataSource}
