@@ -42,5 +42,6 @@ const operator = [{
 
 module.exports = {
     admin,
+    subAdmin,
     operator
 }

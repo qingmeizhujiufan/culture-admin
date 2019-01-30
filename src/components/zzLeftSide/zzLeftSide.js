@@ -5,7 +5,7 @@ import {Layout, Icon, Menu} from 'antd';
 import {Scrollbars} from 'react-custom-scrollbars';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
-import {admin, operator} from './authority';
+import {admin, subAdmin, operator} from './authority';
 import menuTree from './menu';
 import './zzLeftSide.less';
 
